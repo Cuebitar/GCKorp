@@ -9,6 +9,10 @@ export default{
   <RouterView />
 </template>
 
-<style scoped>
+<style lang="scss">
+@import 'primeflex/primeflex.scss';
 
+body{
+  @include styleclass('m-4')
+}
 </style>
