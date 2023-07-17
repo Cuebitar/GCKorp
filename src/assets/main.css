@@ -1,5 +1,5 @@
 @import './base.css';
-
+@import 'primeflex/primeflex.scss';
 body {
     @include styleclass('m-5');
 }

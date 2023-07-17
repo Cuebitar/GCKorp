@@ -12,7 +12,7 @@ export default{
 <style lang="scss">
 @import 'primeflex/primeflex.scss';
 
-body{
+.content{
   @include styleclass('m-4')
 }
 </style>

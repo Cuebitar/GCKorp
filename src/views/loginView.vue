@@ -2,15 +2,17 @@
 export default {
    data() {
     return {
-        value: 0
+        value: 0,
+        guest: true,
+        authorized: true
     }
    }, 
 }
 </script>
 
 <template>
-    <UniHeader></UniHeader>
-    <div class="">
+    <UniHeader :isGuest="guest" :isAuthorised="authorized" ></UniHeader>
+    <div class="content">
         <Knob v-model="value" />
     </div>
 </template>

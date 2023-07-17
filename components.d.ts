@@ -7,10 +7,13 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    Button: typeof import('primevue/button')['default']
     Column: typeof import('primevue/column')['default']
     DataTable: typeof import('primevue/datatable')['default']
+    Dropdown: typeof import('primevue/dropdown')['default']
     Header: typeof import('./src/components/header.vue')['default']
     Knob: typeof import('primevue/knob')['default']
+    Menubar: typeof import('primevue/menubar')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     UniHeader: typeof import('./src/components/UniHeader.vue')['default']
