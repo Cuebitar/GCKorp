@@ -1,4 +1,4 @@
-<template lang="">
+<template>
     <!--Remember to do comment for every section so we can easily differentiate section-->
     <div>
         <!--Header-->

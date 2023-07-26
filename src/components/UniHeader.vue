@@ -9,7 +9,7 @@
     </div>
     
 </template>
-<script lang="ts">
+<script>
 import { PrimeIcons } from 'primevue/api'
 export default {
     data() {
@@ -52,8 +52,8 @@ export default {
         }
     },
     props: {
-        isAuthorised: Boolean,
-        isGuest: Boolean,
+        isAuthorised: Boolean,  //check if the user got account
+        isGuest: Boolean,   //check if the user is a guest or not
     }
 }
 </script>
@@ -61,5 +61,20 @@ export default {
 @import 'primeflex/primeflex.scss';
      .p-menubar-root-list {
         @include styleclass('w-full justify-content-end')
+    }
+
+    @media screen and (max-width: 960px) {
+        .menubar{
+            .p-menubar-start{
+                a{
+                    position:absolute;
+                    right: 8px;
+                    width: 100%;
+                }
+                
+
+            }
+        }
+        
     }
 </style>

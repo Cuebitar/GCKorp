@@ -23,6 +23,7 @@ export default defineConfig({
             dts: true
         }),
         AutoImport({
+            imports: ['vue'],
             dts: true
         })
     ],
