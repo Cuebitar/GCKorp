@@ -60,7 +60,7 @@ export default {
 <style lang="scss">
 @import 'primeflex/primeflex.scss';
      .p-menubar-root-list {
-        @include styleclass('w-full justify-content-end')
+        @include styleclass('w-screen justify-content-end')
     }
 
     @media screen and (max-width: 960px) {

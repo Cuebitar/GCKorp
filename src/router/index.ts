@@ -18,6 +18,16 @@ const router = createRouter({
       path: '/dashboard',
       name: 'User Dashboard',
       component: () => import('../views/userDashboard.vue'),
+    },
+    {
+      path: '/statement',
+      name: 'Search Statement',
+      component: () => import('../views/searchStatement.vue'),
+    },
+    {
+      path: '/transaction',
+      name: 'Transaction',
+      component: () => import('../views/transaction.vue'),
     }
     //*{
     //  path: '/about',
