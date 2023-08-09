@@ -33,8 +33,8 @@
                   <input type="password" v-model="password" required>
                 </div>
                 <Button label="SignIn">Sign In</button>
-                <Divider type="solid" layout="horizontal"> OR  </Divider>
-                <Button label="SignUp">Sign Up</button>
+                <Divider type="solid" layout="horizontal" @click="goToLogin"> OR  </Divider>
+                <Button label="SignUp" @click="goToRegister">Sign Up</button>
               </form>
             </div>
 
@@ -59,6 +59,12 @@ export default {
       console.log(`Logging in with username ${this.username} and password ${this.password}`);
       this.username = "";
       this.password = "";
+    },
+    goToRegister() {
+      this.$router.push('/registerPersonal');
+    },
+    goToLogin() {
+      this.$router.push('/dashboard');
     }
   }
 };

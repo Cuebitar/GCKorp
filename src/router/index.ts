@@ -37,16 +37,20 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: () => import('../views/homeView.vue'),
+    },
+
     {
       path: '/dashboard',
       name: 'User Dashboard',
       component: () => import('../views/userDashboard.vue'),
     },
+
     {
       path: '/statement',
       name: 'Search Statement',
       component: () => import('../views/searchStatement.vue'),
     },
+
     {
       path: '/transaction',
       name: 'Transaction',
