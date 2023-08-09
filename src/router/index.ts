@@ -1,18 +1,42 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import loginView from '../views/loginView.vue'
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path: '/',
-      name: 'login',
-      component: loginView
-    },
-    {
       path: '/devExample',
       name: 'example',
       component: () => import('../views/exampleView.vue'),
+    },
+
+    {
+      path: '/profile',
+      name: 'profile',
+      component: () => import('../views/profileView.vue'),
+    },
+
+    {
+      path: '/logout',
+      name: 'logout',
+      component: () => import('../views/logoutView.vue'),
+    },
+
+    {
+      path: '/registerPersonal',
+      name: 'registerPersonal',
+      component: () => import('../views/registerPersonalView.vue'),
+    },  
+    
+    {
+      path: '/registerBank',
+      name: 'registerBank',
+      component: () => import('../views/registerBankView.vue'),
+    },
+
+    {
+      path: '/',
+      name: 'home',
+      component: () => import('../views/homeView.vue'),
     }
     //*{
     //  path: '/about',
