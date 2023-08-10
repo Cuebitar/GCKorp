@@ -2,15 +2,18 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+//use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class User extends Model
 {
     use HasApiTokens, HasFactory, Notifiable;
+
+    protected $table = 'users';
+    protected $primaryKey = 'user_id';
 
     /**
      * The attributes that are mass assignable.
@@ -20,7 +23,16 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
-        'password',
+        'IC',
+        'ICDocument',
+        'gender',
+        'religion',
+        'race',
+        'userType',
+        'status',
+        'address',
+        'isVerified',
+        'rejectId'
     ];
 
     /**
@@ -28,10 +40,7 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
+    protected $hidden = [];
 
     /**
      * The attributes that should be cast.
@@ -39,7 +48,25 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
+        'isVerified' => 'boolean',
     ];
+
+    public function uniqueIds(){
+        return ['user_id', 'email', 'IC', 'ICDocument'];
+    }
+
+    public function account(){
+        return $this->hasOne(Accoount::class);
+    }
+
+    public function bankAccount(){
+        return $this->hasMany(Account::class);
+    }
+    public function verifyBankAccount(){
+        return $this->hasMany(Account::class);
+    }
+
+    public function tradingAccount(){
+        return $this->hasOne(TradingAccount::class);
+    }
 }
