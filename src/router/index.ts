@@ -19,6 +19,30 @@ const router = createRouter({
       name: 'User Dashboard',
       component: () => import('../views/userDashboard.vue'),
     }
+
+    {
+      path: '/favourite',
+      name: 'Favourite Account',
+      component: () => import('../views/favourite.vue'),
+    },
+
+    {
+      path: '/deposit',
+      name: 'Deposit',
+      component: () => import('../views/deposit.vue'),
+    },
+
+    {
+      path: '/withdrawal',
+      name: 'Withdrawal',
+      component: () => import('../views/withdrawal.vue'),
+    },
+
+    {
+      path: '/notification',
+      name: 'Notification',
+      component: () => import('../views/notification.vue'),
+    },
     //*{
     //  path: '/about',
     //  name: 'about',
