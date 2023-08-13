@@ -18,7 +18,7 @@ const router = createRouter({
       path: '/dashboard',
       name: 'User Dashboard',
       component: () => import('../views/userDashboard.vue'),
-    }
+    },
 
     {
       path: '/favourite',
@@ -43,6 +43,8 @@ const router = createRouter({
       name: 'Notification',
       component: () => import('../views/notification.vue'),
     },
+
+    
     //*{
     //  path: '/about',
     //  name: 'about',
