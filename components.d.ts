@@ -13,6 +13,7 @@ declare module 'vue' {
     Column: typeof import('primevue/column')['default']
     DataTable: typeof import('primevue/datatable')['default']
     DataView: typeof import('primevue/dataview')['default']
+    DataViewLayoutOptions: typeof import('primevue/dataviewlayoutoptions')['default']
     Divider: typeof import('primevue/divider')['default']
     Dropdown: typeof import('primevue/dropdown')['default']
     Header: typeof import('./src/components/header.vue')['default']
@@ -23,6 +24,7 @@ declare module 'vue' {
     Panel: typeof import('primevue/panel')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Tag: typeof import('primevue/tag')['default']
     UniHeader: typeof import('./src/components/UniHeader.vue')['default']
   }
 }
