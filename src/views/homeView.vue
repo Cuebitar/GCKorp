@@ -102,6 +102,9 @@ export default {
   object-fit: cover;
 }
 
+.login-form{
+  width: 100%;
+}
 .panelLogin input {
   display: block;
   margin-bottom: 10px;
