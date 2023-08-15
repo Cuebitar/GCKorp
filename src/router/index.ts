@@ -61,6 +61,19 @@ const router = createRouter({
       component: () => import('../views/favourite.vue'),
     },
 
+
+    {
+      path: '/favouriteadd',
+      name: 'Add Favourite Account',
+      component: () => import('../views/favouriteAdd.vue'),
+    },
+
+    {
+      path: '/registerBank',
+      name: 'registerBank',
+      component: () => import('../views/registerBankView.vue'),
+    },
+    
     {
       path: '/deposit',
       name: 'Deposit',
