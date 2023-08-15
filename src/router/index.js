@@ -42,57 +42,49 @@ const router = createRouter({
     {
       path: '/dashboard',
       name: 'User Dashboard',
-      component: () => import('../views/userDashboard.vue'),
+      component: () => import('../views/userDashboardView.vue'),
     },
 
     {
       path: '/statement',
       name: 'Search Statement',
-      component: () => import('../views/searchStatement.vue'),
+      component: () => import('../views/searchStatementView.vue'),
     },
-
     {
       path: '/transaction',
       name: 'Transaction',
-      component: () => import('../views/transaction.vue'),
-    }
+      component: () => import('../views/transactionView.vue'),
+    },
+    {
       path: '/favourite',
       name: 'Favourite Account',
-      component: () => import('../views/favourite.vue'),
+      component: () => import('../views/favouriteView.vue'),
     },
-
-
     {
       path: '/favouriteadd',
       name: 'Add Favourite Account',
-      component: () => import('../views/favouriteAdd.vue'),
+      component: () => import('../views/favouriteAddView.vue'),
     },
-
     {
       path: '/registerBank',
       name: 'registerBank',
       component: () => import('../views/registerBankView.vue'),
     },
-    
     {
       path: '/deposit',
       name: 'Deposit',
-      component: () => import('../views/deposit.vue'),
+      component: () => import('../views/depositView.vue'),
     },
-
     {
       path: '/withdrawal',
       name: 'Withdrawal',
-      component: () => import('../views/withdrawal.vue'),
+      component: () => import('../views/withdrawalView.vue'),
     },
-
     {
       path: '/notification',
       name: 'Notification',
-      component: () => import('../views/notification.vue'),
+      component: () => import('../views/notificationView.vue'),
     },
-
-    
     //*{
     //  path: '/about',
     //  name: 'about',
