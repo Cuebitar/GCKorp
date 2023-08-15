@@ -189,20 +189,20 @@ button:hover {
 .asterisk1 {
   position: absolute;
   color: red;
-  margin-top: 6.5vh;  /* Adjust this value if necessary to position the asterisk */
+  margin-top: 7vh;  /* Adjust this value if necessary to position the asterisk */
   font-size: 8px;  /* Adjust this value for the desired size of the asterisk */
 }
 
 .asterisk2 {
   position: absolute;
   color: red;
-  margin-top: 6.5vh;  /* Adjust this value if necessary to position the asterisk */
+  margin-top: 7vh;  /* Adjust this value if necessary to position the asterisk */
   font-size: 8px;  /* Adjust this value for the desired size of the asterisk */
 }
 .asterisk3 {
   position: absolute;
   color: red;
-  margin-top: 6.5vh;  /* Adjust this value if necessary to position the asterisk */
+  margin-top: 7vh;  /* Adjust this value if necessary to position the asterisk */
   font-size: 8px;  /* Adjust this value for the desired size of the asterisk */
 }
 

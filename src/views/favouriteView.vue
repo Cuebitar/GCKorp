@@ -88,17 +88,13 @@ data(){
 },
 
 methods:{
-
-
   addNew() {
     // Navigate directly to the add bank account page
     this.$router.push('/favouriteadd'); 
   },
-
-
-  delete_bankAccount: (index)=>{
-			this.bankAccount.splice(index, 1);
-		}
+  delete_bankAccount(index){
+			this.bankAccount.splice(this.bankAccount.indexOf(index), 1);
+	}
   
   
   
