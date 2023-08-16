@@ -32,8 +32,8 @@
                   <label>Password:</label>
                   <input type="password" v-model="password" required>
                 </div>
-                <Button label="SignIn">Sign In</button>
-                <Divider type="solid" layout="horizontal" @click="goToLogin"> OR  </Divider>
+                <Button label="SignIn" @click="goToLogin">Sign In</button>
+                <Divider type="solid" layout="horizontal" > OR  </Divider>
                 <Button label="SignUp" @click="goToRegister">Sign Up</button>
               </form>
             </div>

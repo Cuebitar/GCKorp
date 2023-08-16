@@ -56,17 +56,33 @@ class User extends Model
     }
 
     public function account(){
-        return $this->hasOne(Accoount::class);
+        return $this->hasOne(Account::class, 'user_id');
     }
 
     public function bankAccount(){
-        return $this->hasMany(Account::class);
+        return $this->hasMany(BankAccount::class, 'userId');
     }
     public function verifyBankAccount(){
-        return $this->hasMany(Account::class);
+        return $this->hasMany(BankAccount::class, 'verifyBy');
     }
 
     public function tradingAccount(){
-        return $this->hasOne(TradingAccount::class);
+        return $this->hasOne(TradingAccount::class, 'userId');
+    }
+
+    public function completeTransaction(){
+        return $this->hasMany(Transaction::class, 'completedBy');
+    }
+
+    public function updates(){
+    return $this->hasMany(Update::class, 'userId');
+    }
+
+    public function updatedBy(){
+    return $this->hasMany(Update::class, 'updateBy');
+    }
+
+    public function rejectReason(){
+        return $this->hasMany(RejectReason::class, 'reject_id', 'rejectId');
     }
 }

@@ -19,18 +19,18 @@ class RejectReason extends Model
     ];
 
     public function user(){
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class, 'rejectId');
     }
 
     public function bankAccount(){
-        return $this->belongsToMany(BankAccount::class);
+        return $this->belongsToMany(BankAccount::class, 'rejectId');
     }
 
     public function transaction(){
-        return $this->belongsToMany(Transaction::class);
+        return $this->belongsToMany(Transaction::class, 'rejectId');
     }
 
     public function updates(){
-        return $this->belongsToMany(Update::class);
+        return $this->belongsToMany(Update::class, 'rejectId');
     }
 }

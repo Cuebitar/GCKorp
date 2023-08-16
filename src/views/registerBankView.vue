@@ -97,7 +97,7 @@ export default {
     },
     closeModal() {
       this.showModal = false;
-      this.$router.push({ path: '/' }); 
+      this.$router.push({ path: '/dashboard' }); 
     }
   }
 }

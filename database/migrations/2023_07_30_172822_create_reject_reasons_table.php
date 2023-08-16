@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('reject_reasons', function (Blueprint $table) {
             $table->id('reject_id');
-            $table->enum('rejectType',[]);
+            $table->enum('rejectType',['User', 'Bank Account', 'Transaction']);
             $table->string('rejectCode');
             $table->multiLineString('description');
             $table->timestamps();

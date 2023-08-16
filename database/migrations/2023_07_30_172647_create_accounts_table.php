@@ -18,7 +18,7 @@ return new class extends Migration
             $table->timestamp('suspendedAt')->nullable();
             $table->timestamps();
             $table->unsignedBigInteger('userId');
-            $table->foreign('userId')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('userId')->references('user_id')->on('users')->onDelete('cascade');
         });
     }
 

@@ -28,4 +28,12 @@ class TradingAccount extends Model
     public function user() {
         return $this->belongsTo(User::class, 'user_id', 'userId');
     }
+
+    public function updates(){
+        return $this->hasMany(Update::class);
+    }
+
+    public function transactions(){
+        return $this->hasMany(Transaction::class, 'tradingAccountId');
+    }
 }

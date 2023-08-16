@@ -21,12 +21,12 @@ return new class extends Migration
             $table->unsignedBigInteger('bankAccountId')->nullable();
             $table->unsignedBigInteger('updatedBy');
             $table->unsignedBigInteger('rejectId')->nullable();
-            $table->foreign('userId')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('tradingAccountId')->references('id')->on('trading_accounts')->onDelete('cascade');
-            $table->foreign('transactionId')->references('id')->on('transactions')->onDelete('cascade');
-            $table->foreign('bankAccountId')->references('id')->on('bank_accounts')->onDelete('cascade');
-            $table->foreign('updatedBy')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('rejectId')->references('id')->on('reject_reasons')->onDelete('cascade');
+            $table->foreign('userId')->references('user_id')->on('users')->onDelete('cascade');
+            $table->foreign('tradingAccountId')->references('tradingAccount_id')->on('trading_accounts')->onDelete('cascade');
+            $table->foreign('transactionId')->references('transaction_id')->on('transactions')->onDelete('cascade');
+            $table->foreign('bankAccountId')->references('bankAccount_id')->on('bank_accounts')->onDelete('cascade');
+            $table->foreign('updatedBy')->references('user_id')->on('users')->onDelete('cascade');
+        //    $table->foreign('rejectId')->references('id')->on('reject_reasons')->onDelete('cascade');
         });
     }
 

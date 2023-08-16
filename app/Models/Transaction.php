@@ -41,6 +41,6 @@ class Transaction extends Model
     }
 
     public function updates(){
-        return $this->hasMany(UpdateReason::class);
+        return $this->hasMany(Update::class);
     }
 }

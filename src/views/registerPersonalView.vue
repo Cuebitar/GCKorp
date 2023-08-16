@@ -113,7 +113,7 @@ export default {
     },
     goBack() {
       // Navigate directly to the homepage
-      this.$router.push({ path: '/' }); 
+      this.$router.go(-1); 
     },
     goToNextPage() {
       // Navigate directly to the bank information

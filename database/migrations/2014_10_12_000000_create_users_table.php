@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('IC')->unique();
-            $table->blob('ICDocument')->unique();
+            $table->string('ICDocument')->unique();
             $table->enum('gender', ['male', 'female']);
             $table->string('religion');
             $table->string('race');
@@ -27,7 +27,7 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
             $table->unsignedBigInteger('rejectId')->nullable();
-            $table->foreign('rejectId')->references('id')->on('reject_reasons')->onDelete('cascade');
+           // $table->foreign('rejectId')->references('id')->on('reject_reasons')->onDelete('cascade');
         });
     }
 

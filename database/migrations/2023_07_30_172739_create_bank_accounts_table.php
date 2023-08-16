@@ -15,17 +15,17 @@ return new class extends Migration
             $table->id('bankAccount_id');
             $table->string('bankName');
             $table->string('accountName');
-            $table->longText('accountNo')->unique();
-            $table->blob('bankStatement')->unique();
+            $table->string('accountNo')->unique();
+            $table->string('bankStatement')->unique();
             $table->string('status');
             $table->boolean('isPrimary');
             $table->timestamps();
             $table->unsignedBigInteger('userId');
             $table->unsignedBigInteger('verifyBy')->nullable();
             $table->unsignedBigInteger('rejectId')->nullable();
-            $table->foreign('userId')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('verifyBy')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('rejectId')->references('id')->on('reject_reasons')->onDelete('cascade');
+            $table->foreign('userId')->references('user_id')->on('users')->onDelete('cascade');
+            $table->foreign('verifyBy')->references('user_id')->on('users')->onDelete('cascade');
+        //    $table->foreign('rejectId')->references('reject_id')->on('reject_reasons')->onDelete('cascade');
         });
     }
 

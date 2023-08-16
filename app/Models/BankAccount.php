@@ -38,7 +38,7 @@ class BankAccount extends Model
     }
 
     public function transaction(){
-        return $this->belongsToMany(Transaction::class);
+        return $this->belongsToMany(Transaction::class, 'bankAccountId');
     }
 
     public function reject(){
