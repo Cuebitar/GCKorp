@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('accounts', function (Blueprint $table) {
             $table->id('account_id');
             $table->string('email');
-            $table->longText('passwordHash');
+            $table->longText('password');
             $table->timestamp('suspendedAt')->nullable();
             $table->timestamps();
+            $table->rememberToken();
             $table->unsignedBigInteger('userId');
             $table->foreign('userId')->references('user_id')->on('users')->onDelete('cascade');
         });

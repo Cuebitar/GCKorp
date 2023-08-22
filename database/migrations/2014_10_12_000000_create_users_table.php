@@ -22,9 +22,8 @@ return new class extends Migration
             $table->string('race');
             $table->enum('userType', ['guest', 'member','super_admin', 'admin_staff', 'operation_staff', 'super_operation_staff', 'account_staff']);
             $table->string('status');
-            $table->multiLineString('address');
+            $table->String('address');
             $table->boolean('isVerified');
-            $table->rememberToken();
             $table->timestamps();
             $table->unsignedBigInteger('rejectId')->nullable();
            // $table->foreign('rejectId')->references('id')->on('reject_reasons')->onDelete('cascade');
