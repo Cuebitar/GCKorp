@@ -5,7 +5,13 @@ Frontend Environment (Vue):
 Folder: src
 run: npm run dev
 
-Backend Environment(Laravel):
+Backend Environment(Laravel & passport):
+run: composer install
+run: php artisan migrate --path=/database/migrations/2023_07_30_172822_create_reject_reasons_table.php;  
+run: php artisan migrate
+run: php artisan passport:install 
+If receive file_put_contents(/secret-keys/oauth/oauth-public.key): Failed to open stream: No such file or directory error:
+1. 
 run: php artisan serve
 
 Framework used:
