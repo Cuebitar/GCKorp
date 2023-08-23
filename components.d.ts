@@ -7,6 +7,7 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    AdminHeader: typeof import('./src/components/AdminHeader.vue')['default']
     Button: typeof import('primevue/button')['default']
     Calendar: typeof import('primevue/calendar')['default']
     Card: typeof import('primevue/card')['default']

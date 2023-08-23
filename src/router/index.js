@@ -50,41 +50,68 @@ const router = createRouter({
       name: 'Search Statement',
       component: () => import('../views/searchStatementView.vue'),
     },
+
     {
       path: '/transaction',
       name: 'Transaction',
       component: () => import('../views/transactionView.vue'),
     },
+
     {
       path: '/favourite',
       name: 'Favourite Account',
       component: () => import('../views/favouriteView.vue'),
     },
+
     {
       path: '/favouriteadd',
       name: 'Add Favourite Account',
       component: () => import('../views/favouriteAddView.vue'),
     },
+    
     {
       path: '/registerBank',
       name: 'registerBank',
       component: () => import('../views/registerBankView.vue'),
     },
+
     {
       path: '/deposit',
       name: 'Deposit',
       component: () => import('../views/depositView.vue'),
     },
+
     {
       path: '/withdrawal',
       name: 'Withdrawal',
       component: () => import('../views/withdrawalView.vue'),
     },
+    
     {
       path: '/notification',
       name: 'Notification',
       component: () => import('../views/notificationView.vue'),
     },
+
+    {
+      component: () => import('../views/transaction.vue'),
+    },
+
+    {
+      path: '/member',
+      name: 'Member',
+      component: () => import('../views/adminMember.vue'),
+    },
+
+    {
+      path: '/memberdetail',
+      name: 'Member Detail',
+      component: () => import('../views/adminMemberDetail.vue'),
+    }
+
+
+
+
     //*{
     //  path: '/about',
     //  name: 'about',
