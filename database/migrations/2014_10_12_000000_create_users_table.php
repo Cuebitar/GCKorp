@@ -15,9 +15,21 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
+<<<<<<< Updated upstream
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
+=======
+            $table->string('IC')->unique();
+            $table->string('ICDocument')->unique();
+            $table->enum('gender', ['male', 'female']);
+            $table->string('religion');
+            $table->string('race');
+            $table->enum('userType', ['guest', 'member','super_admin', 'admin_staff', 'operation_staff', 'super_operation_staff', 'account_staff']);
+            $table->string('status');
+            $table->String('address');
+            $table->boolean('isVerified');
+>>>>>>> Stashed changes
             $table->timestamps();
         });
     }
