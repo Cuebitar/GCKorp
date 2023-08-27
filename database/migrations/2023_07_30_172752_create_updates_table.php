@@ -26,7 +26,7 @@ return new class extends Migration
             $table->foreign('transactionId')->references('transaction_id')->on('transactions')->onDelete('cascade');
             $table->foreign('bankAccountId')->references('bankAccount_id')->on('bank_accounts')->onDelete('cascade');
             $table->foreign('updatedBy')->references('user_id')->on('users')->onDelete('cascade');
-        //    $table->foreign('rejectId')->references('id')->on('reject_reasons')->onDelete('cascade');
+            $table->foreign('rejectId')->references('reject_id')->on('reject_reasons')->onDelete('cascade');
         });
     }
 

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BankAccount;
+use App\Models\User;
 use Auth;
 use Illuminate\Http\Request;
 use Validator;
@@ -42,7 +43,7 @@ class BankAccountController extends Controller
             'bankStatement' => ['required'],
             'status' => ['required'],
             'isPrimary' => ['required', 'boolean'],
-            'userId' => ['required', 'numeric'],
+            'userId' => ['required', 'numeric', 'exists:users,user_id'],
         ]);
 
         if($validator->fails()){
@@ -109,7 +110,7 @@ class BankAccountController extends Controller
        $deletedAccount = BankAccount::findorFail($id)->delete(); //
 
        if($deletedAccount){
-        return $this->sendResponse('Account Deleted Successfully','Successfully delete the bank accounts');
+        return $this->sendResponse($deletedAccount,'Successfully delete the bank accounts');
         }
         else{
             return $this->sendError('Unable to delete bank accounts', 'No bank accounts were deleted');

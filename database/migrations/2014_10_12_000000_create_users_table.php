@@ -26,7 +26,7 @@ return new class extends Migration
             $table->boolean('isVerified');
             $table->timestamps();
             $table->unsignedBigInteger('rejectId')->nullable();
-           // $table->foreign('rejectId')->references('id')->on('reject_reasons')->onDelete('cascade');
+            $table->foreign('rejectId')->references('reject_id')->on('reject_reasons')->onDelete('cascade');
         });
     }
 

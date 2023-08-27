@@ -25,8 +25,8 @@ return new class extends Migration
             $table->unsignedBigInteger('rejectId')->nullable();
             $table->unsignedBigInteger('completedBy')->nullable();
             $table->foreign('tradingAccountId')->references('tradingAccount_id')->on('trading_accounts')->onDelete('cascade');
-           // $table->foreign('bankAccountId')->references('bankAccount_id')->on('bank_accounts')->onDelete('cascade');
-           // $table->foreign('rejectId')->references('reject_id')->on('reject_reasons')->onDelete('cascade');
+            $table->foreign('bankAccountId')->references('bankAccount_id')->on('bank_accounts')->onDelete('cascade');
+            $table->foreign('rejectId')->references('reject_id')->on('reject_reasons')->onDelete('cascade');
             $table->foreign('completedBy')->references('user_id')->on('users')->onDelete('cascade');
         });
     }

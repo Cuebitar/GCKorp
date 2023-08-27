@@ -25,7 +25,7 @@ return new class extends Migration
             $table->unsignedBigInteger('rejectId')->nullable();
             $table->foreign('userId')->references('user_id')->on('users')->onDelete('cascade');
             $table->foreign('verifyBy')->references('user_id')->on('users')->onDelete('cascade');
-        //    $table->foreign('rejectId')->references('reject_id')->on('reject_reasons')->onDelete('cascade');
+            $table->foreign('rejectId')->references('reject_id')->on('reject_reasons')->onDelete('cascade');
         });
     }
 

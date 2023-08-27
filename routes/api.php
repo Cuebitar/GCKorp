@@ -26,8 +26,12 @@ Route::get('/user', function (Request $request) {
 });
 
 Route::middleware('auth:api')->group(function (){
-
-    
     //Bank API
     Route::apiResource('/bankAccount/Account', BankAccountController::class);
+
+    //Trading Account API
+    Route::apiResource('/tradingAccount/Account', TradingAccountController::class);
+    Route::get('/tradingAccount/AccountDetails/{id}', [TradingAccountController::class, 'showWithTransactions']);
+    Route::put('/tradingAccount/Deposit/{id}', [TradingAccountController::class, 'deposit']);
+    Route::put('/tradingAccount/Withdrawal/{id}', [TradingAccountController::class, 'withdrawal']);
 });
