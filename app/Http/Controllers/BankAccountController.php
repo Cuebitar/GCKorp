@@ -37,8 +37,8 @@ class BankAccountController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            'bankName' => ['required'],
             'accountName' => ['required'],
+            'bankName' => ['required'],
             'accountNo' => ['required'],
             'bankStatement' => ['required'],
             'status' => ['required'],
@@ -54,7 +54,8 @@ class BankAccountController extends Controller
             return $this->sendError('Invalid authorisation', 'invalid details');
         }
 
-        $bankAccount = BankAccount::create($request->all());
+        $bankInfo = $request->only('accountName', 'bankName', 'accountNo', 'bankStatement', 'status', 'isPrimary', 'userId');
+        $bankAccount = BankAccount::create($bankInfo);
         if(!$bankAccount){
             return $this->sendError('Unable To Create Bank Account', 'Please Contact Customer Service For Futher Actions');
         }

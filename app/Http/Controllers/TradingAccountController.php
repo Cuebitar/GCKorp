@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\TradingAccount;
 use App\Models\Transaction;
+use App\Models\Update;
 use Illuminate\Http\Request;
 use Validator;
 
@@ -38,7 +39,7 @@ class TradingAccountController extends Controller
             return $this->sendError(['errors'=>$validator->messages()], 'invalid details');
         }
         $request['accountNo'] = $this->generateAccountNo();
-        $tradingAccount = TradingAccount::create($request->all());
+        $tradingAccount = TradingAccount::create($request->only(['userId', 'accountNo']));
         if(!$tradingAccount){
             return $this->sendError('Unable To Create Trading Account', 'Please Contact Customer Service For Futher Actions');
         }
@@ -84,10 +85,26 @@ class TradingAccountController extends Controller
         else{
             return $this->sendError('Unable to retrieve trading account', 'No trading account were retrieved');
         }
-
+        $oldStatus = $tradingAccount['status'];
         $tradingAccount['status'] = $request->status;
         $tradingAccount->save();
-        return $this->sendResponse($tradingAccount, 'Trading status is successfully updated');
+        $updateInfo = [
+            'tradingAccountId' => $tradingAccount['tradingAccount_id'],
+            'statusBefore' => $oldStatus,
+            'updatedBy' => auth()->user()->userId
+        ];
+
+        $update = Update::create($updateInfo);
+        if($update && $tradingAccount){
+            return $this->sendResponse([
+                'tradingAccount' => $tradingAccount,
+                'update' => $update
+            ], 'Trading status is successfully updated');
+        }
+        else{
+            return $this->sendError('Unable to updates your trading account');
+        }
+        
     }
 
     /**
@@ -130,66 +147,6 @@ class TradingAccountController extends Controller
         else{
             return $this->sendError('Unable to retrieve trading account transactions', 'No transaction were retrieved');
         }
-    }
-
-    /**
-    * Insert money into the account
-    * @param Request $request amount to be added to the account
-    * @param string $id account to be deposit
-    */
-    public function deposit(Request $request, string $id){
-        $tradingAccount = TradingAccount::findorFail($id);
-        if($tradingAccount){
-            $validator = Validator::make($request->all(),[
-                'amount' => ['required', 'numeric'],
-                'fromUser' => ['required', 'boolean']
-            ]);
-    
-            if($validator->fails()){
-                return $this->sendError(['errors'=>$validator->messages()], 'invalid details');
-            }
-        }
-        else{
-            return $this->sendError('Unable to retrieve trading account', 'No trading account were retrieved');
-        }
-
-        if($request->fromUser){    
-            $tradingAccount['initialBalance'] += $request->amount;
-        }
-        $tradingAccount['balance'] += $request->amount;
-        $tradingAccount->save();
-        return $this->sendResponse($tradingAccount, 'Money is successfully insert into trading account');
-    }
-
-    /**
-    * Withdraw money from the account
-    * @param Request $request amount to be added to the account
-    * @param string $id account to be deposit
-    */
-    public function withdrawal(Request $request, string $id){
-        $tradingAccount = TradingAccount::findorFail($id);
-        if($tradingAccount){
-            $validator = Validator::make($request->all(),[
-                'amount' => ['required', 'numeric'],
-            ]);
-    
-            if($validator->fails()){
-                return $this->sendError(['errors'=>$validator->messages()], 'invalid details');
-            }
-        }
-        else{
-            return $this->sendError('Unable to retrieve trading account', 'No trading account were retrieved');
-        }
-
-        if($request->amount > $tradingAccount['balance']){    
-            return $this->sendError('Unable to withdraw', 'Insufficient funds');
-        }
-        $tradingAccount['balance'] -= $request->amount;
-        if($tradingAccount['balance'] < $tradingAccount['initialBalance']){
-            $tradingAccount['initialBalance'] = $tradingAccount['balance'];
-        }
-        $tradingAccount->save();
-        return $this->sendResponse($tradingAccount, 'Money is successfully withdraw from the trading account');
     }
 
     public function generateAccountNo(){
