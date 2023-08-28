@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('reject_id');
             $table->enum('rejectType',['User', 'Bank Account', 'Transaction']);
             $table->string('rejectCode');
-            $table->multiLineString('description');
+            $table->longText('description');
             $table->timestamps();
         });
     }

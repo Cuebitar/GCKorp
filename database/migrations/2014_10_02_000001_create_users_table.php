@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('IC')->unique();
-            $table->string('ICDocument')->unique();
+            $table->longText('ICDocument');
             $table->enum('gender', ['male', 'female']);
             $table->string('religion');
             $table->string('race');
