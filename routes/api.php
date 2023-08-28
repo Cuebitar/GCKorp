@@ -37,4 +37,9 @@ Route::middleware('auth:api')->group(function (){
     Route::apiResource('/tradingAccount/transaction', TransactionController::class);
     Route::post('/tradingAccount/transaction/deposit', [TransactionController::class, 'completeDeposit']);
     Route::post('/tradingAccount/transaction/withdraw', [TransactionController::class, 'completeWithdrawal']);
+
+    //User API
+    Route::apiResource('/user', UserController::class);
+    Route::post('/user/restore/{id}', [UserController::class,'restore']);
+    Route::post('/user/verify/{id}', [UserController::class,'verify']);
 });

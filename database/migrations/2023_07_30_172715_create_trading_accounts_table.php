@@ -17,7 +17,6 @@ return new class extends Migration
             $table->double('initialBalance')->default(0);
             $table->double('balance')->default(0);
             $table->string('status')->default('Pending');
-            $table->timestamp('suspendedAt')->nullable();
             $table->timestamps();
             $table->unsignedBigInteger('userId');
             $table->foreign('userId')->references('user_id')->on('users')->onDelete('cascade');

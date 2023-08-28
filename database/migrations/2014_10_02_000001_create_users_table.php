@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id('user_id');
             $table->string('name');
             $table->string('email')->unique();
+            $table->string('phoneNumber');
             $table->string('IC')->unique();
             $table->longText('ICDocument');
             $table->enum('gender', ['male', 'female']);
@@ -22,7 +23,7 @@ return new class extends Migration
             $table->string('race');
             $table->enum('userType', ['guest', 'member','super_admin', 'admin_staff', 'operation_staff', 'super_operation_staff', 'account_staff']);
             $table->string('status');
-            $table->String('address');
+            $table->longText('address');
             $table->boolean('isVerified');
             $table->timestamps();
             $table->unsignedBigInteger('rejectId')->nullable();
