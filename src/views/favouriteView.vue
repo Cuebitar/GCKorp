@@ -53,13 +53,16 @@
 <script>
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from 'axios'
+import { useRouter } from 'vue-router';
+
 export default {
 mounted () {
   //getting user data
-  this.loadlist();
+  //this.loadlist();
 },
 data(){
   return {
+    router: useRouter(),
     bankAccount: [
       {
           id:'1',
@@ -85,17 +88,13 @@ data(){
 },
 
 methods:{
-
-
   addNew() {
     // Navigate directly to the add bank account page
-    this.$router.push({ path: '/favouriteadd' }); 
+    this.$router.push('/favouriteadd'); 
   },
-
-
-  delete_bankAccount: (index)=>{
-			this.bin.splice(index, 1);
-		}
+  delete_bankAccount(index){
+			this.bankAccount.splice(this.bankAccount.indexOf(index), 1);
+	}
   
   
   

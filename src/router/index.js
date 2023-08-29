@@ -60,11 +60,9 @@ const router = createRouter({
       name: 'Favourite Account',
       component: () => import('../views/favouriteView.vue'),
     },
-    {
-      path: '/favouriteadd',
       name: 'Add Favourite Account',
-      component: () => import('../views/favouriteAddView.vue'),
     },
+    
     {
       path: '/registerBank',
       name: 'registerBank',
@@ -75,34 +73,60 @@ const router = createRouter({
       name: 'Deposit',
       component: () => import('../views/depositView.vue'),
     },
+      
+    {
+      path: '/favourite',
+      name: 'Favourite Account',
+      component: () => import('../views/favouriteView.vue'),
+    },
+
+    {
+      path: '/favouriteadd',
+      name: 'Add Favourite Account',
+      component: () => import('../views/favouriteAddView.vue'),
+    },
+    
+    {
+      path: '/registerBank',
+      name: 'registerBank',
+      component: () => import('../views/registerBankView.vue'),
+    },
+
+    {
+      path: '/deposit',
+      name: 'Deposit',
+      component: () => import('../views/depositView.vue'),
+    },
+
     {
       path: '/withdrawal',
       name: 'Withdrawal',
       component: () => import('../views/withdrawalView.vue'),
     },
+    
     {
       path: '/notification',
       name: 'Notification',
       component: () => import('../views/notificationView.vue'),
     },
+
     {
-      path: '/AdminNotification',
-      name: 'AdminNotification',
-      component: () => import('../views/adminNotificationView.vue'),
+      path: '/member',
+      name: 'Member',
+      component: () => import('../views/adminMember.vue'),
     },
+
     {
-      path: '/AdminTransaction',
-      name: 'AdminTransaction',
-      component: () => import('../views/adminTransactionView.vue'),
-    },
-    {
-      path: '/adminWithdrawalList',
-      name: 'AdminWithdrawalListView',
-      component: () => import('../views/adminWithdrawalListView.vue'),
-    },
+      path: '/memberdetail',
+      name: 'Member Detail',
+      component: () => import('../views/adminMemberDetail.vue'),
+    }
+
+
+
+
     //*{
     //  path: '/about',
-    //  name: 'about',
     //  component: () => import("")
     //}
   ]

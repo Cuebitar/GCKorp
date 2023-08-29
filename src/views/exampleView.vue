@@ -36,7 +36,7 @@ export default {
                     name: "primeFlex",
                     url: "https://primefaces.org/primeflex"
                 }
-            ]
+            ] //From Database
         }
     },
     methods: {

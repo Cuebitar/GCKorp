@@ -14,8 +14,8 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
-        'passwords' => 'users',
+        'guard' => 'api',
+        'passwords' => 'account',
     ],
 
     /*
@@ -38,8 +38,12 @@ return [
     'guards' => [
         'web' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'account',
         ],
+        'api' => [
+            'driver' => 'passport',
+            'provider' => 'account',
+        ]
     ],
 
     /*
@@ -60,15 +64,10 @@ return [
     */
 
     'providers' => [
-        'users' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\User::class,
+        'account' => [
+             'driver' => 'eloquent',
+             'model' => App\Models\Account::class,
         ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
     ],
 
     /*
@@ -91,8 +90,8 @@ return [
     */
 
     'passwords' => [
-        'users' => [
-            'provider' => 'users',
+        'account' => [
+            'provider' => 'account',
             'table' => 'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,
@@ -112,4 +111,4 @@ return [
 
     'password_timeout' => 10800,
 
-];
+]];

@@ -2,9 +2,9 @@
     <div class="container">
         <Menubar :model="navigators" class="menubar">
             <template #start>
-                <img src="../assets/UniCoopLogo.png" style="height: 64px;" alt="logo">
+                <img src="../assets/UniCoopLogo.png" class="mainImg" style="height: 64px;" alt="logo" @click="this.$router.push('/dashboard')">
             </template>
-
+            
         </Menubar>
     </div>
     
@@ -19,34 +19,41 @@ export default {
                     label: 'Account',
                     items: [
                         {
-                            label: 'Deposit'
+                            label: 'Deposit',
+                            command: () => {this.$router.push('deposit');}
                         },
                         {
-                            label: 'Withdrawal'
+                            label: 'Withdrawal',
+                            command: () => {this.$router.push('withdrawal');}
                         }
                     ],
                     visible: !this.isGuest && this.isAuthorised
                 },
                 {
                     label: 'Favourite',
-                    visible: !this.isGuest && this.isAuthorised
+                    visible: !this.isGuest && this.isAuthorised,
+                    command: () => {this.$router.push('favourite');}
                 },
                 {
                     label: 'Statement',
-                    visible: !this.isGuest && this.isAuthorised
+                    visible: !this.isGuest && this.isAuthorised,
+                    command: () => {this.$router.push('statement');}
                 },
                 {
                     label: 'Profile',
                     visible: this.isAuthorised,
+                    command: () => {this.$router.push('profile');}
                 },
                 {
                     icon: PrimeIcons.BELL,
                     visible: this.isAuthorised,
+                    command: () => {this.$router.push('notification');}
                 },
                 {
                     label: 'Logout',
                     icon: PrimeIcons.LOCK_OPEN,
-                    visible: this.isAuthorised
+                    visible: this.isAuthorised,
+                    command: () => {this.$router.push('logout');}
                 }
             ]
         }
@@ -60,7 +67,7 @@ export default {
 <style lang="scss">
 @import 'primeflex/primeflex.scss';
      .p-menubar-root-list {
-        @include styleclass('w-full justify-content-end')
+        @include styleclass('w-screen justify-content-end')
     }
 
     @media screen and (max-width: 960px) {
@@ -76,5 +83,9 @@ export default {
             }
         }
         
+    }
+
+    .mainImg:hover{
+        cursor: pointer;
     }
 </style>

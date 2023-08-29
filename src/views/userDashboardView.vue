@@ -19,7 +19,7 @@
           <div class="w-full flex align-items-center">
             <p class="w-6">Balance: MYR {{ tradingAccount.balance.toFixed(2) }}</p>
             <Divider layout="vertical"/>
-            <p>Dividen: MYR {{ tradingAccount.balance.toFixed(2) }}</p>
+            <p>Dividen: MYR {{ dividen.toFixed(2) }}</p>
           </div> 
         </template>
       </Panel>
@@ -54,24 +54,27 @@ export default defineComponent({
   data() {
     return {
       value: 0,
-      guest: true,
+      guest: false,
       authorized: true,
       items: [
         {
           label: 'Deposit',
+          command: () => {this.$router.push('deposit');}
+
         },
         {
           label: 'Withdrawal',
+          command: () => {this.$router.push('withdrawal');}
         },
         {
-          label: 'Statement'
+          label: 'Statement',
+          command: () => {this.$router.push('statement');}
         }
       ], 
       tradingAccount: {
-        name: 'Individual Invest Account',
         accountNo: '0000 1111 2222 3333',
         balance: 2000,
-        dividen: 1000
+        initialBalance: 1000
       }, //from database
       updates: [
         {
@@ -102,6 +105,11 @@ export default defineComponent({
       this.showMenu = !this.showMenu;
     },
   },
+  computed: {
+    dividen(){
+      return this.tradingAccount.balance - this.tradingAccount.initialBalance;
+    }
+  }
 });
 </script>
 
