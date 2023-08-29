@@ -88,12 +88,17 @@ class TradingAccountController extends Controller
         $oldStatus = $tradingAccount['status'];
         $tradingAccount['status'] = $request->status;
         $tradingAccount->save();
+
         $updateInfo = [
             'tradingAccountId' => $tradingAccount['tradingAccount_id'],
+            'userId' => $tradingAccount['userId'],
             'statusBefore' => $oldStatus,
             'updatedBy' => auth()->user()->userId
         ];
 
+        if($oldStatus == 'deny'){
+            $updateInfo['rejectId'] = $tradingAccount['reject_id'];
+        }
         $update = Update::create($updateInfo);
         if($update && $tradingAccount){
             return $this->sendResponse([

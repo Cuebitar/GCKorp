@@ -49,15 +49,6 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-       
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
@@ -123,19 +114,46 @@ class UserController extends Controller
             }
     }
 
-    public function verify(string $id){
+    public function verify(Request $request, string $id){
+        
+        $validator = Validator::make($request->all(),[
+            'isVerified' => ['required', 'boolean'],
+        ]);
+
+        if($validator->fails()){
+            return $this->sendError(['errors'=>$validator->messages()], 'invalid details');
+        }
+
         $user = User::findorFail($id);
 
         if($user){
             $oldStatus = $user->status;
             $user['isVerified'] = true;
-            $user['status'] = 'verified';
+
+            if($request->isVerified){
+                $user['status'] = 'verified';
+            }
+            else{
+                $validator = Validator::make($request->all(),[
+                    'rejectId' => ['required', 'boolean'],
+                ]);
+        
+                if($validator->fails()){
+                    return $this->sendError(['errors'=>$validator->messages()], 'invalid details');
+                }
+
+                $user['status'] = 'deny';
+                $user['rejectId'] = $request->rejectId;
+            }
             $user->save();
             $updateInfo = [
                 'userId' => $id,
                 'statusBefore' => $oldStatus,
                 'updatedBy' => auth()->user()->userId
             ];
+            if($oldStatus == 'deny'){
+                $updateInfo['rejectId'] = $user['reject_id'];
+            }
             $update = Update::create($updateInfo);
 
             if(!$update){

@@ -119,9 +119,15 @@ class TransactionController extends Controller
 
         $updateInfo = [
             'transactionId' => $request->transaction_id,
+            'bankAccountId' => $transaction['bankAccountId'],
+            'tradingAccountId' => $transaction['tradingAccountId'],
+            'userId' => $tradingAccount['userId'],
             'statusBefore' => $oldStatus,
             'updatedBy' => auth()->user()->userId
         ];
+        if($oldStatus == 'deny'){
+            $updateInfo['rejectId'] = $transaction['reject_id'];
+        }
         $update = Update::create($updateInfo);
         
         if($update && $transaction && $tradingAccount  && $transaction['status'] == 'deny'){
@@ -206,9 +212,15 @@ class TransactionController extends Controller
 
         $updateInfo = [
             'transactionId' => $request->transaction_id,
+            'bankAccountId' => $transaction['bankAccountId'],
+            'tradingAccountId' => $transaction['tradingAccountId'],
+            'userId' => $tradingAccount['userId'],
             'statusBefore' => $oldStatus,
             'updatedBy' => auth()->user()->userId
         ];
+        if($oldStatus == 'deny'){
+            $updateInfo['rejectId'] = $transaction['reject_id'];
+        }
         $update = Update::create($updateInfo);
         if($update && $transaction && $tradingAccount && $transaction['status'] == 'completed'){
             return $this->sendResponse([
