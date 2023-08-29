@@ -7,7 +7,7 @@ use App\Models\Update;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Validator;
-
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 class UserController extends Controller
 {
     /**
@@ -16,21 +16,6 @@ class UserController extends Controller
     public function index()
     {
         //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
         //
         if(auth()->user()->userType == 'member'){
             return $this->sendError('You are not allowed to reach this resources.');
@@ -53,14 +38,6 @@ class UserController extends Controller
     public function show(string $id)
     {
         //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
         $account = Account::with('user')->where('accounts.userId', $id)->get();
 
         if($account){
@@ -69,6 +46,15 @@ class UserController extends Controller
         else{
             return $this->sendError('Unable to retrieve user details', 'No user\'s details were retrieved');
         }
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        //
+       
     }
 
     /**
@@ -120,10 +106,10 @@ class UserController extends Controller
 
         if($deleteUser){
             return $this->sendResponse($deleteUser,'Successfully delete the user');
-            }
-            else{
-                return $this->sendError('Unable to delete the user', 'No user were deleted');
-            }
+        }
+        else{
+            return $this->sendError('Unable to delete the user', 'No user were deleted');
+        }
     }
 
     public function restore(string $id){

@@ -16,16 +16,8 @@ class TradingAccountController extends Controller
     public function index()
     {
         //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
         if(auth()->user()->userType != 'member'){
-            $accounts = TradingAccount::where('suspendedAt', null)->get();
+            $accounts = TradingAccount::all();
             return $this->sendResponse($accounts,'Successfully retruieve all trading accounts');
         }
         else{
@@ -63,22 +55,6 @@ class TradingAccountController extends Controller
      * @param string $id ID of the account user
      */
     public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
     {
         //
         $tradingAccount = TradingAccount::where('userId', '=', $id)->firstorFail();
@@ -154,22 +130,13 @@ class TradingAccountController extends Controller
     public function showWithTransactions(string $id)
     {
         //
-        $tradingAccount = TradingAccount::findorFail($id);
-        if($tradingAccount){
-            $transactions = Transaction::where('tradingAccountId', $id)->get();
-        }
-        else{
+        $tradingAccount = TradingAccount::with('transactions')->where('tradingAccount_id', $id)->get();
+        if(!$tradingAccount){
             return $this->sendError('Unable to retrieve trading account', 'No trading account were retrieved');
         }
 
-        if($transactions){
-            return $this->sendResponse([
-                'tradingAccount' => $tradingAccount,
-                'transactions' => $transactions
-            ]);
-        }
         else{
-            return $this->sendError('Unable to retrieve trading account transactions', 'No transaction were retrieved');
+            return $this->sendResponse($tradingAccount, 'trading account with transactions information is retreieved');
         }
     }
 

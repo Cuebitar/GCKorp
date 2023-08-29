@@ -39,7 +39,7 @@ class BankAccountController extends Controller
         $validator = Validator::make($request->all(),[
             'accountName' => ['required'],
             'bankName' => ['required'],
-            'accountNo' => ['required'],
+            'accountNo' => ['required', 'unique:bank_accounts,accountNo'],
             'bankStatement' => ['required'],
             'status' => ['required'],
             'isPrimary' => ['required', 'boolean'],

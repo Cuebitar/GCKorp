@@ -21,7 +21,7 @@ use App\Http\Controllers\UserController;
 */
 
 //check if the user has login and access to the routers
-Route::get('/user', function (Request $request) {
+Route::get('/checkser', function (Request $request) {
     return response()->json(Auth::check());
 });
 

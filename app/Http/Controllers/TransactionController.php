@@ -62,7 +62,7 @@ class TransactionController extends Controller
                 'transaction_id' => ['required', 'exists:transactions,transaction_id'],
                 'tradingAccount_id' => ['required', 'exists:trading_accounts,tradingAccount_id'],
                 'approve' => ['required', 'boolean'],
-                'type' => ['required', 'in:deposit'],
+                'type' => ['required', 'in:deposit,withdraw'],
             ]);
     
             if($validator->fails()){
@@ -82,7 +82,7 @@ class TransactionController extends Controller
         $oldStatus = $tradingAccount['status'];
         $request['amount'] = $transaction['amount'];
         if($request->approve){
-            if($request->fromUser){    
+            if($request->type == 'deposit'){    
                 $tradingAccount['initialBalance'] += $request->amount;
             }
             $tradingAccount['balance'] += $request->amount;
@@ -234,30 +234,6 @@ class TransactionController extends Controller
      * @param string $id Trading account ID
      */
     public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
     {
         //
         $transactions = Transaction::where('tradingAccountId', $id)->get();
