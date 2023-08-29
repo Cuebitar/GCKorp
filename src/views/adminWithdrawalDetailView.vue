@@ -7,10 +7,13 @@
 
         <!--Content-->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-        <div class="profile-page">
+        <div class="withdrawal-details-page">
           <div v-if="!editMode">
             <h1>Withdrawal Request Details</h1>
-            <div class="profile-card">
+
+            <Button @click="goBack">Back</Button>
+
+            <div class="withdrawal-details-card">
               <div class="input-group">
                 <label for="fullname">Full Name:</label>
                 <input id="fullname" v-model="withdrawalDetails.fullname" disabled>
@@ -31,6 +34,10 @@
                 <label for="purpose">Purpose:</label>
                 <input id="purpose" v-model="withdrawalDetails.purpose" disabled>
               </div>
+              <div class="button-group">
+                    <Button @click="deny">Deny</Button>
+                    <Button @click="approve">Approve</Button>
+                </div>
             </div>
           </div>
         </div>
@@ -58,7 +65,20 @@ export default {
       editMode: false,
     }
  
+    },
+
+    methods: {
+    goBack() {
+      this.$router.push({ path: '/adminWithdrawalList' }); 
+    },
+    deny() {
+      this.$refs.statementUpload.click();
+    },
+    approve() {
+      this.showModal = true;
     }
+    
+  }
 };
 </script>
 
@@ -74,7 +94,7 @@ h1 {
   width: 100%;  /* Ensures the h1 takes full width of its container */
 }
 
-.profile-page {
+.withdrawal-details-page {
   display: flex;
   justify-content: center;
   align-items: flex-start; /* Aligns items to the start of the container */
@@ -84,7 +104,7 @@ h1 {
   padding-top: 20px; /* Pushes the content down from the top */
 }
 
-.profile-card {
+.withdrawal-details-card {
   background: white;
   padding: 40px;  /* Increased padding */
   box-shadow: 0px 0px 20px rgba(0,0,0,0.1);
@@ -109,6 +129,17 @@ button {
   margin-top: 10px;
   padding: 5px 15px;
   font-size: 16px;  /* Increased font-size for the button */
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;  /* Adjust based on the spacing you want */
+  align-items: center;
+  margin-top: 25px;
+}
+
+.button-group button {
+  margin: 0 5px; /* This provides spacing on both sides of each button */
 }
 
 .data-box {

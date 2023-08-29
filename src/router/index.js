@@ -161,6 +161,13 @@ const router = createRouter({
       component: () => import('../views/adminWithdrawalListView.vue'),
     },
 
+    
+    {
+      path: '/adminWithdrawalDetails',
+      name: 'admin-Withdrawal-Detail',
+      component: () => import('../views/adminWithdrawalDetailView.vue'),
+    }
+
 
 
 
