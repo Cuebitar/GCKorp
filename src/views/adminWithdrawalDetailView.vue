@@ -34,11 +34,38 @@
                 <label for="purpose">Purpose:</label>
                 <input id="purpose" v-model="withdrawalDetails.purpose" disabled>
               </div>
-              <div class="button-group">
+
+              <!-- Button to perform action -->
+                <div class="button-group">
                     <Button @click="deny">Deny</Button>
                     <Button @click="approve">Approve</Button>
                 </div>
+
+                <!-- Popup Modal when approved -->
+                <div v-if="denyShowModal" class="modal">
+                    <div class="modal-content">
+                        <label for="deny-reason">Reason for deny:</label> 
+                            <select name="deny-reason" id="deny-reason"> 
+                            <option value="deny-reason-1">Information Not Match</option> 
+                            <option value="deny-reason-2">Insufficient Amount</option> 
+                            <option value="deny-reason-3">Account Not Exist</option> 
+                            <option value="deny-reason-4">Others</option> 
+                            </select>
+                            <Button @click="approve">Confirm</Button>
+                    </div>
+                </div>
+
+
+            <!-- Popup Modal after action done -->
+            <div v-if="doneShowModal" class="modal">
+                <div class="modal-content">
+                <span @click="doneCloseModal" class="close">&times;</span>Review Done!</div>
             </div>
+
+                
+            </div>
+
+            
           </div>
         </div>
 
@@ -63,7 +90,9 @@ export default {
         purpose: "To invest in the gold..."
       },
       editMode: false,
-    }
+      denyShowModal: false,
+      doneShowModal: false
+    };
  
     },
 
@@ -72,10 +101,14 @@ export default {
       this.$router.push({ path: '/adminWithdrawalList' }); 
     },
     deny() {
-      this.$refs.statementUpload.click();
+      this.denyShowModal = true;
     },
     approve() {
-      this.showModal = true;
+      this.doneShowModal = true;
+    },
+    doneCloseModal() {
+      this.doneShowModal = false;
+      this.$router.push({ path: '/adminWithdrawalList' }); 
     }
     
   }
@@ -140,7 +173,7 @@ button {
 
 .button-group button {
   margin: 0 5px; /* This provides spacing on both sides of each button */
-}
+} 
 
 .data-box {
   display: flex;
@@ -189,6 +222,48 @@ input[type="text"], input[type="email"], input[type="password"], select {
   transform: translateY(-50%);
   cursor: pointer;
 }
+
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed; 
+  z-index: 1; 
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  background-color: rgba(0,0,0,0.7); 
+}
+
+.modal-content {
+  background-color: #fefefe;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 30%;
+  text-align: center;
+  position: relative;
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  position: absolute;
+  top: 0;
+  right: 15px;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
 
 </style>
 
