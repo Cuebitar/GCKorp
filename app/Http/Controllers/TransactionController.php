@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\TradingAccount;
 use App\Models\Transaction;
 use App\Models\Update;
-use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use Validator;
@@ -19,24 +18,10 @@ class TransactionController extends Controller
     public function index()
     {
         //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
         return $this->sendError('please specific trading account');
     }
+
+
 
     public function store(Request $request)
     {
@@ -117,7 +102,7 @@ class TransactionController extends Controller
             $transaction['status'] = 'deny';
             $transaction['rejectId'] = $request->rejectId;
 
-            $newTransactionInfo = [
+            /**$newTransactionInfo = [
                 'tradingAccountId' => $request->tradingAccount_id,
                 'bankAccountId' => $transaction['bankAccountId'],
                 'amount' => $request->amount,
@@ -126,7 +111,7 @@ class TransactionController extends Controller
                 'transactionPurpose' => 'Fund deposit unsuccessful',
                 'referenceId' => $this->generateReferenceID(),
             ];
-            $newTransaction = Transaction::create($newTransactionInfo);
+            $newTransaction = Transaction::create($newTransactionInfo);*/
         }
         $transaction['completedAt'] = Carbon::now();
         $transaction['completedBy'] = auth()->user()->userId;
@@ -139,11 +124,10 @@ class TransactionController extends Controller
         ];
         $update = Update::create($updateInfo);
         
-        if($update && $transaction && $tradingAccount  && isset($newTransaction)){
+        if($update && $transaction && $tradingAccount  && $transaction['status'] == 'deny'){
             return $this->sendResponse([
                 'tradingAccount' => $tradingAccount,
                 'transaction' => $transaction,
-                'newTransaction' => $newTransaction,
                 'update' => $update
             ], 'Money refund to user');
         }

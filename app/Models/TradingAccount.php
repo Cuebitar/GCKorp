@@ -26,7 +26,7 @@ class TradingAccount extends Model
     }
 
     public function user() {
-        return $this->belongsTo(User::class, 'user_id', 'userId');
+        return $this->belongsTo(User::class, 'userId', 'user_id');
     }
 
     public function updates(){

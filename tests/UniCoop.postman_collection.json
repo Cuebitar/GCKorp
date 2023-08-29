@@ -708,6 +708,451 @@
 			]
 		},
 		{
+			"name": "Reject Reason",
+			"item": [
+				{
+					"name": "Add Reject Reason",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response data is an object\", function () {",
+									"    pm.expect(pm.response.json().data).to.be.an('object');",
+									"});",
+									"",
+									"pm.test(\"Response data contains the required properties\", function () {",
+									"    var data = pm.response.json().data;",
+									"    pm.expect(data).to.have.property('bankName');",
+									"    pm.expect(data).to.have.property('accountName');",
+									"    pm.expect(data).to.have.property('accountNo');",
+									"    pm.expect(data).to.have.property('bankStatement');",
+									"    pm.expect(data).to.have.property('status');",
+									"    pm.expect(data).to.have.property('isPrimary');",
+									"    pm.expect(data).to.have.property('userId');",
+									"    pm.expect(data).to.have.property('updated_at');",
+									"    pm.expect(data).to.have.property('created_at');",
+									"    pm.expect(data).to.have.property('bankAccount_id');",
+									"});",
+									"",
+									"pm.test(\"Response data properties have the correct types\", function () {",
+									"    var data = pm.response.json().data;",
+									"    pm.expect(data.bankName).to.be.a('string');",
+									"    pm.expect(data.accountName).to.be.a('string');",
+									"    pm.expect(data.accountNo).to.be.a('string');",
+									"    pm.expect(data.bankStatement).to.be.a('string');",
+									"    pm.expect(data.status).to.be.a('string');",
+									"    pm.expect(data.isPrimary).to.be.a('boolean');",
+									"    pm.expect(data.userId).to.be.a('number');",
+									"    pm.expect(data.updated_at).to.be.a('string');",
+									"    pm.expect(data.created_at).to.be.a('string');",
+									"    pm.expect(data.bankAccount_id).to.be.a('number');",
+									"});",
+									"",
+									"pm.test(\"Response data is not empty\", function () {",
+									"    var data = pm.response.json().data;",
+									"    pm.expect(Object.keys(data).length).to.be.above(0);",
+									"});",
+									"",
+									"pm.test(\"Response data success is true\", function () {",
+									"    var success = pm.response.json().success;",
+									"    pm.expect(success).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BearerToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"rejectType\": \"User\",\n    \"description\": \"Insufficient Information\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/rejectReason",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"rejectReason"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update Reject Reason",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response data is an object\", function () {",
+									"    pm.expect(pm.response.json().data).to.be.an('object');",
+									"});",
+									"",
+									"pm.test(\"Response data contains the required properties\", function () {",
+									"    var data = pm.response.json().data;",
+									"    pm.expect(data).to.have.property('bankName');",
+									"    pm.expect(data).to.have.property('accountName');",
+									"    pm.expect(data).to.have.property('accountNo');",
+									"    pm.expect(data).to.have.property('bankStatement');",
+									"    pm.expect(data).to.have.property('status');",
+									"    pm.expect(data).to.have.property('isPrimary');",
+									"    pm.expect(data).to.have.property('userId');",
+									"    pm.expect(data).to.have.property('updated_at');",
+									"    pm.expect(data).to.have.property('created_at');",
+									"    pm.expect(data).to.have.property('bankAccount_id');",
+									"});",
+									"",
+									"pm.test(\"Response data properties have the correct types\", function () {",
+									"    var data = pm.response.json().data;",
+									"    pm.expect(data.bankName).to.be.a('string');",
+									"    pm.expect(data.accountName).to.be.a('string');",
+									"    pm.expect(data.accountNo).to.be.a('string');",
+									"    pm.expect(data.bankStatement).to.be.a('string');",
+									"    pm.expect(data.status).to.be.a('string');",
+									"    pm.expect(data.isPrimary).to.be.a('boolean');",
+									"    pm.expect(data.userId).to.be.a('number');",
+									"    pm.expect(data.updated_at).to.be.a('string');",
+									"    pm.expect(data.created_at).to.be.a('string');",
+									"    pm.expect(data.bankAccount_id).to.be.a('number');",
+									"});",
+									"",
+									"pm.test(\"Response data is not empty\", function () {",
+									"    var data = pm.response.json().data;",
+									"    pm.expect(Object.keys(data).length).to.be.above(0);",
+									"});",
+									"",
+									"pm.test(\"Response data success is true\", function () {",
+									"    var success = pm.response.json().success;",
+									"    pm.expect(success).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BearerToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"description\": \"Insufficient Amount\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/rejectReason/2",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"rejectReason",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Reject Type",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response data is an object\", function () {",
+									"    pm.expect(pm.response.json().data).to.be.an('object');",
+									"});",
+									"",
+									"pm.test(\"Response data contains the required properties\", function () {",
+									"    var data = pm.response.json().data;",
+									"    pm.expect(data).to.have.property('bankName');",
+									"    pm.expect(data).to.have.property('accountName');",
+									"    pm.expect(data).to.have.property('accountNo');",
+									"    pm.expect(data).to.have.property('bankStatement');",
+									"    pm.expect(data).to.have.property('status');",
+									"    pm.expect(data).to.have.property('isPrimary');",
+									"    pm.expect(data).to.have.property('userId');",
+									"    pm.expect(data).to.have.property('updated_at');",
+									"    pm.expect(data).to.have.property('created_at');",
+									"    pm.expect(data).to.have.property('bankAccount_id');",
+									"});",
+									"",
+									"pm.test(\"Response data properties have the correct types\", function () {",
+									"    var data = pm.response.json().data;",
+									"    pm.expect(data.bankName).to.be.a('string');",
+									"    pm.expect(data.accountName).to.be.a('string');",
+									"    pm.expect(data.accountNo).to.be.a('string');",
+									"    pm.expect(data.bankStatement).to.be.a('string');",
+									"    pm.expect(data.status).to.be.a('string');",
+									"    pm.expect(data.isPrimary).to.be.a('boolean');",
+									"    pm.expect(data.userId).to.be.a('number');",
+									"    pm.expect(data.updated_at).to.be.a('string');",
+									"    pm.expect(data.created_at).to.be.a('string');",
+									"    pm.expect(data.bankAccount_id).to.be.a('number');",
+									"});",
+									"",
+									"pm.test(\"Response data is not empty\", function () {",
+									"    var data = pm.response.json().data;",
+									"    pm.expect(Object.keys(data).length).to.be.above(0);",
+									"});",
+									"",
+									"pm.test(\"Response data success is true\", function () {",
+									"    var success = pm.response.json().success;",
+									"    pm.expect(success).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BearerToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/rejectReason/rejectType",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"rejectReason",
+								"rejectType"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Reject Reason",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test(\"Response data is an object\", function () {",
+									"    pm.expect(pm.response.json().data).to.be.an('object');",
+									"});",
+									"",
+									"pm.test(\"Response data contains the required properties\", function () {",
+									"    var data = pm.response.json().data;",
+									"    pm.expect(data).to.have.property('bankName');",
+									"    pm.expect(data).to.have.property('accountName');",
+									"    pm.expect(data).to.have.property('accountNo');",
+									"    pm.expect(data).to.have.property('bankStatement');",
+									"    pm.expect(data).to.have.property('status');",
+									"    pm.expect(data).to.have.property('isPrimary');",
+									"    pm.expect(data).to.have.property('userId');",
+									"    pm.expect(data).to.have.property('updated_at');",
+									"    pm.expect(data).to.have.property('created_at');",
+									"    pm.expect(data).to.have.property('bankAccount_id');",
+									"});",
+									"",
+									"pm.test(\"Response data properties have the correct types\", function () {",
+									"    var data = pm.response.json().data;",
+									"    pm.expect(data.bankName).to.be.a('string');",
+									"    pm.expect(data.accountName).to.be.a('string');",
+									"    pm.expect(data.accountNo).to.be.a('string');",
+									"    pm.expect(data.bankStatement).to.be.a('string');",
+									"    pm.expect(data.status).to.be.a('string');",
+									"    pm.expect(data.isPrimary).to.be.a('boolean');",
+									"    pm.expect(data.userId).to.be.a('number');",
+									"    pm.expect(data.updated_at).to.be.a('string');",
+									"    pm.expect(data.created_at).to.be.a('string');",
+									"    pm.expect(data.bankAccount_id).to.be.a('number');",
+									"});",
+									"",
+									"pm.test(\"Response data is not empty\", function () {",
+									"    var data = pm.response.json().data;",
+									"    pm.expect(Object.keys(data).length).to.be.above(0);",
+									"});",
+									"",
+									"pm.test(\"Response data success is true\", function () {",
+									"    var success = pm.response.json().success;",
+									"    pm.expect(success).to.be.true;",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BearerToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"bankName\": \"Maybank\",\n    \"accountName\": \"Postman\",\n    \"accountNo\": \"1111222233334444\",\n    \"bankStatement\": \"bankstatement.pdf\",\n    \"status\": \"pending\",\n    \"isPrimary\": true,\n    \"userId\": {{userId}}\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/rejectReason/Transaction",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"rejectReason",
+								"Transaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete Reject Reason",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{BearerToken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://127.0.0.1:8000/api/rejectReason/4",
+							"protocol": "http",
+							"host": [
+								"127",
+								"0",
+								"0",
+								"1"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"rejectReason",
+								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "Trading Account",
 			"item": [
 				{

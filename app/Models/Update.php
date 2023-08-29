@@ -35,23 +35,23 @@ class Update extends Model
 
 
     public function user(){
-        return $this->belongsTo(User::class, 'user_id', 'userId');
+        return $this->belongsTo(User::class, 'userId', 'user_id');
     }
     public function updatedBy(){
-        return $this->belongsTo(User::class, 'user_id', 'updateBy');
+        return $this->belongsTo(User::class, 'updateBy', 'user_id');
     }
     public function bankAccount(){
-        return $this->belongsTo(BankAccount::class, 'bankAccount_id', 'bankAccountId');
+        return $this->belongsTo(BankAccount::class, 'bankAccountId', 'bankAccount_id');
     }
 
     public function tradingAccount(){
-        return $this->belongsTo(TradingAccount::class, 'tradingAccount_id', 'tradingAccountId');
+        return $this->belongsTo(TradingAccount::class, 'tradingAccountId', 'tradingAccount_id');
     }
     public function transactions(){
-        return $this->belongsTo(Transaction::class, 'tradingAccount_id', 'tradingAccountId');
+        return $this->belongsTo(Transaction::class, 'tradingAccountId', 'tradingAccount_id');
     }
     public function reject(){
-        return $this->belongsTo(RejectReason::class, 'reject_id', 'rejectId');
+        return $this->belongsTo(RejectReason::class, 'rejectId', 'reject_id');
     }
 
 }

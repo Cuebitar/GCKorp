@@ -42,4 +42,8 @@ Route::middleware('auth:api')->group(function (){
     Route::apiResource('/user', UserController::class);
     Route::post('/user/restore/{id}', [UserController::class,'restore']);
     Route::post('/user/verify/{id}', [UserController::class,'verify']);
+
+    //Reject Code API
+    Route::get('/rejectReason/rejectType', [RejectReasonController::class, 'rejectType']);
+    Route::apiResource('/rejectReason', RejectReasonController::class);
 });
