@@ -56,8 +56,10 @@ export default {
 </script>
 
 <template>
-    <UniHeader :isGuest="guest" :isAuthorised="authorized" ></UniHeader>
-    <div class="content">
+    <div>
+        <!--Header-->
+        <AdminHeader></AdminHeader>
+    </div>    <div class="content">
 
         <!--Transaction Account Details-->
         <div class="mb-6"> 

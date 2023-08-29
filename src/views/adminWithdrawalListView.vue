@@ -1,6 +1,9 @@
 <template>
-    <UniHeader></UniHeader>
-    <div class="content">
+ <div>
+        <!--Header-->
+        <AdminHeader></AdminHeader>
+    </div>
+  <div class="content">
 
         <!--Withdrawal list Content-->
         <div>
@@ -14,7 +17,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="withdrawalList in withdrawallist" :key="withdrawalList.referenceid" @click="goToDetails(withdrawalList.referenceid)">
+              <tr v-for="withdrawallist in withdrawallists" :key="withdrawallist.referenceid" @click="goToDetails(withdrawallists.referenceid)">
                 <td>{{ withdrawallist.referenceid }}</td>
                 <td>{{ withdrawallist.date }}</td>
                 <td>{{ withdrawallist.label }}</td>
@@ -30,7 +33,7 @@ export default {
    data() {
     return {
 //notification dummy data
-        withdrawallist:[
+        withdrawallists:[
             {
                 referenceid: '111111111',
                 date: '1/7/2023',
@@ -62,8 +65,8 @@ export default {
    }, 
 
    methods: {
-    goToDetails(withdrawalReferenceID) {
-      this.$router.push({ name: 'adminWithdrawalListDetails', params: { referenceid: withdrawalReferenceID } });
+    goToDetails(withdrawallistReferenceID) {
+      this.$router.push({ name: 'admin-Withdrawal-Detail', params: { referenceid: withdrawallistReferenceID } });
     }
   }
 }

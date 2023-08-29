@@ -1,5 +1,9 @@
 <template>
-    <UniHeader ></UniHeader>
+    <div>
+        <!--Header-->
+        <AdminHeader></AdminHeader>
+    </div>    
+    
     <div class="content">
 
         <!--Notification Content-->

@@ -50,17 +50,23 @@ const router = createRouter({
       name: 'Search Statement',
       component: () => import('../views/searchStatementView.vue'),
     },
+
     {
       path: '/transaction',
       name: 'Transaction',
       component: () => import('../views/transactionView.vue'),
     },
+
     {
       path: '/favourite',
       name: 'Favourite Account',
       component: () => import('../views/favouriteView.vue'),
     },
+
+    {
+      path: '/favouriteadd',
       name: 'Add Favourite Account',
+      component: () => import('../views/favouriteAddView.vue'),
     },
     
     {
@@ -68,12 +74,27 @@ const router = createRouter({
       name: 'registerBank',
       component: () => import('../views/registerBankView.vue'),
     },
+
     {
       path: '/deposit',
       name: 'Deposit',
       component: () => import('../views/depositView.vue'),
     },
-      
+
+    {
+      path: '/withdrawal',
+      name: 'Withdrawal',
+      component: () => import('../views/withdrawalView.vue'),
+    },
+    
+    {
+      path: '/notification',
+      name: 'Notification',
+      component: () => import('../views/notificationView.vue'),
+    },
+
+
+
     {
       path: '/favourite',
       name: 'Favourite Account',
@@ -120,16 +141,36 @@ const router = createRouter({
       path: '/memberdetail',
       name: 'Member Detail',
       component: () => import('../views/adminMemberDetail.vue'),
-    }
+    },
+
+    {
+      path: '/adminNotification',
+      name: 'admin Notification',
+      component: () => import('../views/adminNotificationView.vue'),
+    },
+
+    {
+      path: '/adminTransaction',
+      name: 'admin Transaction',
+      component: () => import('../views/adminTransactionView.vue'),
+    },
+
+    {
+      path: '/adminWithdrawalList',
+      name: 'admin Withdrawal List',
+      component: () => import('../views/adminWithdrawalListView.vue'),
+    },
 
 
 
 
     //*{
     //  path: '/about',
+    //  name: 'about',
     //  component: () => import("")
     //}
   ]
 })
 
 export default router
+
