@@ -7,6 +7,7 @@ run: npm run dev
 
 Backend Environment(Laravel & passport):
 run: composer install
+configure your .env files
 run: php artisan migrate --path=/database/migrations/2023_07_30_172822_create_reject_reasons_table.php;  
 run: php artisan migrate
 run: php artisan passport:install 

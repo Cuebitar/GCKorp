@@ -8,7 +8,7 @@
         <!--Content-->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
         <div class="registration-page">
-            <h1>Bank Information</h1>
+            <h1>Add favourite bank</h1>
                 <div class="data-box">
 
                 <div class="input-group">
@@ -43,7 +43,6 @@
                 <label for="statement">Statement:</label>
                 <div class="statement-wrapper">
                     <input type="text" id="statement" v-model="user.statement">
-                    <span class="asterisk3">*Latest bank statement</span>  <!-- The added asterisk -->
                     <input type="file" id="statementUpload" ref="statementUpload" @change="handleFile" style="display: none;">
                     <button @click.prevent="uploadstatement">Upload</button>
                 </div>
@@ -80,8 +79,8 @@ export default {
   },
   methods: {
     goBack() {
-      // Navigate directly to the homepage
-      this.$router.push({ path: '/registerPersonal' }); 
+      // Navigate directly to the favourite page
+      this.$router.push({ path: '/favourite' }); 
     },
     handleFile(event) {
       if (event.target.files && event.target.files[0]) {
@@ -97,7 +96,7 @@ export default {
     },
     closeModal() {
       this.showModal = false;
-      this.$router.push({ path: '/dashboard' }); 
+      this.$router.push({ path: '/favourite' }); 
     }
   }
 }
@@ -190,20 +189,20 @@ button:hover {
 .asterisk1 {
   position: absolute;
   color: red;
-  margin-top:6.5vh;  /* Adjust this value if necessary to position the asterisk */
+  margin-top: 7vh;  /* Adjust this value if necessary to position the asterisk */
   font-size: 8px;  /* Adjust this value for the desired size of the asterisk */
 }
 
 .asterisk2 {
   position: absolute;
   color: red;
-  margin-top:6.5vh;  /* Adjust this value if necessary to position the asterisk */
+  margin-top: 7vh;  /* Adjust this value if necessary to position the asterisk */
   font-size: 8px;  /* Adjust this value for the desired size of the asterisk */
 }
 .asterisk3 {
   position: absolute;
   color: red;
-  margin-top:6.5vh;  /* Adjust this value if necessary to position the asterisk */
+  margin-top: 7vh;  /* Adjust this value if necessary to position the asterisk */
   font-size: 8px;  /* Adjust this value for the desired size of the asterisk */
 }
 

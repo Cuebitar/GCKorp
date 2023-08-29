@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('accounts', function (Blueprint $table) {
-            $table->id('account_id');
-            $table->string('email');
-            $table->longText('password');
+        Schema::create('trading_accounts', function (Blueprint $table) {
+            $table->id('tradingAccount_id');
+            $table->bigInteger('accountNo')->unique();
+            $table->double('initialBalance')->default(0);
+            $table->double('balance')->default(0);
+            $table->string('status')->default('Pending');
             $table->timestamps();
-            $table->rememberToken();
             $table->unsignedBigInteger('userId');
-            $table->softDeletes();
             $table->foreign('userId')->references('user_id')->on('users')->onDelete('cascade');
         });
     }
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('accounts');
+        Schema::dropIfExists('trading_accounts');
     }
 };

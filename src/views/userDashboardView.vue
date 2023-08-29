@@ -59,12 +59,16 @@ export default defineComponent({
       items: [
         {
           label: 'Deposit',
+          command: () => {this.$router.push('deposit');}
+
         },
         {
           label: 'Withdrawal',
+          command: () => {this.$router.push('withdrawal');}
         },
         {
-          label: 'Statement'
+          label: 'Statement',
+          command: () => {this.$router.push('statement');}
         }
       ], 
       tradingAccount: {

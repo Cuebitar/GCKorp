@@ -7,10 +7,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 
 class Account extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     protected $table = 'accounts';
     protected $primaryKey = 'account_id';
@@ -32,7 +34,7 @@ class Account extends Authenticatable
     }
 
     public function user(){
-        return $this->belongsTo(User::class, 'user_id', 'userId');
+        return $this->belongsTo(User::class, 'userId', 'user_id');
     }
 
     public function username(){

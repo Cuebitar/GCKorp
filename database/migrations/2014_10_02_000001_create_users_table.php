@@ -12,22 +12,22 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->id();
+            $table->id('user_id');
             $table->string('name');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
+            $table->string('phoneNumber');
             $table->string('IC')->unique();
-            $table->string('ICDocument')->unique();
+            $table->longText('ICDocument');
             $table->enum('gender', ['male', 'female']);
             $table->string('religion');
             $table->string('race');
             $table->enum('userType', ['guest', 'member','super_admin', 'admin_staff', 'operation_staff', 'super_operation_staff', 'account_staff']);
             $table->string('status');
-            $table->String('address');
+            $table->longText('address');
             $table->boolean('isVerified');
             $table->timestamps();
+            $table->unsignedBigInteger('rejectId')->nullable();
+            $table->foreign('rejectId')->references('reject_id')->on('reject_reasons')->onDelete('cascade');
         });
     }
 

@@ -7,50 +7,44 @@
     
         <!--Content-->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-        <div class="registration-page">
-            <h1>Bank Information</h1>
+        <div class="withdrawal-page">
+            <h1>Withdrawal Page</h1>
                 <div class="data-box">
 
                 <div class="input-group">
-                <label for="fullname">Full Name:</label>
-                <div class="statement-wrapper">
-                    <input type="text" id="fullname" v-model="user.fullname">
-                    <span class="asterisk1">*Refer to IC name</span>  <!-- The added asterisk -->
-                </div>
-                </div>
-                
-                <div class="input-group">
-                <label for="bank">Bank:</label>
-                <select id="bank" v-model="user.bank">
-                    <option value="male">Maybank</option>
-                    <option value="female">Public Bank</option>
-                    <option value="male">Maybank</option>
-                    <option value="female">OCBC Bank</option>
-                    <option value="male">Hong Loeng</option>
-                    <option value="female">UOB Bank</option>
+                <label for="payform">Pay To</label>
+                <select id="favbank" v-model="transaction.bankAccountId">
+                    <option value="favbank">Fav1</option>
+                    <option value="favbank">Fav2</option>
+                    <option value="favbank">Fav3</option>
+                    <option value="favbank">Fav4</option>
+                    <option value="favbank">Fav5</option>
+                    
                 </select>
                 </div>
 
                 <div class="input-group">
-                <label for="accctNo">Account No:</label>
-                <div class="statement-wrapper">
-                    <input type="text" id="accctNo" v-model="user.accctNo">
-                    <span class="asterisk2">*For verification purpose</span>  <!-- The added asterisk -->
-                </div>
+                <label for="payto">Pay From</label>
+                <select id="tradacc" v-model="transaction.tradingAccountId">
+                    <option value="trad">Trad1</option>
+                    <option value="trad">Trad2</option>
+                    <option value="trad">Trad3</option>
+                    <option value="trad">Trad4</option>
+                    <option value="trad">Trad5</option>
+                </select>
                 </div>
 
                 <div class="input-group">
-                <label for="statement">Statement:</label>
-                <div class="statement-wrapper">
-                    <input type="text" id="statement" v-model="user.statement">
-                    <span class="asterisk3">*Latest bank statement</span>  <!-- The added asterisk -->
-                    <input type="file" id="statementUpload" ref="statementUpload" @change="handleFile" style="display: none;">
-                    <button @click.prevent="uploadstatement">Upload</button>
+                <label for="depositAmount">Amount (MYR)</label>
+                <input type="text" id="amountdep" v-model="transaction.amount">
                 </div>
+
+                <div class="input-group">
+                <label for="transactionPurpose">Purpose:</label>
+                <input type="text" id="transactionPurpose" v-model="transaction.transactionPurpose">
                 </div>
-                
+
                 <div class="button-group">
-                    <button @click="goBack">Back</button>
                     <button @click="submit">Submit</button>
                 </div>
             </div>
@@ -59,7 +53,7 @@
             <div v-if="showModal" class="modal">
               <div class="modal-content">
                 <span @click="closeModal" class="close">&times;</span>
-                Successfully Submitted!
+                Transaction Successful
               </div>
             </div>
   </div>
@@ -69,11 +63,11 @@
 export default {
   data() {
     return {
-      user: {
-        fullname: '',
-        bank: '',
-        accctNo: '',
-        statement: '',
+      transaction: {
+        bankAccountId: '',
+        tradingAccountId: '',
+        amount: '',
+        transactionPurpose: '',
       },
       showModal: false
     };
@@ -81,34 +75,21 @@ export default {
   methods: {
     goBack() {
       // Navigate directly to the homepage
-      this.$router.push({ path: '/registerPersonal' }); 
-    },
-    handleFile(event) {
-      if (event.target.files && event.target.files[0]) {
-        // Update the statement with the selected file's name
-        this.user.statement = event.target.files[0].name;
-      }
-    },
-    uploadstatement() {
-      this.$refs.statementUpload.click();
+      this.$router.push({ path: '/' }); 
     },
     submit() {
       this.showModal = true;
     },
     closeModal() {
       this.showModal = false;
-      this.$router.push({ path: '/dashboard' }); 
+      this.$router.push({ path: '/' }); 
     }
   }
 }
 </script>
 
 <style scoped>
-.registration-page {
-  width: 400px;
-  margin: 50px auto;
-  font-family: 'Arial', sans-serif;
-}
+
 
 h1 {
   text-align: center;
@@ -185,26 +166,6 @@ button:hover {
   width: 70px;       /* Set explicit width */
   text-align: center; 
   font-size: 14px;   /* Optional: Adjust font size if needed */
-}
-
-.asterisk1 {
-  position: absolute;
-  color: red;
-  margin-top:6.5vh;  /* Adjust this value if necessary to position the asterisk */
-  font-size: 8px;  /* Adjust this value for the desired size of the asterisk */
-}
-
-.asterisk2 {
-  position: absolute;
-  color: red;
-  margin-top:6.5vh;  /* Adjust this value if necessary to position the asterisk */
-  font-size: 8px;  /* Adjust this value for the desired size of the asterisk */
-}
-.asterisk3 {
-  position: absolute;
-  color: red;
-  margin-top:6.5vh;  /* Adjust this value if necessary to position the asterisk */
-  font-size: 8px;  /* Adjust this value for the desired size of the asterisk */
 }
 
 /* The Modal (background) */

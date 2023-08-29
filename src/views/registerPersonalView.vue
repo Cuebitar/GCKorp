@@ -113,7 +113,7 @@ export default {
     },
     goBack() {
       // Navigate directly to the homepage
-      this.$router.push({ path: '/' }); 
+      this.$router.go(-1); 
     },
     goToNextPage() {
       // Navigate directly to the bank information
@@ -240,7 +240,7 @@ input[type="text"], input[type="email"], input[type="password"], select {
 .asterisk {
   position: absolute;
   color: red;
-  bottom: 295px;  /* Adjust this value if necessary to position the asterisk */
+  margin-top: 6.5vh;  /* Adjust this value if necessary to position the asterisk */
   left: 5;
   font-size: 8px;  /* Adjust this value for the desired size of the asterisk */
 }
