@@ -64,15 +64,12 @@ return [
     */
 
     'providers' => [
-<<<<<<< Updated upstream
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
-=======
         'account' => [
              'driver' => 'eloquent',
              'model' => App\Models\Account::class,
->>>>>>> Stashed changes
         ],
     ],
 
@@ -117,4 +114,4 @@ return [
 
     'password_timeout' => 10800,
 
-];
+]];

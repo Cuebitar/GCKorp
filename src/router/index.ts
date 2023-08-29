@@ -54,10 +54,7 @@ const router = createRouter({
     {
       path: '/transaction',
       name: 'Transaction',
-<<<<<<< Updated upstream:src/router/index.ts
       component: () => import('../views/transaction.vue'),
-=======
-      component: () => import('../views/transactionView.vue'),
     },
 
     {
@@ -96,10 +93,6 @@ const router = createRouter({
       component: () => import('../views/notificationView.vue'),
     },
 
-    //{
-    //  component: () => import('../views/transaction.vue'),
-    //},
-
     {
       path: '/member',
       name: 'Member',
@@ -110,13 +103,8 @@ const router = createRouter({
       path: '/memberdetail',
       name: 'Member Detail',
       component: () => import('../views/adminMemberDetail.vue'),
->>>>>>> Stashed changes:src/router/index.js
     }
-    //*{
-    //  path: '/about',
-    //  name: 'about',
-    //  component: () => import("")
-    //}
+
   ]
 })
 

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Passport\Passport;
 
@@ -20,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //Passport::personalAccessClientSecret(config('rtTT0NknNBmKGpMmrHn9Cw1SoYE62n1DrVW93gst'));
-        //Passport::personalAccessClientId(config(2));//
+        Schema::defaultStringLength(191);
     }
+
 }
