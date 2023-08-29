@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id('account_id');
             $table->string('email');
             $table->longText('password');
-            $table->timestamp('suspendedAt')->nullable();
             $table->timestamps();
             $table->rememberToken();
             $table->unsignedBigInteger('userId');
+            $table->softDeletes();
             $table->foreign('userId')->references('user_id')->on('users')->onDelete('cascade');
         });
     }

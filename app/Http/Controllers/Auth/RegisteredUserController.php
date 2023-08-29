@@ -26,6 +26,7 @@ class RegisteredUserController extends Controller
             'name' => ['required'],
             'IC' => ['required'],
             'ICDocument' => ['required'],
+            'phoneNumber' => ['required'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:'.Account::class],
             'password' => 'required|min:8',
             'password_confirmation' => 'required|min:8|same:password',

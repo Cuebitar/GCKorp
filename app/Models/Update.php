@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 class Update extends Model
 {
@@ -11,18 +12,28 @@ class Update extends Model
 
     protected $table = 'updates';
     protected $primaryKey = 'updates_id';
-    public $timestamp = false;
+    public $timestamps = false;
     public $fillable = [
         'transactionid',
         'tradingAccountid',
         'bankAccountId',
         'userId',
         'statusBefore',
-        'updateBy',
-        'updateAt',
+        'updatedBy',
+        'updatedAt',
         'rejectId'
     ];
+
+    // Remove the $attributes property
     
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->attributes['updatedAt'] = Carbon::now();
+    }
+
+
     public function user(){
         return $this->belongsTo(User::class, 'user_id', 'userId');
     }
