@@ -93,9 +93,6 @@ const router = createRouter({
       component: () => import('../views/notificationView.vue'),
     },
 
-    {
-      component: () => import('../views/transaction.vue'),
-    },
 
     {
       path: '/favourite',
@@ -143,6 +140,31 @@ const router = createRouter({
       path: '/memberdetail',
       name: 'Member Detail',
       component: () => import('../views/adminMemberDetail.vue'),
+    },
+
+    {
+      path: '/adminNotification',
+      name: 'admin Notification',
+      component: () => import('../views/adminNotificationView.vue'),
+    },
+
+    {
+      path: '/adminTransaction',
+      name: 'admin Transaction',
+      component: () => import('../views/adminTransactionView.vue'),
+    },
+
+    {
+      path: '/adminWithdrawalList',
+      name: 'admin Withdrawal List',
+      component: () => import('../views/adminWithdrawalListView.vue'),
+    },
+
+    
+    {
+      path: '/adminWithdrawalDetails',
+      name: 'admin-Withdrawal-Detail',
+      component: () => import('../views/adminWithdrawalDetailView.vue'),
     }
 
 
@@ -157,3 +179,4 @@ const router = createRouter({
 })
 
 export default router
+
