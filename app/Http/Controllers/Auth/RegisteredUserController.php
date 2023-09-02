@@ -33,7 +33,7 @@ class RegisteredUserController extends Controller
             'gender' => ['in:male,female', 'required'],
             'religion' => ['required'],
             'race' => ['required'],
-            'userType' => ['in: guest, member,super_admin, admin_staff, operation_staff, super_operation_staff, account_staff', 'required'],
+            'userType' => ['in:guest,member,super_admin,admin_staff,operation_staff,super_operation_staff,account_staff', 'required'],
             'status' => ['required'],
             'address' => ['required'],
             'isVerified' => ['required', 'boolean'],

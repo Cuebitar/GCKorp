@@ -18,6 +18,7 @@ class RejectReason extends Model
         'description'
     ];
 
+
     public function user(){
         return $this->belongsToMany(User::class, 'rejectId');
     }
@@ -33,4 +34,7 @@ class RejectReason extends Model
     public function updates(){
         return $this->belongsToMany(Update::class, 'rejectId');
     }
+
+    
 }
+

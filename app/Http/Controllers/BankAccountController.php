@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BankAccount;
+use App\Models\Update;
 use App\Models\User;
 use Auth;
 use Illuminate\Http\Request;
@@ -39,7 +40,7 @@ class BankAccountController extends Controller
         $validator = Validator::make($request->all(),[
             'accountName' => ['required'],
             'bankName' => ['required'],
-            'accountNo' => ['required'],
+            'accountNo' => ['required', 'unique:bank_accounts,accountNo'],
             'bankStatement' => ['required'],
             'status' => ['required'],
             'isPrimary' => ['required', 'boolean'],
@@ -91,9 +92,24 @@ class BankAccountController extends Controller
         }
 
         $updateBankAccount = BankAccount::findorFail($id);
+        $oldStatus = $updateBankAccount['status'];
         $updateBankAccount['bankStatement'] = $request->bankStatement;
         $updateBankAccount['status'] = $request->status;
         $updateBankAccount->save();
+
+        if($oldStatus != $updateBankAccount['status']){
+            $updateInfo = [
+                'bankAccountId' => $updateBankAccount['bankAccount_id'],
+                'userId' => $updateBankAccount['userId'],
+                'statusBefore' => $oldStatus,
+                'updatedBy' => auth()->user()->userId
+            ];
+            if($oldStatus == 'deny'){
+                $updateInfo['rejectId'] = $updateBankAccount['reject_id'];
+            }
+            $update = Update::create($updateInfo);
+        }
+        
 
         if($updateBankAccount){
             return $this->sendResponse($updateBankAccount, 'The bank account has been updated successfully');

@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\TradingAccount;
 use App\Models\Transaction;
 use App\Models\Update;
-use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use Validator;
@@ -19,31 +18,17 @@ class TransactionController extends Controller
     public function index()
     {
         //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
         return $this->sendError('please specific trading account');
     }
+
+
 
     public function store(Request $request)
     {
         //
         $validator = Validator::make($request->all(),[
             'tradingAccountId' => ['required', 'exists:trading_accounts,tradingAccount_id', 'numeric'],
-            'bankAccountId' => ['required', 'exists:bank_accounts,bankAccount_id', 'numeric'],
+            'bankAccountId' => ['exists:bank_accounts,bankAccount_id', 'numeric'],
             'amount' => ['required', 'numeric'],
             'status' => ['required'],
             'type' => ['required', 'in:deposit,withdrawal,dividen'],
@@ -73,11 +58,10 @@ class TransactionController extends Controller
     public function completeDeposit(Request $request){
          
             $validator = Validator::make($request->all(),[
-                'fromUser' => ['required', 'boolean'],
                 'transaction_id' => ['required', 'exists:transactions,transaction_id'],
                 'tradingAccount_id' => ['required', 'exists:trading_accounts,tradingAccount_id'],
                 'approve' => ['required', 'boolean'],
-                'type' => ['required', 'in:deposit'],
+                'type' => ['required', 'in:deposit,dividen'],
             ]);
     
             if($validator->fails()){
@@ -85,8 +69,9 @@ class TransactionController extends Controller
             }
         
         $tradingAccount = TradingAccount::findorFail($request->tradingAccount_id);
+        $masterAccount = TradingAccount::findorFail(1);
         $transaction = Transaction::findorFail($request->transaction_id);
-        if(!$tradingAccount || !$transaction || $transaction['type'] != 'deposit'){
+        if(!$tradingAccount || !$masterAccount || !$transaction || $transaction['type'] != 'deposit' && $transaction['type'] != 'dividen'){
             return $this->sendError('Unable to retrieve transaction', 'No transaction were retrieved');
         }
         
@@ -97,11 +82,27 @@ class TransactionController extends Controller
         $oldStatus = $tradingAccount['status'];
         $request['amount'] = $transaction['amount'];
         if($request->approve){
-            if($request->fromUser){    
-                $tradingAccount['initialBalance'] += $request->amount;
+            if($request->type == 'deposit' && $request->tradingAccount_id == 1){   
+                $tradingAccount['balance'] += $request->amount;
             }
-            $tradingAccount['balance'] += $request->amount;
+            else if($request->type == 'deposit'){
+                $tradingAccount['balance'] += $request->amount;
+                $tradingAccount['initialBalance'] += $request->amount;
+                $masterAccount['balance'] += $request->amount;
+                $masterAccount['initialBalance'] += $request->amount;
+                $masterAccount->save();
+            }
+            else if($request->type == 'dividen'){
+                $tradingAccount['balance'] += $request->amount;
+                $tradingAccount['initialBalance'] += $request->amount;
+                $masterAccount['balance'] -= $request->amount;
+                if($masterAccount['balance'] < $masterAccount['initialBalance']){
+                    $masterAccount['initialBalance'] = $masterAccount['balance'];
+                }
+                $masterAccount->save();
+            }
             $tradingAccount->save();
+            
 
             $transaction['status'] = 'completed';
         }
@@ -117,7 +118,7 @@ class TransactionController extends Controller
             $transaction['status'] = 'deny';
             $transaction['rejectId'] = $request->rejectId;
 
-            $newTransactionInfo = [
+            /**$newTransactionInfo = [
                 'tradingAccountId' => $request->tradingAccount_id,
                 'bankAccountId' => $transaction['bankAccountId'],
                 'amount' => $request->amount,
@@ -126,7 +127,7 @@ class TransactionController extends Controller
                 'transactionPurpose' => 'Fund deposit unsuccessful',
                 'referenceId' => $this->generateReferenceID(),
             ];
-            $newTransaction = Transaction::create($newTransactionInfo);
+            $newTransaction = Transaction::create($newTransactionInfo);*/
         }
         $transaction['completedAt'] = Carbon::now();
         $transaction['completedBy'] = auth()->user()->userId;
@@ -134,16 +135,21 @@ class TransactionController extends Controller
 
         $updateInfo = [
             'transactionId' => $request->transaction_id,
+            'bankAccountId' => $transaction['bankAccountId'],
+            'tradingAccountId' => $transaction['tradingAccountId'],
+            'userId' => $tradingAccount['userId'],
             'statusBefore' => $oldStatus,
             'updatedBy' => auth()->user()->userId
         ];
+        if($oldStatus == 'deny'){
+            $updateInfo['rejectId'] = $transaction['reject_id'];
+        }
         $update = Update::create($updateInfo);
         
-        if($update && $transaction && $tradingAccount  && isset($newTransaction)){
+        if($update && $transaction && $tradingAccount && $transaction['status'] == 'deny'){
             return $this->sendResponse([
                 'tradingAccount' => $tradingAccount,
                 'transaction' => $transaction,
-                'newTransaction' => $newTransaction,
                 'update' => $update
             ], 'Money refund to user');
         }
@@ -169,19 +175,21 @@ class TransactionController extends Controller
                 'transaction_id' => ['required', 'exists:transactions,transaction_id'],
                 'tradingAccount_id' => ['required', 'exists:trading_accounts,tradingAccount_id'],
                 'approve' => ['required', 'boolean'],
-                'type' => ['required', 'in:withdraw'],
+                'type' => ['required', 'in:withdrawal'],
             ]);
     
             if($validator->fails()){
                 return $this->sendError(['errors'=>$validator->messages()], 'invalid details');
             }
-            else if($request->type != 'withdraw'){
+            else if($request->type != 'withdrawal'){
                 return $this->sendError('Withdrawal request only');
             }
         
         $tradingAccount = TradingAccount::findorFail($request->tradingAccount_id);
+        $masterAccount = TradingAccount::findorFail(1);
         $transaction = Transaction::findorFail($request->transaction_id);
-        if(!$tradingAccount || !$transaction || $transaction['type'] != 'withdrawal'){
+
+        if($request->transaction_id == 1 || !$masterAccount || !$tradingAccount || !$transaction || $transaction['type'] != 'withdrawal'){
             return $this->sendError('Unable to retrieve trading account', 'No trading account were retrieved');
         }
         
@@ -194,11 +202,15 @@ class TransactionController extends Controller
         if($request->approve){
             $request['amount'] = $transaction['amount'];
             if($request->amount > $tradingAccount['balance']){    
-                return $this->sendError('Unable to withdraw', 'Insufficient funds');
+                return $this->sendError('Unable to withdrawal', 'Insufficient funds');
             }
             $tradingAccount['balance'] -= $request->amount;
             if($tradingAccount['balance'] < $tradingAccount['initialBalance']){
+                $withdrawInitialBalance = $tradingAccount['initialBalance'] - $tradingAccount['balance'];
                 $tradingAccount['initialBalance'] = $tradingAccount['balance'];
+                $masterAccount['initialBalance'] -= $withdrawInitialBalance;
+                $masterAccount['balance'] -= $withdrawInitialBalance; 
+                $masterAccount->save();
             }
             $tradingAccount->save();
 
@@ -222,23 +234,29 @@ class TransactionController extends Controller
 
         $updateInfo = [
             'transactionId' => $request->transaction_id,
+            'bankAccountId' => $transaction['bankAccountId'],
+            'tradingAccountId' => $transaction['tradingAccountId'],
+            'userId' => $tradingAccount['userId'],
             'statusBefore' => $oldStatus,
             'updatedBy' => auth()->user()->userId
         ];
+        if($oldStatus == 'deny'){
+            $updateInfo['rejectId'] = $transaction['reject_id'];
+        }
         $update = Update::create($updateInfo);
         if($update && $transaction && $tradingAccount && $transaction['status'] == 'completed'){
             return $this->sendResponse([
                 'tradingAccount' => $tradingAccount,
                 'transaction' => $transaction,
                 'update' => $update
-            ], 'Money is successfully withdraw from trading account');
+            ], 'Money is successfully withdrawal from trading account');
         }
         else if($update && $transaction && $tradingAccount && $transaction['status'] == 'deny'){
             return $this->sendResponse([
                 'tradingAccount' => $tradingAccount,
                 'transaction' => $transaction,
                 'update' => $update
-            ], 'Money is not successfully withdraw from trading account');
+            ], 'Money is not successfully withdrawal from trading account');
         }
         else{
             return $this->sendError('Some error occurred', 'Please contact admin for futhur assistance');
@@ -251,31 +269,6 @@ class TransactionController extends Controller
      */
     public function show(string $id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
         $transactions = Transaction::where('tradingAccountId', $id)->get();
         if($transactions){
             return $this->sendResponse($transactions, 'transactions retreieved');
@@ -285,7 +278,7 @@ class TransactionController extends Controller
         }
     }
 
-    private function generateReferenceID(){
+    public function generateReferenceID(){
         do {
             $code = Str::random(3);
             $code .= str(random_int(1000, 9999));

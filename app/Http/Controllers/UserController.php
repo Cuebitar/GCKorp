@@ -7,7 +7,7 @@ use App\Models\Update;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Validator;
-
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
 class UserController extends Controller
 {
     /**
@@ -16,21 +16,6 @@ class UserController extends Controller
     public function index()
     {
         //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
         //
         if(auth()->user()->userType == 'member'){
             return $this->sendError('You are not allowed to reach this resources.');
@@ -51,14 +36,6 @@ class UserController extends Controller
      * Display the specified resource.
      */
     public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
     {
         //
         $account = Account::with('user')->where('accounts.userId', $id)->get();
@@ -120,10 +97,10 @@ class UserController extends Controller
 
         if($deleteUser){
             return $this->sendResponse($deleteUser,'Successfully delete the user');
-            }
-            else{
-                return $this->sendError('Unable to delete the user', 'No user were deleted');
-            }
+        }
+        else{
+            return $this->sendError('Unable to delete the user', 'No user were deleted');
+        }
     }
 
     public function restore(string $id){
@@ -137,19 +114,46 @@ class UserController extends Controller
             }
     }
 
-    public function verify(string $id){
+    public function verify(Request $request, string $id){
+        
+        $validator = Validator::make($request->all(),[
+            'isVerified' => ['required', 'boolean'],
+        ]);
+
+        if($validator->fails()){
+            return $this->sendError(['errors'=>$validator->messages()], 'invalid details');
+        }
+
         $user = User::findorFail($id);
 
         if($user){
             $oldStatus = $user->status;
             $user['isVerified'] = true;
-            $user['status'] = 'verified';
+
+            if($request->isVerified){
+                $user['status'] = 'verified';
+            }
+            else{
+                $validator = Validator::make($request->all(),[
+                    'rejectId' => ['required', 'boolean'],
+                ]);
+        
+                if($validator->fails()){
+                    return $this->sendError(['errors'=>$validator->messages()], 'invalid details');
+                }
+
+                $user['status'] = 'deny';
+                $user['rejectId'] = $request->rejectId;
+            }
             $user->save();
             $updateInfo = [
                 'userId' => $id,
                 'statusBefore' => $oldStatus,
                 'updatedBy' => auth()->user()->userId
             ];
+            if($oldStatus == 'deny'){
+                $updateInfo['rejectId'] = $user['reject_id'];
+            }
             $update = Update::create($updateInfo);
 
             if(!$update){

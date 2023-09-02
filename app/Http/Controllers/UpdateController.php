@@ -2,63 +2,77 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-
+use App\Models\Update;
 class UpdateController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of updates of a user.
      */
-    public function index()
+    public function notification(string $id)
     {
-        //
+        $updates = Update::where('userId', $id)
+        /*
+        ->where(function ($query) {
+            $query->whereNull('tradingAccountId')
+                  ->whereNull('transactionId')
+                  ->whereNull('bankAccountId')
+                  ->with('user');
+        })
+        ->where(function ($query) {
+            $query->whereNull('tradingAccountId')
+                  ->whereNull('transactionId')
+                  ->with('bankAccount');
+        })
+        ->where(function ($query) {
+            $query->whereNull('transactionId')
+                  ->whereNull('bankAccountId')
+                  ->with('tradingAccount');
+        })
+        ->where(function ($query) {
+            $query->with('transactions');
+        })*/->get();
+
+        for ($i=0; $i < count($updates); $i++) { 
+            $current = $updates[$i];
+
+            if(is_null($current['tradingAccountId']) && is_null($current['bankAccountId']) && is_null($current['transactionId'])){
+                $current = Update::where('updates_id', $current['updates_id'])->with('user')->get();
+            }
+            else if(is_null($current['transactionId']) && is_null($current['tradingAccountId'])){
+                $current = Update::where('updates_id', $current['updates_id'])->with('bankAccount')->get();
+            }
+            else if(is_null($current['transactionId']) && is_null($current['bankAccountId'])){
+                $current = Update::where('updates_id', $current['updates_id'])->with('tradingAccount')->get();
+            }
+            else{
+                $current = Update::where('updates_id', $current['updates_id'])->with('transactions')->get();
+            }
+            $updates[$i] = $current;
+        }
+
+        if(isset($updates)){
+            return $this->sendResponse($updates,'Successfully retruieve all updates');
+        }
+        else{
+            return $this->sendError('Unable to retrieve updates', 'No updates were retrieved');
+        }
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Display a listing of updates of a user.
      */
-    public function create()
+    public function updates(string $id)
     {
-        //
+        $updates = Update::where('userId', $id)->whereNotNull('transactionId')->with('transactions')->get();
+
+        if(isset($updates)){
+            return $this->sendResponse($updates,'Successfully retruieve all updates');
+        }
+        else{
+            return $this->sendError('Unable to retrieve updates', 'No updates were retrieved');
+        }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

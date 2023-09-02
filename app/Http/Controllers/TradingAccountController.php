@@ -6,6 +6,7 @@ use App\Models\TradingAccount;
 use App\Models\Transaction;
 use App\Models\Update;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Validator;
 
 class TradingAccountController extends Controller
@@ -16,16 +17,8 @@ class TradingAccountController extends Controller
     public function index()
     {
         //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
         if(auth()->user()->userType != 'member'){
-            $accounts = TradingAccount::where('suspendedAt', null)->get();
+            $accounts = TradingAccount::where('tradingAccount_id', '>', 1)->get();
             return $this->sendResponse($accounts,'Successfully retruieve all trading accounts');
         }
         else{
@@ -65,22 +58,6 @@ class TradingAccountController extends Controller
     public function show(string $id)
     {
         //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
         $tradingAccount = TradingAccount::where('userId', '=', $id)->firstorFail();
         if($tradingAccount){
             return $this->sendResponse($tradingAccount, 'Trading Account details is retreive successfully');
@@ -112,12 +89,17 @@ class TradingAccountController extends Controller
         $oldStatus = $tradingAccount['status'];
         $tradingAccount['status'] = $request->status;
         $tradingAccount->save();
+
         $updateInfo = [
             'tradingAccountId' => $tradingAccount['tradingAccount_id'],
+            'userId' => $tradingAccount['userId'],
             'statusBefore' => $oldStatus,
             'updatedBy' => auth()->user()->userId
         ];
 
+        if($oldStatus == 'deny'){
+            $updateInfo['rejectId'] = $tradingAccount['reject_id'];
+        }
         $update = Update::create($updateInfo);
         if($update && $tradingAccount){
             return $this->sendResponse([
@@ -154,29 +136,67 @@ class TradingAccountController extends Controller
     public function showWithTransactions(string $id)
     {
         //
-        $tradingAccount = TradingAccount::findorFail($id);
-        if($tradingAccount){
-            $transactions = Transaction::where('tradingAccountId', $id)->get();
-        }
-        else{
+        $tradingAccount = TradingAccount::with('transactions')->where('tradingAccount_id', $id)->get();
+        if(!empty($tradingAccount)){
             return $this->sendError('Unable to retrieve trading account', 'No trading account were retrieved');
         }
 
-        if($transactions){
-            return $this->sendResponse([
-                'tradingAccount' => $tradingAccount,
-                'transactions' => $transactions
-            ]);
-        }
         else{
-            return $this->sendError('Unable to retrieve trading account transactions', 'No transaction were retrieved');
+            return $this->sendResponse($tradingAccount, 'trading account with transactions information is retreieved');
         }
     }
 
-    public function generateAccountNo(){
+    /**
+     * Insert dividen into trading account
+     */
+    public function distributeDividen(Request $request){
+
+        $validator = Validator::make($request->all(),[
+            'transactionPurpose' => ['required', 'string'],
+            'amount' => ['required', 'numeric'],
+        ]);
+
+        if($validator->fails()){
+            return $this->sendError(['errors'=>$validator->messages()], 'invalid details');
+        }
+
+        $totalFund = TradingAccount::where('tradingAccount_id', '>', 1)->sum('initialBalance');
+        $tradingAccounts = TradingAccount::select('tradingAccount_id', 'initialBalance')->where('tradingAccount_id', '>', 1)->get();
+        $newTransactions = [];
+        foreach ($tradingAccounts as $value) {
+            $newRequest = new Request();
+            $newRequest['tradingAccountId'] = $value->tradingAccount_id;
+            $newRequest['amount'] = ($value->initialBalance / $totalFund) * $request->amount;
+            $newRequest['status'] = 'pending';
+            $newRequest['type'] = 'dividen';
+            $newRequest['transactionPurpose'] = $request->transactionPurpose;
+            $newRequest['referenceId'] = $this->generateReferenceID();
+
+            $newTransaction = Transaction::create($newRequest->all());
+            array_push($newTransactions, $newTransaction);
+        }
+
+        if(!empty($newTransactions)){
+            return $this->sendResponse($newTransactions, 'Dividen successfully divided.');
+        }
+        else{
+            return $this->sendError('Dividen is not divided.');
+        }
+    }
+
+    private function generateAccountNo(){
         do {
             $code = random_int(100000000000, 999999999999);
         } while (TradingAccount::where("accountNo", "=", str($code))->first());
+  
+        return str($code);
+    }
+
+    public function generateReferenceID(){
+        do {
+            $code = Str::random(3);
+            $code .= str(random_int(1000, 9999));
+        } while (Transaction::where("referenceId", "=", $code)->first());
   
         return str($code);
     }

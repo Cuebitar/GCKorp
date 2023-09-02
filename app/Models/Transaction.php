@@ -29,7 +29,7 @@ class Transaction extends Model
     }
 
     public function tradingAccount(){
-        return $this->belongsTo(TradingAccount::class, 'tradingAccount_id', 'tradingAccountId');
+        return $this->belongsTo(TradingAccount::class, 'tradingAccountId', 'tradingAccount_id');
     }
 
     public function reject(){
