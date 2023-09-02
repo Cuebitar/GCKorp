@@ -21,7 +21,7 @@ return new class extends Migration
             $table->timestamp('completedAt')->nullable();
             $table->timestamps();
             $table->unsignedBigInteger('tradingAccountId');
-            $table->unsignedBigInteger('bankAccountId');
+            $table->unsignedBigInteger('bankAccountId')->nullable();
             $table->unsignedBigInteger('rejectId')->nullable();
             $table->unsignedBigInteger('completedBy')->nullable();
             $table->foreign('tradingAccountId')->references('tradingAccount_id')->on('trading_accounts')->onDelete('cascade');

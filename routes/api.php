@@ -9,13 +9,6 @@ use App\Http\Controllers\TradingAccountController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\UpdateController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\Auth\RegisteredUserController ;
-use App\Http\Controllers\BankAccountController;
-use App\Http\Controllers\RejectReasonController;
-use App\Http\Controllers\TradingAccountController;
-use App\Http\Controllers\TransactionController;
-use App\Http\Controllers\UpdateController;
-use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -30,7 +23,7 @@ use App\Http\Controllers\UserController;
 */
 
 //check if the user has login and access to the routers
-Route::get('/checkser', function (Request $request) {
+Route::get('/checkUser', function (Request $request) {
     return response()->json(Auth::check());
 });
 
@@ -41,11 +34,12 @@ Route::middleware('auth:api')->group(function (){
     //Trading Account API
     Route::apiResource('/tradingAccount/account', TradingAccountController::class);
     Route::get('/tradingAccount/accountDetails/{id}', [TradingAccountController::class, 'showWithTransactions']);
+    Route::post('/tradingAccount/dividen', [TradingAccountController::class, 'distributeDividen']);
 
     //Transaction API
     Route::apiResource('/tradingAccount/transaction', TransactionController::class);
     Route::post('/tradingAccount/transaction/deposit', [TransactionController::class, 'completeDeposit']);
-    Route::post('/tradingAccount/transaction/withdraw', [TransactionController::class, 'completeWithdrawal']);
+    Route::post('/tradingAccount/transaction/withdrawal', [TransactionController::class, 'completeWithdrawal']);
 
     //User API
     Route::apiResource('/user', UserController::class);
@@ -55,4 +49,8 @@ Route::middleware('auth:api')->group(function (){
     //Reject Code API
     Route::get('/rejectReason/rejectType', [RejectReasonController::class, 'rejectType']);
     Route::apiResource('/rejectReason', RejectReasonController::class);
+
+    //Updates API
+    Route::get('/updates/{id}', [UpdateController::class, 'updates']);
+    Route::get('/notification/{id}', [UpdateController::class, 'notification']);
 });

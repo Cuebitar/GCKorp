@@ -131,31 +131,31 @@ const router = createRouter({
     },
 
     {
-      path: '/member',
+      path: '/admin/member',
       name: 'Member',
       component: () => import('../views/adminMember.vue'),
     },
 
     {
-      path: '/memberdetail',
+      path: '/admin/memberdetail',
       name: 'Member Detail',
       component: () => import('../views/adminMemberDetail.vue'),
     },
 
     {
-      path: '/adminNotification',
+      path: '/admin/Notification',
       name: 'admin Notification',
       component: () => import('../views/adminNotificationView.vue'),
     },
 
     {
-      path: '/adminTransaction',
+      path: '/admin/Transaction',
       name: 'admin Transaction',
       component: () => import('../views/adminTransactionView.vue'),
     },
 
     {
-      path: '/adminWithdrawalList',
+      path: '/admin/WithdrawalList',
       name: 'admin Withdrawal List',
       component: () => import('../views/adminWithdrawalListView.vue'),
     },

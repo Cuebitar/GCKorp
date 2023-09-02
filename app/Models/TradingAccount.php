@@ -17,7 +17,6 @@ class TradingAccount extends Model
         'initialBalance',
         'balance',
         'status',
-        'suspendedAt',
         'userId'
     ];
 

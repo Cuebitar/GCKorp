@@ -14,8 +14,8 @@ class Update extends Model
     protected $primaryKey = 'updates_id';
     public $timestamps = false;
     public $fillable = [
-        'transactionid',
-        'tradingAccountid',
+        'transactionId',
+        'tradingAccountId',
         'bankAccountId',
         'userId',
         'statusBefore',
@@ -48,7 +48,7 @@ class Update extends Model
         return $this->belongsTo(TradingAccount::class, 'tradingAccountId', 'tradingAccount_id');
     }
     public function transactions(){
-        return $this->belongsTo(Transaction::class, 'tradingAccountId', 'tradingAccount_id');
+        return $this->belongsTo(Transaction::class, 'transactionId', 'transaction_id');
     }
     public function reject(){
         return $this->belongsTo(RejectReason::class, 'rejectId', 'reject_id');
