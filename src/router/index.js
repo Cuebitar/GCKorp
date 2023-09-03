@@ -94,7 +94,7 @@ const router = createRouter({
     },
 
     {
-      component: () => import('../views/transaction.vue'),
+      component: () => import('../views/transactionView.vue'),
     },
 
     {

@@ -59,7 +59,7 @@
           <!-- Bank Account in Card Design -->
           <section>
               <!-- Comment for Bank Account Section -->
-              <h2>Bank Account Information</h2>
+              <h1>Bank Account Information</h1>
 
               <!-- Account 1 -->
               <div class="bank-account-card">
@@ -116,8 +116,8 @@
           <!-- Trading Account Information -->
           <section>
               <!-- Comment for Trading Account Information -->
+              <h1>Trading Account Information</h1>
               <div class="trading-account-card">
-                  <h2>Trading Account Information</h2>
                   <!-- Trading Number Input -->
                   <div class="input-group">
                       <label for="tradingNumber">Trading Number:</label>
@@ -282,12 +282,6 @@ input[type="text"], input[type="email"], input[type="password"], select {
   text-align: center;
   width: 500px;
   margin-top: 30px;
-}
-
-h2 {
-  font-size: 28px;
-  font-weight: bold;
-  margin-bottom: 20px;
 }
 
 .container {
