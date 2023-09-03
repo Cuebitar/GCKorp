@@ -93,6 +93,9 @@ const router = createRouter({
       component: () => import('../views/notificationView.vue'),
     },
 
+    {
+      component: () => import('../views/transactionView.vue'),
+    },
 
     {
       path: '/favourite',
@@ -168,13 +171,6 @@ const router = createRouter({
     }
 
 
-
-
-    //*{
-    //  path: '/about',
-    //  name: 'about',
-    //  component: () => import("")
-    //}
   ]
 })
 
