@@ -143,6 +143,8 @@ const router = createRouter({
       path: '/admin/memberdetail',
       name: 'Member Detail',
       component: () => import('../views/adminMemberDetail.vue'),
+    }
+=======
     },
 
     {
@@ -170,11 +172,12 @@ const router = createRouter({
       component: () => import('../views/adminWithdrawalDetailView.vue'),
     },
 
-    {
-      path: '/denyReason',
-      name: 'Deny-Reason',
-      component: () => import('../views/denyReasonView.vue'),
-    }
+        {
+      path: '/adminstatement',
+      name: 'admin Statement',
+      component: () => import('../views/adminsStatementView.vue'),
+    },
+>>>>>>> Stashed changes
 
     
 
