@@ -143,42 +143,7 @@ const router = createRouter({
       path: '/memberdetail',
       name: 'Member Detail',
       component: () => import('../views/adminMemberDetail.vue'),
-<<<<<<< Updated upstream
     }
-=======
-    },
-
-    {
-      path: '/admin/Notification',
-      name: 'admin Notification',
-      component: () => import('../views/adminNotificationView.vue'),
-    },
-
-    {
-      path: '/admin/Transaction',
-      name: 'admin Transaction',
-      component: () => import('../views/adminTransactionView.vue'),
-    },
-
-    {
-      path: '/admin/WithdrawalList',
-      name: 'admin Withdrawal List',
-      component: () => import('../views/adminWithdrawalListView.vue'),
-    },
-
-    
-    {
-      path: '/adminWithdrawalDetails',
-      name: 'admin-Withdrawal-Detail',
-      component: () => import('../views/adminWithdrawalDetailView.vue'),
-    },
-
-        {
-      path: '/adminstatement',
-      name: 'admin Statement',
-      component: () => import('../views/adminsStatementView.vue'),
-    },
->>>>>>> Stashed changes
 
 
   ]

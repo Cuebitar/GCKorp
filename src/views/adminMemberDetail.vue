@@ -60,57 +60,59 @@
           <section>
               <!-- Comment for Bank Account Section -->
               <h1>Bank Account Information</h1>
+              <div class="bank-account-container">
 
-              <!-- Account 1 -->
-              <div class="bank-account-card">
-                  <h3>Account 1</h3>
-                  <div class="input-group">
-                      <label for="account1Username">Account Username:</label>
-                      <input id="account1Username" type="text" v-model="bankAccounts.account1.username">
+                  <!-- Account 1 -->
+                  <div class="bank-account-card">
+                      <h3>Account 1</h3>
+                      <div class="input-group">
+                          <label for="account1Username">Account Username:</label>
+                          <input id="account1Username" type="text" v-model="bankAccounts.account1.username">
+                      </div>
+                      <div class="input-group">
+                          <label for="account1BankName">Bank Name:</label>
+                          <input id="account1BankName" type="text" v-model="bankAccounts.account1.bank">
+                      </div>
+                      <div class="input-group">
+                          <label for="account1Number">Account Number:</label>
+                          <input id="account1Number" type="text" v-model="bankAccounts.account1.number">
+                      </div>
                   </div>
-                  <div class="input-group">
-                      <label for="account1BankName">Bank Name:</label>
-                      <input id="account1BankName" type="text" v-model="bankAccounts.account1.bank">
-                  </div>
-                  <div class="input-group">
-                      <label for="account1Number">Account Number:</label>
-                      <input id="account1Number" type="text" v-model="bankAccounts.account1.number">
-                  </div>
-              </div>
 
-              <!-- Account 2 -->
-              <div class="bank-account-card">
-                  <h3>Account 2</h3>
-                  <div class="input-group">
-                      <label for="account2Username">Account Username:</label>
-                      <input id="account2Username" type="text" v-model="bankAccounts.account2.username">
+                  <!-- Account 2 -->
+                  <div class="bank-account-card">
+                      <h3>Account 2</h3>
+                      <div class="input-group">
+                          <label for="account2Username">Account Username:</label>
+                          <input id="account2Username" type="text" v-model="bankAccounts.account2.username">
+                      </div>
+                      <div class="input-group">
+                          <label for="account2BankName">Bank Name:</label>
+                          <input id="account2BankName" type="text" v-model="bankAccounts.account2.bank">
+                      </div>
+                      <div class="input-group">
+                          <label for="account2Number">Account Number:</label>
+                          <input id="account2Number" type="text" v-model="bankAccounts.account2.number">
+                      </div>
                   </div>
-                  <div class="input-group">
-                      <label for="account2BankName">Bank Name:</label>
-                      <input id="account2BankName" type="text" v-model="bankAccounts.account2.bank">
-                  </div>
-                  <div class="input-group">
-                      <label for="account2Number">Account Number:</label>
-                      <input id="account2Number" type="text" v-model="bankAccounts.account2.number">
-                  </div>
-              </div>
 
-              <!-- Account 3 -->
-              <div class="bank-account-card">
-                  <h3>Account 3</h3>
-                  <div class="input-group">
-                      <label for="account3Username">Account Username:</label>
-                      <input id="account3Username" type="text" v-model="bankAccounts.account3.username">
+                  <!-- Account 3 -->
+                  <div class="bank-account-card">
+                      <h3>Account 3</h3>
+                      <div class="input-group">
+                          <label for="account3Username">Account Username:</label>
+                          <input id="account3Username" type="text" v-model="bankAccounts.account3.username">
+                      </div>
+                      <div class="input-group">
+                          <label for="account3BankName">Bank Name:</label>
+                          <input id="account3BankName" type="text" v-model="bankAccounts.account3.bank">
+                      </div>
+                      <div class="input-group">
+                          <label for="account3Number">Account Number:</label>
+                          <input id="account3Number" type="text" v-model="bankAccounts.account3.number">
+                      </div>
                   </div>
-                  <div class="input-group">
-                      <label for="account3BankName">Bank Name:</label>
-                      <input id="account3BankName" type="text" v-model="bankAccounts.account3.bank">
-                  </div>
-                  <div class="input-group">
-                      <label for="account3Number">Account Number:</label>
-                      <input id="account3Number" type="text" v-model="bankAccounts.account3.number">
-                  </div>
-              </div>
+                </div>
           </section>
         
           <!-- Trading Account Information -->
@@ -291,6 +293,14 @@ input[type="text"], input[type="email"], input[type="password"], select {
   flex-direction: column; /* Stacks the cards vertically */
   gap: 20px; /* Provides spacing between vertically stacked items */
   background: #f5f5f5;
+}
+
+.bank-account-container {
+  display: flex; 
+  justify-content: space-between; 
+  align-items: flex-start; 
+  width: 100%; 
+  gap: 20px;  /* Add gap between flex items */
 }
 
 </style>
