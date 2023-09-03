@@ -166,7 +166,15 @@ const router = createRouter({
       path: '/adminWithdrawalDetails',
       name: 'admin-Withdrawal-Detail',
       component: () => import('../views/adminWithdrawalDetailView.vue'),
+    },
+
+    {
+      path: '/denyReason',
+      name: 'Deny-Reason',
+      component: () => import('../views/denyReasonView.vue'),
     }
+
+    
 
 
 
