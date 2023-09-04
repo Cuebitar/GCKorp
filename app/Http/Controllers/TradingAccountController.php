@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\TradingAccount;
 use App\Models\Transaction;
 use App\Models\Update;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Validator;
@@ -16,8 +17,8 @@ class TradingAccountController extends Controller
      */
     public function index()
     {
-        //
-        if(auth()->user()->userType != 'member'){
+        $user = User::findorFail(auth()->id());
+        if($user->userType != 'member'){
             $accounts = TradingAccount::where('tradingAccount_id', '>', 1)->get();
             return $this->sendResponse($accounts,'Successfully retruieve all trading accounts');
         }
@@ -94,7 +95,7 @@ class TradingAccountController extends Controller
             'tradingAccountId' => $tradingAccount['tradingAccount_id'],
             'userId' => $tradingAccount['userId'],
             'statusBefore' => $oldStatus,
-            'updatedBy' => auth()->user()->userId
+            'updatedBy' => auth()->id()
         ];
 
         if($oldStatus == 'deny'){
@@ -136,7 +137,7 @@ class TradingAccountController extends Controller
     public function showWithTransactions(string $id)
     {
         //
-        $tradingAccount = TradingAccount::with('transactions')->where('tradingAccount_id', $id)->get();
+        $tradingAccount = TradingAccount::where('tradingAccount_id', $id)->with('transactions')->get();
         if(!empty($tradingAccount)){
             return $this->sendError('Unable to retrieve trading account', 'No trading account were retrieved');
         }
@@ -161,7 +162,7 @@ class TradingAccountController extends Controller
         }
 
         $totalFund = TradingAccount::where('tradingAccount_id', '>', 1)->sum('initialBalance');
-        $tradingAccounts = TradingAccount::select('tradingAccount_id', 'initialBalance')->where('tradingAccount_id', '>', 1)->get();
+        $tradingAccounts = TradingAccount::select('tradingAccount_id', 'initialBalance')->where('tradingAccount_id', '>', 1)->where('initialBalance', '>', 0)->get();
         $newTransactions = [];
         foreach ($tradingAccounts as $value) {
             $newRequest = new Request();

@@ -92,17 +92,11 @@ const router = createRouter({
       name: 'Notification',
       component: () => import('../views/notificationView.vue'),
     },
-
-    {
-      component: () => import('../views/transactionView.vue'),
-    },
-
     {
       path: '/favourite',
       name: 'Favourite Account',
       component: () => import('../views/favouriteView.vue'),
     },
-
     {
       path: '/favouriteadd',
       name: 'Add Favourite Account',
@@ -168,11 +162,15 @@ const router = createRouter({
       name: 'admin Withdrawal Detail',
       component: () => import('../views/adminWithdrawalDetailView.vue'),
     },
-
     {
       path: '/admin/statement',
       name: 'admin Statement',
-      component: () => import('../views/adminsStatementView.vue'),
+      component: () => import('../views/adminStatementView.vue'),
+    },
+    {
+      path: '/admin/rejectReason',
+      name: 'admin reject reason',
+      component: () => import('../views/denyReasonView.vue'),
     },
 
 

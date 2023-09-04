@@ -5,6 +5,7 @@ export default {
         value: 0,
         guest: true,
         authorized: true,
+        admin: true,
         transactions:[
             {
                 date: '1/7/2023',
@@ -87,7 +88,13 @@ export default {
             createdAt: '10/3/2023',
             }, 
     ],//from database
-
+    tradingAccount: {
+            accountNo: '0000 1111 2222 3333',
+            balance: 1000,
+            initialBalance: 1000,
+            status: 'Active',
+            createdAt: '10/1/2023',
+        }, //from database
     accountShowModal: true,
     transactionShowModal: false,
 
@@ -100,11 +107,6 @@ export default {
         this.accountShowModal = false;
         this.transactionShowModal = true;
     },
-    goBack() {
-        this.accountShowModal = true;
-        this.transactionShowModal = false;
-    }
-    
     
   }
 }
@@ -113,22 +115,10 @@ export default {
 <template>
     <div>
         <!--Header-->
-        <AdminHeader></AdminHeader>
+        <UniHeader :isAdmin="admin" ></UniHeader>
     </div>    
     
     <div class="content">
-
-        <!--Transaction Account Details-->
-        <div class="mb-6"> 
-            <h1 class="font-bold">Details</h1>
-            <Card class="mt-4">
-                <template #content>
-                    <div class="col-12 grid">
-
-                    </div>
-                </template>
-            </Card>
-        </div>
 
         <!--Trading Account Details-->
         <div  v-if="accountShowModal" class="modal">
@@ -143,24 +133,6 @@ export default {
                         <span class="col-1">{{ slotProps.data.status }}</span>
                         <span class="col-2">Created: {{ slotProps.data.createdAt }}</span>
                         <Button @click="showTransaction">Select</Button>
-                </div>
-                </template>
-            </DataView>
-        </div>
-
-
-        <!--Transaction Details-->
-        <div v-if="transactionShowModal" class="modal">
-            <Button @click="goBack">Back</Button>
-            <h1 class="font-bold">Transaction</h1>
-            <DataView :value="transactions" paginator :rows="7" class="shadow-5 mt-4 ">
-                <template #list="slotProps">
-                    <div class="col-12 grid mt-2 pb-2 dataViewCustom">
-                        <span class="col-1">{{ slotProps.data.date }}</span>
-                        <span class="col-3 text-right">{{ slotProps.data.type }}</span>
-                        <span v-if="slotProps.data.referenceId != null" class="col-2 text-right">ref {{ slotProps.data.referenceId }}</span>
-                        <span v-else class="col-2"></span>
-                        <span class="col-3 text-right" :class="slotProps.data.type.toLowerCase() =='deposit' || 'dividen'? 'green':'red'">MYR {{ slotProps.data.amount.toFixed(2) }}</span>
                 </div>
                 </template>
             </DataView>

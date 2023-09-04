@@ -55,6 +55,13 @@ class BankAccountController extends Controller
             return $this->sendError('Invalid authorisation', 'invalid details');
         }
 
+        if(empty(BankAccount::where('userId', $request->userId)->get())){
+            $request['isPrimary'] = true;
+        }
+        else{
+            $request['isPrimary'] = false;
+        }
+
         $bankInfo = $request->only('accountName', 'bankName', 'accountNo', 'bankStatement', 'status', 'isPrimary', 'userId');
         $bankAccount = BankAccount::create($bankInfo);
         if(!$bankAccount){
