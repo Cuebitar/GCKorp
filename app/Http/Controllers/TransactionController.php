@@ -130,7 +130,7 @@ class TransactionController extends Controller
             $newTransaction = Transaction::create($newTransactionInfo);*/
         }
         $transaction['completedAt'] = Carbon::now();
-        $transaction['completedBy'] = auth()->user()->userId;
+        $transaction['completedBy'] = auth()->id();
         $transaction->save();
 
         $updateInfo = [

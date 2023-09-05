@@ -64,6 +64,7 @@
               <input v-model="user.icNumber" placeholder="IC" disabled>
               <input type="email" v-model="user.email" placeholder="Email">
               <input type="password" v-model="user.password" placeholder="Password">
+              <input type="password" v-model="user.passwordConfirmation" placeholder="Password Confirmation">
               <select v-model="user.gender">
                 <option value="" disabled selected>Gender</option>
                 <option value="male">Male</option>
@@ -114,6 +115,7 @@ export default {
         ic: "1234567890",
         email: "",
         password: "",
+        passwordConfirmation: "",
         gender: "",
         religion: "",
         race: ""
