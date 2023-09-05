@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <Menubar :model="navigators" class="menubar">
+        <Menubar :model="isAdmin?adminNavigators:userNavigators" class="menubar">
             <template #start>
                 <img src="../assets/UniCoopLogo.png" class="mainImg" style="height: 64px;" alt="logo" @click="this.$router.push('/dashboard')">
             </template>
@@ -14,8 +14,56 @@ import { PrimeIcons } from 'primevue/api'
 export default {
     data() {
         return {
-            navigators:[
+            userNavigators:[
                 {
+                    label: 'Account',
+                    items: [
+                        {
+                            label: 'Deposit',
+                            command: () => {this.$router.push('deposit');}
+                        },
+                        {
+                            label: 'Withdrawal',
+                            command: () => {this.$router.push('admin/withdrawalList');}
+                        },
+                        {
+                            label: 'Dividen',
+                            command: () => {this.$router.push('withdrawal');}
+                        },
+                        {
+                            label: 'Limit',
+                            command: () => {this.$router.push('withdrawal');}
+                        },
+                    ],
+                },
+                {
+                    label: 'Member',
+                    command: () => {this.$router.push('/admin/member');}
+                },
+                {
+                    label: 'Favourite',
+                    command: () => {this.$router.push('favourite');}
+                },
+                {
+                    label: 'Reject Reason',
+                    command: () => {this.$router.push('favourite');}
+                },
+                {
+                    label: 'Profile',
+                    command: () => {this.$router.push('profile');}
+                },
+                {
+                    icon: PrimeIcons.BELL,
+                    command: () => {this.$router.push('notification');}
+                },
+                {
+                    label: 'Logout',
+                    icon: PrimeIcons.LOCK_OPEN,
+                    command: () => {this.$router.push('logout');}
+                }
+            ],
+            adminNavigators:[
+            {
                     label: 'Account',
                     items: [
                         {
@@ -61,6 +109,7 @@ export default {
     props: {
         isAuthorised: Boolean,  //check if the user got account
         isGuest: Boolean,   //check if the user is a guest or not
+        isAdmin: Boolean, //check if the user is an admin or not
     }
 }
 </script>

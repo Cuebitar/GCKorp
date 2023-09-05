@@ -41,10 +41,12 @@
                     <Button @click="approve">Approve</Button>
                 </div>
 
-                <!-- Popup Modal when approved -->
+                <!-- Popup Modal when rejected -->
                 <div v-if="denyShowModal" class="modal">
                     <div class="modal-content">
-                        <label for="deny-reason">Reason for deny:</label> 
+                      <Button @click="editDenyReason">Edit deny reason</Button><br />
+                      <span @click="doneCloseReject" class="close">&times;</span>
+                            <label for="deny-reason">Reason for deny:</label> 
                             <select name="deny-reason" id="deny-reason"> 
                             <option value="deny-reason-1">Information Not Match</option> 
                             <option value="deny-reason-2">Insufficient Amount</option> 
@@ -109,6 +111,12 @@ export default {
     doneCloseModal() {
       this.doneShowModal = false;
       this.$router.push({ path: '/adminWithdrawalList' }); 
+    },
+    doneCloseReject() {
+      this.denyShowModal = false;
+    },
+    editDenyReason(){
+      this.$router.push({ path: '/denyReason' }); 
     }
     
   }
