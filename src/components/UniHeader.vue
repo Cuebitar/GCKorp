@@ -1,10 +1,11 @@
 <template>
+    {{ isAuthorised }}
+    {{ isGuest }}
     <div class="container">
         <Menubar :model="isAdmin?adminNavigators:userNavigators" class="menubar">
             <template #start>
-                <img src="../assets/UniCoopLogo.png" class="mainImg" style="height: 64px;" alt="logo" @click="this.$router.push('/dashboard')">
+                <img src="../assets/UniCoopLogo.png" class="mainImg" style="height: 64px;" alt="logo" @click="this.$router.push({path: '/dashboard'})">
             </template>
-            
         </Menubar>
     </div>
     
@@ -14,25 +15,26 @@ import { PrimeIcons } from 'primevue/api'
 export default {
     data() {
         return {
-            userNavigators:[
+            userId: 1,
+            adminNavigators:[
                 {
                     label: 'Account',
                     items: [
                         {
                             label: 'Deposit',
-                            command: () => {this.$router.push('deposit');}
+                            command: () => {this.$router.push('');}
                         },
                         {
                             label: 'Withdrawal',
-                            command: () => {this.$router.push('admin/withdrawalList');}
+                            command: () => {this.$router.push({path: '/admin/withdrawalList'});}
                         },
                         {
                             label: 'Dividen',
-                            command: () => {this.$router.push('withdrawal');}
+                            command: () => {this.$router.push('');}
                         },
                         {
                             label: 'Limit',
-                            command: () => {this.$router.push('withdrawal');}
+                            command: () => {this.$router.push('');}
                         },
                     ],
                 },
@@ -42,19 +44,19 @@ export default {
                 },
                 {
                     label: 'Favourite',
-                    command: () => {this.$router.push('favourite');}
+                    command: () => {this.$router.push('/admin/favourite/' + this.userId);}
                 },
                 {
                     label: 'Reject Reason',
-                    command: () => {this.$router.push('favourite');}
+                    command: () => {this.$router.push('/admin/rejectReason');}
                 },
                 {
                     label: 'Profile',
-                    command: () => {this.$router.push('profile');}
+                    command: () => {this.$router.push('/admin/profile/' + this.userId);}
                 },
                 {
                     icon: PrimeIcons.BELL,
-                    command: () => {this.$router.push('notification');}
+                    command: () => {this.$router.push('/admin/Notification');}
                 },
                 {
                     label: 'Logout',
@@ -62,7 +64,7 @@ export default {
                     command: () => {this.$router.push('logout');}
                 }
             ],
-            adminNavigators:[
+            userNavigators:[
             {
                     label: 'Account',
                     items: [
@@ -75,41 +77,43 @@ export default {
                             command: () => {this.$router.push('withdrawal');}
                         }
                     ],
-                    visible: !this.isGuest && this.isAuthorised
+                    visible: !this.$isGuest && this.$isAuthorised
+                    
                 },
                 {
                     label: 'Favourite',
-                    visible: !this.isGuest && this.isAuthorised,
+                    visible: !this.$isGuest && this.$isAuthorised,
                     command: () => {this.$router.push('favourite');}
                 },
                 {
                     label: 'Statement',
-                    visible: !this.isGuest && this.isAuthorised,
+                    visible: !this.$isGuest && this.$isAuthorised,
                     command: () => {this.$router.push('statement');}
                 },
                 {
                     label: 'Profile',
-                    visible: this.isAuthorised,
+                    visible: this.$isAuthorised,
                     command: () => {this.$router.push('profile');}
                 },
                 {
                     icon: PrimeIcons.BELL,
-                    visible: this.isAuthorised,
+                    visible: this.$isAuthorised,
                     command: () => {this.$router.push('notification');}
                 },
                 {
                     label: 'Logout',
                     icon: PrimeIcons.LOCK_OPEN,
-                    visible: this.isAuthorised,
+                    visible: this.$isAuthorised,
                     command: () => {this.$router.push('logout');}
                 }
             ]
         }
     },
     props: {
-        isAuthorised: Boolean,  //check if the user got account
-        isGuest: Boolean,   //check if the user is a guest or not
         isAdmin: Boolean, //check if the user is an admin or not
+    },
+    computed: {
+        
     }
 }
 </script>

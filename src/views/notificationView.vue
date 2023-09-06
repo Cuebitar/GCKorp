@@ -1,5 +1,5 @@
 <template>
-    <UniHeader ></UniHeader>
+    <UniHeader :isAdmin="isAdmin"></UniHeader>
     <div class="content">
 
         <!--Notification Content-->
@@ -26,6 +26,9 @@
 
 <script>
 export default {
+    props: {
+    isAdmin: Boolean,
+    },
    data() {
     return {
 //notification dummy data

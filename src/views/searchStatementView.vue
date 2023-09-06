@@ -1,7 +1,7 @@
 <script>
 export default {
-    setup() {
-        
+    props: {
+        isAdmin: Boolean,
     },
     data() {
         return {
@@ -48,7 +48,7 @@ export default {
 </script>
 
 <template>
-    <UniHeader :isAuthorised="isAuthorized" :isGuest="isGuest"/>
+    <UniHeader :isAdmin="isAdmin"></UniHeader>
 
     <!--Content-->
     <div class="content flex flex-column gap-3 w-screen" style="margin-top: 10%!important;">

@@ -2,7 +2,7 @@
     <!--Remember to do comment for every section so we can easily differentiate section-->
     <div>
         <!--Header-->
-        <UniHeader></UniHeader>
+        <UniHeader :isAdmin="isAdmin"></UniHeader>
     </div>
     
         <!--Content-->
@@ -32,7 +32,7 @@
                   <label>Password:</label>
                   <input type="password" v-model="password" required>
                 </div>
-                <Button label="SignIn" @click="goToLogin">Sign In</button>
+                <Button label="SignIn" @click="login">Sign In</button>
                 <Divider type="solid" layout="horizontal" > OR  </Divider>
                 <Button label="SignUp" @click="goToRegister">Sign Up</button>
               </form>
@@ -45,6 +45,9 @@
 
 <script>
 export default {
+  props: {
+    isAdmin: Boolean,
+  },
   data() {
     return {
       username: "",
@@ -63,9 +66,9 @@ export default {
     goToRegister() {
       this.$router.push('/registerPersonal');
     },
-    goToLogin() {
-      this.$router.push('/dashboard');
-    }
+  },
+  async method() {
+      
   }
 };
 </script>

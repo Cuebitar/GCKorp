@@ -3,7 +3,7 @@
     <div>
         <!--Header-->
         <UniHeader></UniHeader>
-
+        <h1>Hi, {{ data }}</h1>
         <!--Content-->
         <div class="mt-5 surface-800 w-0rem">
             <h1 class="text-blue-100">Example of using PrimeVue and PrimeFlex</h1>
@@ -23,6 +23,7 @@
 export default {
     data() {
         return {
+            data: '',
             example: [
                 {
                     name: "Vue",
@@ -42,7 +43,14 @@ export default {
     methods: {
         usingtoDo(){
             //TODO Fix this
+        },
+        async loadData(){
+            const response = await this.$axios.get('/api/checkUser');
+            this.data = response.data;
         }
+    },
+    async mounted(){
+        await this.loadData();
     }
 }
 </script>

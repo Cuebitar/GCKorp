@@ -33,7 +33,7 @@ class RejectReasonController extends Controller
         $request['rejectCode'] = $this->generaterejectCode($request->rejectType);
         
         $rejectReason = RejectReason::create($request->all());
-        if(!$rejectReason){
+        if(empty($rejectReason)){
             return $this->sendError('Unable To Create Reject Reason', 'Please Contact Customer Service For Futher Actions');
         }
         else{
@@ -48,7 +48,7 @@ class RejectReasonController extends Controller
     {
         $rejectReason = RejectReason::where('rejectType', $type)->get();
         
-        if($rejectReason){
+        if(!empty($rejectReason)){
             return $this->sendResponse($rejectReason,'Successfully retruieve all reject reason of '. $type);
         }
         else{
@@ -74,7 +74,7 @@ class RejectReasonController extends Controller
         $rejectReason['description'] = $request->description;
         $rejectReason->save();
 
-        if($rejectReason){
+        if(!empty($rejectReason)){
             return $this->sendResponse($rejectReason, 'The reject reason has been updated successfully');
         }
         else{

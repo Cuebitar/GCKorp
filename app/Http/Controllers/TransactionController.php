@@ -43,7 +43,7 @@ class TransactionController extends Controller
         $transactionInfo = $request->only('tradingAccountId', 'bankAccountId', 'amount', 'status', 'type', 'transactionPurpose', 'referenceId');
 
         $transaction = Transaction::create($transactionInfo);
-        if($transaction){
+        if(!empty($transaction)){
             return $this->sendResponse($transaction, 'Transaction successful created');
         }
         else{
@@ -146,14 +146,14 @@ class TransactionController extends Controller
         }
         $update = Update::create($updateInfo);
         
-        if($update && $transaction && $tradingAccount && $transaction['status'] == 'deny'){
+        if(!empty($update) && !empty($transaction) && !empty($tradingAccount) && $transaction['status'] == 'deny'){
             return $this->sendResponse([
                 'tradingAccount' => $tradingAccount,
                 'transaction' => $transaction,
                 'update' => $update
             ], 'Money refund to user');
         }
-        else if($update && $transaction && $tradingAccount){
+        else if(!empty($update) && !empty($transaction) && !empty($tradingAccount)){
             return $this->sendResponse([
                 'tradingAccount' => $tradingAccount,
                 'transaction' => $transaction,
@@ -244,14 +244,14 @@ class TransactionController extends Controller
             $updateInfo['rejectId'] = $transaction['reject_id'];
         }
         $update = Update::create($updateInfo);
-        if($update && $transaction && $tradingAccount && $transaction['status'] == 'completed'){
+        if(!empty($update) && !empty($transaction) && !empty($tradingAccount) && $transaction['status'] == 'completed'){
             return $this->sendResponse([
                 'tradingAccount' => $tradingAccount,
                 'transaction' => $transaction,
                 'update' => $update
             ], 'Money is successfully withdrawal from trading account');
         }
-        else if($update && $transaction && $tradingAccount && $transaction['status'] == 'deny'){
+        else if(!empty($update) && !empty($transaction) && !empty($tradingAccount) && $transaction['status'] == 'deny'){
             return $this->sendResponse([
                 'tradingAccount' => $tradingAccount,
                 'transaction' => $transaction,
@@ -270,7 +270,7 @@ class TransactionController extends Controller
     public function show(string $id)
     {
         $transactions = Transaction::where('tradingAccountId', $id)->get();
-        if($transactions){
+        if(!empty($transactions)){
             return $this->sendResponse($transactions, 'transactions retreieved');
         }
         else{

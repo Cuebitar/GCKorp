@@ -2,7 +2,7 @@
     <!--Remember to do comment for every section so we can easily differentiate section-->
     <div>
         <!--Header-->
-        <AdminHeader></AdminHeader>
+        <UniHeader :isAdmin="isAdmin"></UniHeader>
     </div>
 
         <!--Content-->
@@ -143,7 +143,10 @@
 
 <script>
 export default {
-  props: ['id'], // you'd pass the member ID as a prop
+  props: {
+    isAdmin: Boolean,
+    id: Integer
+  },
     data() {
     return {
       user: {

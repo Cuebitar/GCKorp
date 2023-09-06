@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Account;
 use App\Models\Update;
 use App\Models\User;
+use Auth;
 use Illuminate\Http\Request;
 use Validator;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
@@ -17,14 +18,15 @@ class UserController extends Controller
     {
         //
         //
-        if(auth()->user()->userType == 'member'){
+        $user = User::find(auth()->id());
+        if($user->userType == 'member'){
             return $this->sendError('You are not allowed to reach this resources.');
         }
         else{
-            $accounts = Account::with('user')->get();
+            $accounts = Account::with('user')->select('accounts.*', 'users.*')->get();
         }
 
-        if($accounts){
+        if(!empty($accounts)){
             return $this->sendResponse($accounts,'Successfully retruieve all user details');
         }
         else{
@@ -38,9 +40,9 @@ class UserController extends Controller
     public function show(string $id)
     {
         //
-        $account = Account::with('user')->where('accounts.userId', $id)->get();
+        $account = Account::with('user')->where('accounts.userId', $id)->select('accounts.*', 'users.*')->get();
 
-        if($account){
+        if(!empty($account)){
             return $this->sendResponse($account,'Successfully retruieve user details');
         }
         else{
@@ -78,7 +80,7 @@ class UserController extends Controller
         }
         $updateUser->save();
 
-        if($updateUser){
+        if(!empty($updateUser)){
             return $this->sendResponse($updateUser, 'The bank account has been updated successfully');
         }
         else{
@@ -106,7 +108,7 @@ class UserController extends Controller
     public function restore(string $id){
         $restoreUser = Account::where('account_id', $id)->withTrashed()->restore();
 
-        if($restoreUser){
+        if(!empty($restoreUser)){
             return $this->sendResponse($restoreUser,'Successfully restore the user');
             }
             else{
@@ -126,7 +128,7 @@ class UserController extends Controller
 
         $user = User::findorFail($id);
 
-        if($user){
+        if(!empty($user)){
             $oldStatus = $user->status;
             $user['isVerified'] = true;
 
@@ -149,14 +151,14 @@ class UserController extends Controller
             $updateInfo = [
                 'userId' => $id,
                 'statusBefore' => $oldStatus,
-                'updatedBy' => auth()->user()->userId
+                'updatedBy' => auth()->id()
             ];
             if($oldStatus == 'deny'){
                 $updateInfo['rejectId'] = $user['reject_id'];
             }
             $update = Update::create($updateInfo);
 
-            if(!$update){
+            if(empty($update)){
                 return $this->sendError('Unable to Create Update', 'Please contact admin for futhur assistance');
             }
 

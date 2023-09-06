@@ -1,5 +1,8 @@
 <script>
 export default {
+    props: {
+    isAdmin: Boolean,
+  },
    data() {
     return {
         value: 0,
@@ -115,7 +118,7 @@ export default {
 <template>
     <div>
         <!--Header-->
-        <UniHeader :isAdmin="admin" ></UniHeader>
+        <UniHeader :isAdmin="isAdmin"></UniHeader>
     </div>    
     
     <div class="content">

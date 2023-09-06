@@ -23,7 +23,7 @@ class BankAccountController extends Controller
             $accounts = BankAccount::all();
         }
 
-        if($accounts){
+        if(!empty($accounts)){
             return $this->sendResponse($accounts,'Successfully retruieve all bank accounts');
         }
         else{
@@ -64,7 +64,7 @@ class BankAccountController extends Controller
 
         $bankInfo = $request->only('accountName', 'bankName', 'accountNo', 'bankStatement', 'status', 'isPrimary', 'userId');
         $bankAccount = BankAccount::create($bankInfo);
-        if(!$bankAccount){
+        if(empty($bankAccount)){
             return $this->sendError('Unable To Create Bank Account', 'Please Contact Customer Service For Futher Actions');
         }
         else{
@@ -80,7 +80,7 @@ class BankAccountController extends Controller
         //
         $accounts = BankAccount::findorFail($id);
 
-        if($accounts){
+        if(!empty($accounts)){
             return $this->sendResponse($accounts,'Successfully retruieve all bank accounts');
         }
         else{
@@ -118,7 +118,7 @@ class BankAccountController extends Controller
         }
         
 
-        if($updateBankAccount){
+        if(!empty($updateBankAccount)){
             return $this->sendResponse($updateBankAccount, 'The bank account has been updated successfully');
         }
         else{

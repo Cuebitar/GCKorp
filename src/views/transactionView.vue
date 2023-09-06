@@ -1,5 +1,8 @@
 <script>
 export default {
+    props: {
+    isAdmin: Boolean,
+  },
    data() {
     return {
         value: 0,
@@ -82,7 +85,7 @@ export default {
 </script>
 
 <template>
-    <UniHeader :isGuest="guest" :isAuthorised="authorized" ></UniHeader>
+    <UniHeader :isAdmin="isAdmin"></UniHeader>
     <div class="content">
 
         <!--Transaction Account Details-->

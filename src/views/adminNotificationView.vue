@@ -1,7 +1,7 @@
 <template>
     <div>
         <!--Header-->
-        <AdminHeader></AdminHeader>
+        <UniHeader :isAdmin="isAdmin"></UniHeader>
     </div>    
     
     <div class="content">
@@ -29,6 +29,9 @@
 
 <script>
 export default {
+    props: {
+    isAdmin: Boolean,
+  },
    data() {
     return {
 //notification dummy data
