@@ -25,12 +25,12 @@
               </div>
               <form @submit.prevent="login" class="login-form">
                 <div>
-                  <label>Username:</label>
-                  <input type="text" v-model="username" required>
+                  <label>Email:</label>
+                  <input type="text" v-model="email" required>
                 </div>
                 <div>
                   <label>Password:</label>
-                  <input type="password" v-model="password" required>
+                  <input type="password" v-model="password" @keyup.enter="login" required>
                 </div>
                 <Button label="SignIn" @click="login">Sign In</button>
                 <Divider type="solid" layout="horizontal" > OR  </Divider>
@@ -44,32 +44,71 @@
 </template>
 
 <script>
+
 export default {
   props: {
     isAdmin: Boolean,
   },
+  created(){
+    if(this.$cookies.isKey('token') && this.$cookies.isKey('userType')){
+      if(this.$cookies.get('userType') == 'member' || this.$cookies.get('userType') == 'guest'){
+        this.$router.push('/dashboard');
+      }
+      else{
+        this.$router.push('/admin/dashboard');
+      }
+    }
+  },
   data() {
     return {
-      username: "",
+      email: "",
       password: "",
+      result: null,
       profilePicture: "https://cdn-icons-png.flaticon.com/512/309/309543.png?w=740&t=st=1690356470~exp=1690357070~hmac=24a3543da4def732caecea92b8f231cb110c3d684b17d36e9f2a6d1f60af7fa9"
     };
   },
   methods: {
-    login() {
+    async login(e) {
+      e.preventDefault();
       // Here you would typically send a request to your server to log the user in
       // For this example, we're just logging the username and password to the console
-      console.log(`Logging in with username ${this.username} and password ${this.password}`);
-      this.username = "";
-      this.password = "";
+      if(!this.$cookies.isKey('token')){
+        console.log(`Logging in with username ${this.email} and password ${this.password}`);
+
+        
+        await this.$axios.post('/api/login', {
+          email: this.email,
+          password: this.password
+        })
+        .then(function(response){
+          this.result = response.data;
+          
+        })
+        .catch(function(response){
+          console.error(response);
+        })
+        console.log(this.result.data);
+        if(this.result != null){
+          this.$cookies.set('isAuthorised', true);
+          this.$cookies.set('user_id', this.result.data.user.userId);
+          this.$cookies.set('token', this.result.data.token);
+          this.$cookies.set('isGuest', !this.result.data.userDetails[0].isVerified);
+          this.$cookies.set('userType', this.result.data.userDetails[0].userType);
+        }
+      }
+
+      if(this.result.data.userDetails[0].userType == 'member' || this.result.data.userDetails[0].userType == 'guest'){
+        return this.$router.push('/dashboard');
+      }
+      else{
+        return this.$router.push('/admin/dashboard');
+      }
+      
     },
     goToRegister() {
       this.$router.push('/registerPersonal');
     },
   },
-  async method() {
-      
-  }
 };
 </script>
 

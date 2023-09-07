@@ -37,6 +37,9 @@
         "unplugin-auto-import": "^0.16.6",
         "vue": "^3.3.4",
         "vue-axios": "^3.5.2",
-        "vue-router": "^4.2.4"
+        "vue-cookie": "^1.1.4",
+        "vue-cookies": "^1.8.3",
+        "vue-router": "^4.2.4",
+        "vuex": "^4.1.0"
     }
 }

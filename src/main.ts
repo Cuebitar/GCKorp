@@ -8,17 +8,17 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import PrimeVue from 'primevue/config';
-import axios from './plugins/axios'
+import {setupAxios} from './plugins/axios'
+import VueCookies from 'vue-cookies';
 
 const app = createApp(App)
 
 app.use(router)
 app.use(PrimeVue)
-app.use(axios, {
-    baseUrl: 'http://127.0.0.1:8000/'
-})
-app.config.globalProperties.$user = null;
-app.config.globalProperties.$isAuthorised = false;
-app.config.globalProperties.$isGuest = true;
+setupAxios(app, {
+    baseUrl: 'http://127.0.0.1:8000/',
+});
+
+app.use(VueCookies, { expires: '1d'});
 console.log(app.config);
-app.mount('#app')
+app.mount('#app');

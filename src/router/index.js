@@ -12,10 +12,6 @@ const router = createRouter({
     {
       path: '/logout',
       name: 'logout',
-      redirect: '/',
-      meta: {
-        requiresAuth: true // Add meta field to indicate protected route
-      },
       component: () => import('../views/logoutView.vue'),
     },
     {
@@ -288,7 +284,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.meta.requiresAuth) {
-    const token = localStorage.getItem('token');
+    const token = $cookies.get('token');
     if (token) {
       // User is authenticated, proceed to the route
       next();

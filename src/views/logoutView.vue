@@ -9,7 +9,7 @@
         <div class="logout-page">
             <h1>You've been logged out</h1>
             <p>Thank you for using our service. We hope to see you again soon!</p>
-            <button @click="goToLogin">Home</button>
+            <button @click="goToLogin()">Home</button>
         </div>
 
 </template>
@@ -22,8 +22,6 @@ export default {
   },
   methods: {
     goToLogin() {
-      this.$isAuthorised = false;
-      this.$isGuest = true;
       this.$router.push('/');
     }
   }

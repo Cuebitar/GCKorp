@@ -16,6 +16,8 @@
                     </template>
                 </Column>
             </DataTable>
+
+            <Button @click="usingtoDo">Hi</Button>
         </div>
     </div>
 </template>
@@ -41,8 +43,19 @@ export default {
         }
     },
     methods: {
-        usingtoDo(){
-            //TODO Fix this
+        async usingtoDo(){
+            await this.$axios.get('/api/user/1', {
+                headers: {
+                    Authorization: "Bearer " + this.$cookies.get('token')
+                }
+            })
+            .then(response => {
+                this.data = response.data;
+                
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
         },
         async loadData(){
             const response = await this.$axios.get('/api/checkUser');
