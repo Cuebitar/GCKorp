@@ -32,6 +32,7 @@
                   <label>Password:</label>
                   <input type="password" v-model="password" @keyup.enter="login" required>
                 </div>
+                <span v-if='error' class='red'>*Incorrect Email or Password</span>
                 <Button label="SignIn" @click="login">Sign In</button>
                 <Divider type="solid" layout="horizontal" > OR  </Divider>
                 <Button label="SignUp" @click="goToRegister">Sign Up</button>
@@ -63,7 +64,7 @@ export default {
     return {
       email: "",
       password: "",
-      result: null,
+      error: false,
       profilePicture: "https://cdn-icons-png.flaticon.com/512/309/309543.png?w=740&t=st=1690356470~exp=1690357070~hmac=24a3543da4def732caecea92b8f231cb110c3d684b17d36e9f2a6d1f60af7fa9"
     };
   },
@@ -72,6 +73,7 @@ export default {
       e.preventDefault();
       // Here you would typically send a request to your server to log the user in
       // For this example, we're just logging the username and password to the console
+      let result = null;
       if(!this.$cookies.isKey('token')){
         console.log(`Logging in with username ${this.email} and password ${this.password}`);
 
@@ -81,23 +83,26 @@ export default {
           password: this.password
         })
         .then(function(response){
-          this.result = response.data;
-          
+          result = response.data;
         })
         .catch(function(response){
           console.error(response);
         })
-        console.log(this.result.data);
-        if(this.result != null){
+        console.log(result);
+        if((result != null)){
           this.$cookies.set('isAuthorised', true);
-          this.$cookies.set('user_id', this.result.data.user.userId);
-          this.$cookies.set('token', this.result.data.token);
-          this.$cookies.set('isGuest', !this.result.data.userDetails[0].isVerified);
-          this.$cookies.set('userType', this.result.data.userDetails[0].userType);
+          this.$cookies.set('user_id', result.data.user.userId);
+          this.$cookies.set('token', result.data.token);
+          this.$cookies.set('isGuest', !result.data.userDetails[0].isVerified);
+          this.$cookies.set('userType', result.data.userDetails[0].userType);
+        }
+        else{
+          this.error = true;
+          return;
         }
       }
-
-      if(this.result.data.userDetails[0].userType == 'member' || this.result.data.userDetails[0].userType == 'guest'){
+      
+      if(result.data.userDetails[0].userType == 'member' || result.data.userDetails[0].userType == 'guest'){
         return this.$router.push('/dashboard');
       }
       else{
@@ -172,5 +177,8 @@ h1 {
     margin-bottom: 20px; /* Some space between the image and the paragraph */
 }
 
-
+.red{
+  color: red;
+  font-size: small;
+}
 </style>

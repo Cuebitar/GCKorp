@@ -26,7 +26,7 @@ export default {
         this.isGuest = this.$cookies.isKey('isGuest') ? this.$cookies.get('isGuest') : true;
         this.isAuthorised = this.$cookies.isKey('isAuthorised') ? this.$cookies.get('isAuthorised') : false;
         this.userId = this.$cookies.isKey('user_id') ? this.$cookies.get('userId') : 0;
-        // Now you can use this.isGuest and this.isAuthorised in your data section
+        
         this.adminNavigators = [
                 {
                     label: 'Account',
@@ -129,24 +129,7 @@ export default {
                     Authorization: "Bearer " + this.$cookies.get('token')
                 }
             })
-            .then(function(response){
             
-            })
-            .catch(function(response){
-            console.error(response);
-            })
-            await this.$axios.interceptors.request.use(
-                    (config) => {
-                    const token = this.$cookies.get('token');
-                    if (token) {
-                        config.headers['Authorization'] = null;
-                    }
-                    return config;
-                    },
-                    (error) => {
-                    Promise.reject(error);
-                    }
-            );
             const keys = this.$cookies.keys();
             keys.forEach(element => {
                 this.$cookies.remove(element);
