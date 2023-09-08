@@ -24,7 +24,7 @@ class RegisteredUserController extends Controller
     {
         $validator = Validator::make($request->all(),[
             'name' => ['required'],
-            'IC' => ['required'],
+            'IC' => ['required', 'unique:users,IC'],
             'ICDocument' => ['required'],
             'phoneNumber' => ['required'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:'.Account::class],

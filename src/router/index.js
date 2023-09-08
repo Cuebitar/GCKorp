@@ -7,11 +7,17 @@ const router = createRouter({
       path: '/',
       name: 'home',
       props: {isAdmin: false},
+      meta: {
+        isAdmin: false // Add meta field to indicate protected route
+      },
       component: () => import('../views/homeView.vue'),
     },
     {
       path: '/logout',
       name: 'logout',
+      meta: {
+        isAdmin: false // Add meta field to indicate protected route
+      },
       component: () => import('../views/logoutView.vue'),
     },
     {
@@ -19,6 +25,7 @@ const router = createRouter({
       name: 'User Dashboard',
       props: {isAdmin: false},
       meta: {
+        isAdmin: false,
         requiresAuth: true // Add meta field to indicate protected route
       },
       component: () => import('../views/userDashboardView.vue'),
@@ -29,6 +36,7 @@ const router = createRouter({
       props: {isAdmin: false},
       props: true,
       meta: {
+        isAdmin: false,
         requiresAuth: true // Add meta field to indicate protected route
       },
       component: () => import('../views/profileView.vue'),
@@ -37,12 +45,19 @@ const router = createRouter({
       path: '/registerPersonal',
       name: 'registerPersonal',
       props: {isAdmin: false},
+      meta: {
+        isAdmin: false,
+      },
       component: () => import('../views/registerPersonalView.vue'),
     },  
     {
       path: '/registerBank',
       name: 'registerBank',
       props: {isAdmin: false}, 
+      meta: {
+        isAdmin: false,
+        requiresAuth: true // Add meta field to indicate protected route
+      },
       component: () => import('../views/registerBankView.vue'),
     },
     {
@@ -51,6 +66,7 @@ const router = createRouter({
       props: {isAdmin: false},
       props: true,
       meta: {
+        isAdmin: false,
         requiresAuth: true // Add meta field to indicate protected route
       },
       component: () => import('../views/favouriteView.vue'),
@@ -60,6 +76,7 @@ const router = createRouter({
       name: 'Add Favourite Account',
       props: {isAdmin: false},
       meta: {
+        isAdmin: false,
         requiresAuth: true // Add meta field to indicate protected route
       },
       component: () => import('../views/favouriteAddView.vue'),
@@ -69,6 +86,7 @@ const router = createRouter({
       name: 'Search Statement',
       props: {isAdmin: false},
       meta: {
+        isAdmin: false,
         requiresAuth: true // Add meta field to indicate protected route
       },
       component: () => import('../views/searchStatementView.vue'),
@@ -79,6 +97,7 @@ const router = createRouter({
       props: {isAdmin: false},
       props: true,
       meta: {
+        isAdmin: false,
         requiresAuth: true // Add meta field to indicate protected route
       },
       component: () => import('../views/transactionView.vue'),
@@ -88,6 +107,7 @@ const router = createRouter({
       name: 'registerBank',
       props: {isAdmin: false},
       meta: {
+        isAdmin: false,
         requiresAuth: true // Add meta field to indicate protected route
       },
       component: () => import('../views/registerBankView.vue'),
@@ -97,6 +117,7 @@ const router = createRouter({
       name: 'Deposit',
       props: true,
       meta: {
+        isAdmin: false,
         requiresAuth: true // Add meta field to indicate protected route
       },
       component: () => import('../views/depositView.vue'),
@@ -107,6 +128,7 @@ const router = createRouter({
       props: {isAdmin: false},
       props: true,
       meta: {
+        isAdmin: false,
         requiresAuth: true // Add meta field to indicate protected route
       },
       component: () => import('../views/withdrawalView.vue'),
@@ -116,6 +138,7 @@ const router = createRouter({
       name: 'Notification',
       props: {isAdmin: false},
       meta: {
+        isAdmin: false,
         requiresAuth: true // Add meta field to indicate protected route
       },
       component: () => import('../views/notificationView.vue'),
@@ -125,6 +148,7 @@ const router = createRouter({
       name: 'registerBank',
       props: {isAdmin: false},
       meta: {
+        isAdmin: false,
         requiresAuth: true // Add meta field to indicate protected route
       },
       component: () => import('../views/registerBankView.vue'),
@@ -134,6 +158,7 @@ const router = createRouter({
       name: 'Deposit',
       props: {isAdmin: false},
       meta: {
+        isAdmin: false,
         requiresAuth: true // Add meta field to indicate protected route
       },
       component: () => import('../views/depositView.vue'),
@@ -143,6 +168,7 @@ const router = createRouter({
       name: 'Withdrawal',
       props: {isAdmin: false},
       meta: {
+        isAdmin: false,
         requiresAuth: true // Add meta field to indicate protected route
       },
       component: () => import('../views/withdrawalView.vue'),
@@ -152,15 +178,20 @@ const router = createRouter({
       name: 'Notification',
       props: {isAdmin: false},
       meta: {
+        isAdmin: false,
         requiresAuth: true // Add meta field to indicate protected route
       },
       component: () => import('../views/notificationView.vue'),
     },
 
     {
-      path: 'admin/registerPersonal',
+      path: '/admin/registerPersonal',
       name: 'admin registerPersonal',
       props: {isAdmin: true},
+      meta: {
+        isAdmin: true,
+        requiresAuth: true // Add meta field to indicate protected route
+      },
       component: () => import('../views/registerPersonalView.vue'),
     },  
     {
@@ -168,6 +199,7 @@ const router = createRouter({
       name: 'Admin Dashboard',
       props: {isAdmin: true},
       meta: {
+        isAdmin: true,
         requiresAuth: true // Add meta field to indicate protected route
       },
       component: () => import('../views/adminDashboardView.vue'),
@@ -177,6 +209,7 @@ const router = createRouter({
       name: 'Member',
       props: {isAdmin: true},
       meta: {
+        isAdmin: true,
         requiresAuth: true // Add meta field to indicate protected route
       },
       component: () => import('../views/adminMember.vue'),
@@ -188,6 +221,7 @@ const router = createRouter({
       props: true,
       props: {isAdmin: true},
       meta: {
+        isAdmin: true,
         requiresAuth: true // Add meta field to indicate protected route
       },
       component: () => import('../views/adminMemberDetail.vue'),
@@ -197,6 +231,7 @@ const router = createRouter({
       name: 'admin Notification',
       props: {isAdmin: true},
       meta: {
+        isAdmin: true,
         requiresAuth: true // Add meta field to indicate protected route
       },
       component: () => import('../views/adminNotificationView.vue'),
@@ -206,6 +241,7 @@ const router = createRouter({
       name: 'admin Transaction',
       props: {isAdmin: true},
       meta: {
+        isAdmin: true,
         requiresAuth: true // Add meta field to indicate protected route
       },
       component: () => import('../views/adminTransactionView.vue'),
@@ -216,6 +252,7 @@ const router = createRouter({
       props: {isAdmin: true},
       props: true,
       meta: {
+        isAdmin: true,
         requiresAuth: true // Add meta field to indicate protected route
       },
       component: () => import('../views/transactionView.vue'),
@@ -225,6 +262,7 @@ const router = createRouter({
       name: 'admin Withdrawal List',
       props: {isAdmin: true},
       meta: {
+        isAdmin: true,
         requiresAuth: true // Add meta field to indicate protected route
       },
       component: () => import('../views/adminWithdrawalListView.vue'),
@@ -237,6 +275,7 @@ const router = createRouter({
       props: {isAdmin: true},
       props: true,
       meta: {
+        isAdmin: true,
         requiresAuth: true // Add meta field to indicate protected route
       },
       component: () => import('../views/adminWithdrawalDetailView.vue'),
@@ -246,6 +285,7 @@ const router = createRouter({
       name: 'admin Statement',
       props: {isAdmin: true},
       meta: {
+        isAdmin: true,
         requiresAuth: true // Add meta field to indicate protected route
       },
       component: () => import('../views/adminStatementView.vue'),
@@ -256,6 +296,7 @@ const router = createRouter({
       props: {isAdmin: true},
       props: true,
       meta: {
+        isAdmin: true,
         requiresAuth: true // Add meta field to indicate protected route
       },
       component: () => import('../views/favouriteView.vue'),
@@ -265,6 +306,7 @@ const router = createRouter({
       name: 'admin reject reason',
       props: {isAdmin: true},
       meta: {
+        isAdmin: true,
         requiresAuth: true // Add meta field to indicate protected route
       },
       component: () => import('../views/denyReasonView.vue'),
@@ -275,6 +317,7 @@ const router = createRouter({
       props: true,
       props: {isAdmin: true},
       meta: {
+        isAdmin: true,
         requiresAuth: true // Add meta field to indicate protected route
       },
       component: () => import('../views/profileView.vue'),
@@ -284,15 +327,31 @@ const router = createRouter({
       name: 'example',
       component: () => import('../views/exampleView.vue'),
     },
+
+    {
+      path: '/:catchAll(.*)',
+      name: 'error',
+      component: () => import('../views/errorView.vue'),
+    }
   ]
 })
 
 router.beforeEach((to, from, next) => {
+  
   if (to.meta.requiresAuth) {
     const token = $cookies.get('token');
     if (token) {
       // User is authenticated, proceed to the route
-      next();
+      
+      if(from.meta.isAdmin == to.meta.isAdmin){
+        next();
+      }
+      else if(from.meta.isAdmin){
+        next('/admin/dashboard');
+      }
+      else{
+        next('/dashboard');
+      }
     } else {
       // User is not authenticated, redirect to login
       next('/registerPersonal');

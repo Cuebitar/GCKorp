@@ -25,7 +25,7 @@ export default {
         // Initialize data properties based on computed properties
         this.isGuest = this.$cookies.isKey('isGuest') ? this.$cookies.get('isGuest') : true;
         this.isAuthorised = this.$cookies.isKey('isAuthorised') ? this.$cookies.get('isAuthorised') : false;
-        this.userId = this.$cookies.isKey('user_id') ? this.$cookies.get('userId') : 0;
+        this.userId = this.$cookies.isKey('user_id') ? this.$cookies.get('user_id') : 0;
         
         this.adminNavigators = [
                 {
@@ -87,11 +87,11 @@ export default {
                     items: [
                         {
                             label: 'Deposit',
-                            command: () => {this.$router.push('deposit');}
+                            command: () => {this.$router.push('/deposit' + this.userId);}
                         },
                         {
                             label: 'Withdrawal',
-                            command: () => {this.$router.push('withdrawal');}
+                            command: () => {this.$router.push('/withdrawal' + this.userId);}
                         }
                     ],
                     visible: !this.isGuest && this.isAuthorised
@@ -100,17 +100,17 @@ export default {
                 {
                     label: 'Favourite',
                     visible: !this.isGuest && this.isAuthorised,
-                    command: () => {this.$router.push('favourite');}
+                    command: () => {this.$router.push('/favourite');}
                 },
                 {
                     label: 'Statement',
                     visible: !this.isGuest && this.isAuthorised,
-                    command: () => {this.$router.push('statement');}
+                    command: () => {this.$router.push('/statement');}
                 },
                 {
                     label: 'Profile',
                     visible: this.isAuthorised,
-                    command: () => {this.$router.push('profile');}
+                    command: () => {this.$router.push('/profile/' + this.userId);}
                 },
                 {
                     icon: PrimeIcons.BELL,

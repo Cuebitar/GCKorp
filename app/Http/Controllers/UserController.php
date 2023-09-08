@@ -112,10 +112,11 @@ class UserController extends Controller
     public function destroyPermently(string $id)
     {
         //
-        $deleteUser = Account::findorFail($id)->delete();
-        $deleteUser->forceDelete();
+        $deleteUser = User::find($id)->delete();
+        $deleteAccount = Account::findorFail($id);
+        $deleteAccount->forceDelete();
         
-        if($deleteUser){
+        if($deleteAccount){
             return $this->sendResponse($deleteUser,'Successfully delete the user');
         }
         else{

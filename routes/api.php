@@ -47,6 +47,7 @@ Route::middleware('auth:api')->group(function (){
 
     //User API
     Route::apiResource('/user', UserController::class);
+    Route::delete('/user/permentDelete/{id}', [UserController::class, 'destroyPermently']);
     Route::post('/user/restore/{id}', [UserController::class,'restore']);
     Route::post('/user/verify/{id}', [UserController::class,'verify']);
 

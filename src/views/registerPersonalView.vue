@@ -214,10 +214,21 @@ export default {
     togglePassword() {
       this.showPassword = !this.showPassword;
     },
-    goBack() {
+    async goBack() {
       // Navigate directly to the homepage
       if(this.showUserDetails && this.hasRegistered){
-        this.$router.go(-1); 
+        await this.$axios.delete('/api/user/permentDelete/' + this.response.data.user.user_id,{
+                headers: {
+                    Authorization: "Bearer " + this.response.data.token
+                }
+        })
+              .then(response => {
+                this.$router.go(-1); 
+              })
+              .catch(error => {
+                  console.log(error.response);
+              });
+        
       }
       else{
         this.showUserDetails = true;
