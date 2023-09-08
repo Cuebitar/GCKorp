@@ -46,12 +46,12 @@ class RegisteredUserController extends Controller
         $input = $request->all();
         unset($input["password"]);
         unset($input["password_confirmation"]);
-        $user = User::create($input);
+        $userDetails = User::create($input);
 
-        if($user){
+        if($userDetails){
             $successUser['password'] = Hash::make($request['password']);
             $successUser['email'] = $request['email'];
-            $successUser['userId'] = $user->user_id;
+            $successUser['userId'] = $userDetails->user_id;
             $success = Account::create($successUser);
             if(!$success){
                 return $this->sendError('Invalid Registeration');
@@ -64,7 +64,8 @@ class RegisteredUserController extends Controller
                 $token = $user->createToken('Laravel Personal Access Client')->accessToken;
                 return $this->sendResponse([
                     'token' => $token,
-                    'user' => $user,
+                    'account' => $user,
+                    'user' => $userDetails,
                 ]);
             } else {
                 return $this->sendError('Invalid Login');

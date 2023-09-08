@@ -105,6 +105,24 @@ class UserController extends Controller
         }
     }
 
+     /**
+     * Remove the specified resource from storage.
+     * Soft deletes account
+     */
+    public function destroyPermently(string $id)
+    {
+        //
+        $deleteUser = Account::findorFail($id)->delete();
+        $deleteUser->forceDelete();
+        
+        if($deleteUser){
+            return $this->sendResponse($deleteUser,'Successfully delete the user');
+        }
+        else{
+            return $this->sendError('Unable to delete the user', 'No user were deleted');
+        }
+    }
+
     public function restore(string $id){
         $restoreUser = Account::where('account_id', $id)->withTrashed()->restore();
 
@@ -131,7 +149,7 @@ class UserController extends Controller
         if(!empty($user)){
             $oldStatus = $user->status;
             $user['isVerified'] = true;
-
+            $user['userType'] = 'member';
             if($request->isVerified){
                 $user['status'] = 'verified';
             }

@@ -43,7 +43,6 @@ class BankAccountController extends Controller
             'accountNo' => ['required', 'unique:bank_accounts,accountNo'],
             'bankStatement' => ['required'],
             'status' => ['required'],
-            'isPrimary' => ['required', 'boolean'],
             'userId' => ['required', 'numeric', 'exists:users,user_id'],
         ]);
 

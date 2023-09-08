@@ -7,7 +7,7 @@
     
         <!--Content-->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-        <div class="registration-page">
+          <div class="registration-page">
             <h1>Bank Information</h1>
                 <div class="data-box">
 
@@ -62,7 +62,7 @@
                 Successfully Submitted!
               </div>
             </div>
-  </div>
+          </div>
 </template>
 
 <script>
