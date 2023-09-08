@@ -54,6 +54,10 @@ export default {
                     command: () => {this.$router.push('/admin/member');}
                 },
                 {
+                    label: 'Register Admin',
+                    command: () => {this.$router.push('admin/registerPersonal');}
+                },
+                {
                     label: 'Favourite',
                     command: () => {this.$router.push('/admin/favourite/' + this.userId);}
                 },
@@ -129,7 +133,7 @@ export default {
                     Authorization: "Bearer " + this.$cookies.get('token')
                 }
             })
-            
+
             const keys = this.$cookies.keys();
             keys.forEach(element => {
                 this.$cookies.remove(element);

@@ -163,6 +163,15 @@
 
 <script>
 export default {
+  created() {
+    if(this.isAdmin){
+      this.user.userType = "admin";
+      this.user.status = 'active';
+    }
+    else{
+      this.user.userType = "guest";
+    }
+  },
   props: {
     isAdmin: Boolean,
   },
@@ -217,7 +226,8 @@ export default {
     },
     closeModal(modelName) {
       if(modelName == "showModal"){
-        this.showModel = false;
+        this.showModal = false;
+        this.$router.push({ path: '/dashboard' }); 
       }
       else{
         this.showError = false;
@@ -239,6 +249,9 @@ export default {
                   console.log(this.errorMessage);
                   this.showError = true;
               });
+        if(this.isAdmin){
+          this.showModal = true;
+        }
       }
       else{
         this.showUserDetails = false;
@@ -259,13 +272,17 @@ export default {
                 this.$cookies.set('token', this.response.data.token);
                 this.$cookies.set('isGuest', !this.response.data.user.isVerified);
                 this.$cookies.set('userType', this.response.data.user.userType);
-                this.$router.push('/dashboard')
+                this.$showModal = true;
               })
               .catch(error => {
                   this.errorMessage = error.response.data.data.errors;
                   console.log(this.errorMessage);
                   this.showError = true;
               });
+    },
+    closeModal() {
+      this.showModal = false;
+      this.$router.push({ path: '/dashboard' }); 
     }
     /**handleFile(event) {
       if (event.target.files && event.target.files[0]) {

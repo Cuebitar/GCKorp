@@ -157,7 +157,12 @@ const router = createRouter({
       component: () => import('../views/notificationView.vue'),
     },
 
-
+    {
+      path: 'admin/registerPersonal',
+      name: 'admin registerPersonal',
+      props: {isAdmin: true},
+      component: () => import('../views/registerPersonalView.vue'),
+    },  
     {
       path: '/admin/dashboard',
       name: 'Admin Dashboard',
