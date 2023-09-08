@@ -167,6 +167,7 @@ export default {
     if(this.isAdmin){
       this.user.userType = "admin";
       this.user.status = 'active';
+      this.user.isVerified = true;
     }
     else{
       this.user.userType = "guest";

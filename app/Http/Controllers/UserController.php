@@ -23,7 +23,7 @@ class UserController extends Controller
             return $this->sendError('You are not allowed to reach this resources.');
         }
         else{
-            $accounts = Account::with('user')->select('accounts.*', 'users.*')->get();
+            $accounts = Account::with('user')->get();
         }
 
         if(!empty($accounts)){
@@ -40,7 +40,7 @@ class UserController extends Controller
     public function show(string $id)
     {
         //
-        $account = Account::with('user')->where('accounts.userId', $id)->select('accounts.*', 'users.*')->get();
+        $account = Account::with('user')->where('accounts.userId', $id)->get();
 
         if(!empty($account)){
             return $this->sendResponse($account,'Successfully retruieve user details');
