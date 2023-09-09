@@ -150,14 +150,12 @@ class TransactionController extends Controller
             return $this->sendResponse([
                 'tradingAccount' => $tradingAccount,
                 'transaction' => $transaction,
-                'update' => $update
             ], 'Money refund to user');
         }
         else if(!empty($update) && !empty($transaction) && !empty($tradingAccount)){
             return $this->sendResponse([
                 'tradingAccount' => $tradingAccount,
                 'transaction' => $transaction,
-                'update' => $update
             ], 'Money is successfully insert into trading account');
         }
         else{
@@ -248,14 +246,12 @@ class TransactionController extends Controller
             return $this->sendResponse([
                 'tradingAccount' => $tradingAccount,
                 'transaction' => $transaction,
-                'update' => $update
             ], 'Money is successfully withdrawal from trading account');
         }
         else if(!empty($update) && !empty($transaction) && !empty($tradingAccount) && $transaction['status'] == 'deny'){
             return $this->sendResponse([
                 'tradingAccount' => $tradingAccount,
                 'transaction' => $transaction,
-                'update' => $update
             ], 'Money is not successfully withdrawal from trading account');
         }
         else{

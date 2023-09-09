@@ -272,7 +272,19 @@ export default {
     },
     async submit(){
       this.account.userId = this.response.data.user.user_id;
-      this.account.bankStatement = this.accountNo + '.pdf';
+      this.account.bankStatement = this.account.accountNo + '.pdf';
+      const tradingAccount = {
+        userId: this.response.data.user.user_id
+      }
+        await this.$axios.post('/api/tradingAccount/account', tradingAccount, {
+                headers: {
+                    Authorization: "Bearer " + this.response.data.token
+                }
+        })
+              .catch(error => {
+                console.error(error);
+              });
+
         await this.$axios.post('/api/bankAccount/account', this.account, {
                 headers: {
                     Authorization: "Bearer " + this.response.data.token
@@ -284,7 +296,7 @@ export default {
                 this.$cookies.set('token', this.response.data.token);
                 this.$cookies.set('isGuest', !this.response.data.user.isVerified);
                 this.$cookies.set('userType', this.response.data.user.userType);
-                this.$showModal = true;
+                this.showModal = true;
               })
               .catch(error => {
                   this.errorMessage = error.response.data.data.errors;

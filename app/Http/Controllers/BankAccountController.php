@@ -54,11 +54,11 @@ class BankAccountController extends Controller
             return $this->sendError('Invalid authorisation', 'invalid details');
         }
 
-        if(empty(BankAccount::where('userId', $request->userId)->get())){
-            $request['isPrimary'] = true;
+        if(BankAccount::where('userId', $request->userId)->count() > 0){
+            $request['isPrimary'] = false;
         }
         else{
-            $request['isPrimary'] = false;
+            $request['isPrimary'] = true;
         }
 
         $bankInfo = $request->only('accountName', 'bankName', 'accountNo', 'bankStatement', 'status', 'isPrimary', 'userId');
@@ -99,8 +99,13 @@ class BankAccountController extends Controller
 
         $updateBankAccount = BankAccount::findorFail($id);
         $oldStatus = $updateBankAccount['status'];
-        $updateBankAccount['bankStatement'] = $request->bankStatement;
-        $updateBankAccount['status'] = $request->status;
+        if($request->has('bankStatement')){
+            $updateBankAccount['bankStatement'] = $request->bankStatement;
+        }
+        if($request->has('status')){
+            $updateBankAccount['status'] = $request->status;
+        }
+    
         $updateBankAccount->save();
 
         if($oldStatus != $updateBankAccount['status']){

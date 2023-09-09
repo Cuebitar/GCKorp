@@ -6,6 +6,7 @@ use App\Models\Account;
 use App\Models\Update;
 use App\Models\User;
 use Auth;
+use Hash;
 use Illuminate\Http\Request;
 use Validator;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
@@ -26,7 +27,7 @@ class UserController extends Controller
             $accounts = Account::with('user')->get();
         }
 
-        if(!empty($accounts)){
+        if($accounts->isNotEmpty()){
             return $this->sendResponse($accounts,'Successfully retruieve all user details');
         }
         else{
@@ -42,7 +43,7 @@ class UserController extends Controller
         //
         $account = Account::with('user')->where('accounts.userId', $id)->get();
 
-        if(!empty($account)){
+        if($account->isNotEmpty()){
             return $this->sendResponse($account,'Successfully retruieve user details');
         }
         else{
@@ -57,13 +58,13 @@ class UserController extends Controller
     {
         //
         $availableKeys = ['address', 'phoneNumber', 'email', 'password', 'password_confirmation'];
-        if(!array_diff_key(array_flip($availableKeys), $request->all())){
+        if(array_diff_key(array_flip($availableKeys), $request->all())){
             return $this->sendError('Unable to update these fields');
         }
 
         $validator = Validator::make($request->all(),[
-            'phoneNumber' => ['required'],
-            'email' => ['string', 'email', 'max:255', 'unique:'.Account::class],
+            'phoneNumber' => ['string'],
+            'email' => ['string', 'email', 'max:255', 'unique:accounts,email'],
             'password' => 'min:8',
             'password_confirmation' => 'min:8|same:password',
         ]);
@@ -73,18 +74,26 @@ class UserController extends Controller
         }
         
         $updateUser = User::findorFail($id);
+        $updateAccount = Account::findorFail($id);
+        $request['password'] = Hash::make($request['password']);
+        $updateAccount['password'] = $request['password'];
+        $updateAccount['email'] = $request['email'];
         foreach($availableKeys as $key){
-            if(isset($request[$key]) && $key != 'password_confirmation'){
+            if(isset($request[$key]) && $key != 'password_confirmation' && $key != 'password'){
                 $updateUser[$key] = $request[$key];
             }
         }
+        $updateAccount->save();
         $updateUser->save();
 
-        if(!empty($updateUser)){
-            return $this->sendResponse($updateUser, 'The bank account has been updated successfully');
+        if($updateUser && $updateAccount){
+            return $this->sendResponse([
+                'updatedUser' => $updateUser,
+                'updatedAccount' => $updateAccount
+            ], 'The user account has been updated successfully');
         }
         else{
-            return $this->sendError('Bank Account is not updated', 'The bank statement is not updated successfully');
+            return $this->sendError('User Account is not updated', 'The user account is not updated successfully');
         }
     }
 
@@ -127,7 +136,7 @@ class UserController extends Controller
     public function restore(string $id){
         $restoreUser = Account::where('account_id', $id)->withTrashed()->restore();
 
-        if(!empty($restoreUser)){
+        if($restoreUser->isNotEmpty()){
             return $this->sendResponse($restoreUser,'Successfully restore the user');
             }
             else{
@@ -146,13 +155,17 @@ class UserController extends Controller
         }
 
         $user = User::findorFail($id);
+        if($user['isVerified'] == true){
+            return $this->sendError('this user has already verified');
+        }
 
-        if(!empty($user)){
+        if($user){
             $oldStatus = $user->status;
-            $user['isVerified'] = true;
-            $user['userType'] = 'member';
+            $user['isVerified'] = $request['isVerified'];
+            
             if($request->isVerified){
-                $user['status'] = 'verified';
+                $user['userType'] = 'member';
+                $user['status'] = 'active';
             }
             else{
                 $validator = Validator::make($request->all(),[
