@@ -17,8 +17,7 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"const responseJson = pm.response.json();",
-									"pm.globals.set(\"BearerToken\", responseJson.data.token);"
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -78,7 +77,7 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.globals.set(\"BearerToken\", null);"
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -191,8 +190,7 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"const responseJson = pm.response.json();",
-									"pm.globals.set(\"BearerToken\", responseJson.data.token);"
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -213,7 +211,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Postmen Test\",\n    \"IC\": \"201222102324\",\n    \"ICDocument\": \"postmentICDoc2.pdf\",\n    \"email\": \"postmenTest01@3unicoop.my\",\n    \"phoneNumber\": \"0112345567\",\n    \"password\": \"1234567890\",\n    \"password_confirmation\": \"1234567890\",\n    \"gender\": \"male\",\n    \"religion\": \"Christian\",\n    \"race\": \"Chinese\",\n    \"userType\": \"member\",\n    \"status\": \"active\",\n    \"address\": \"UTAR Sungai Long\",\n    \"isVerified\": false\n}",
+							"raw": "{\n    \"name\": \"Postmen Test\",\n    \"IC\": \"201222204423\",\n    \"ICDocument\": \"postmentICDocc.pdf\",\n    \"email\": \"postmenTest01@unicoop.my\",\n    \"phoneNumber\": \"0112345567\",\n    \"password\": \"1234567890\",\n    \"password_confirmation\": \"1234567890\",\n    \"religion\": \"Christian\",\n    \"race\": \"Chinese\",\n    \"userType\": \"admin\",\n    \"gender\": \"male\",\n    \"status\": \"active\",\n    \"isVerified\": true,\n    \"address\": \"UTAR Sungai Long\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -247,6 +245,17 @@
 				},
 				{
 					"name": "Check session user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -353,6 +362,9 @@
 							}
 						}
 					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -364,7 +376,7 @@
 								}
 							]
 						},
-						"method": "POST",
+						"method": "GET",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -376,7 +388,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/user/restore/3",
+							"raw": "http://127.0.0.1:8000/api/user/restore/1",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -389,7 +401,7 @@
 								"api",
 								"user",
 								"restore",
-								"3"
+								"1"
 							]
 						}
 					},
@@ -467,7 +479,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "",
+							"raw": "{\n    \"isVerified\": true,\n    \"rejectId\": 1\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -475,7 +487,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/user/verify/2",
+							"raw": "http://127.0.0.1:8000/api/user/verify/1",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -488,7 +500,7 @@
 								"api",
 								"user",
 								"verify",
-								"2"
+								"1"
 							]
 						}
 					},
@@ -666,7 +678,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"phoneNumber\": \"01953282345\",\n    \"email\": \"updatedpostmen@unicoop.my\"\n}",
+							"raw": "{\n    \"address\": \"Kampar UTAR\",\n    \"phoneNumber\": \"01953282345\",\n    \"email\": \"updatedpostmen1@unicoop.my\",\n    \"password\": \"123123123\",\n    \"password_confirmation\": \"123123123\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -818,7 +830,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/user/3",
+							"raw": "http://127.0.0.1:8000/api/user/1",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -830,7 +842,7 @@
 							"path": [
 								"api",
 								"user",
-								"3"
+								"1"
 							]
 						}
 					},
@@ -913,7 +925,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"bankName\": \"Maybank\",\n    \"accountName\": \"Postman\",\n    \"accountNo\": \"1111222532334445\",\n    \"bankStatement\": \"bankstatement1.pdf\",\n    \"status\": \"pending\",\n    \"isPrimary\": true,\n    \"userId\": 3\n}",
+							"raw": "{\n    \"bankName\": \"Maybank\",\n    \"accountName\": \"Postman\",\n    \"accountNo\": \"1111223532334245\",\n    \"bankStatement\": \"bankstatement1.pdf\",\n    \"status\": \"pending\",\n    \"userId\": 1\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1011,7 +1023,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"bankStatement\": \"updatedbankstatement.pdf\",\n    \"status\": \"approve\",\n    \"userId\": {{userId}}\n}",
+							"raw": "{\n    \"bankStatement\": \"updatedbankstatement.pdf\",\n    \"status\": \"approve\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1113,7 +1125,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"bankName\": \"Maybank\",\n    \"accountName\": \"Postman\",\n    \"accountNo\": \"1111222233334444\",\n    \"bankStatement\": \"bankstatement.pdf\",\n    \"status\": \"pending\",\n    \"isPrimary\": true,\n    \"userId\": {{userId}}\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1214,7 +1226,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"bankName\": \"Maybank\",\n    \"accountName\": \"Postman\",\n    \"accountNo\": \"1111222233334444\",\n    \"bankStatement\": \"bankstatement.pdf\",\n    \"status\": \"pending\",\n    \"isPrimary\": true,\n    \"userId\": {{userId}}\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1459,7 +1471,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"description\": \"Insufficient Amount\"\n}",
+							"raw": "{\n    \"description\": \"Insufficient Document\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1467,7 +1479,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/rejectReason/2",
+							"raw": "http://127.0.0.1:8000/api/rejectReason/1",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -1479,7 +1491,7 @@
 							"path": [
 								"api",
 								"rejectReason",
-								"2"
+								"1"
 							]
 						}
 					},
@@ -1661,7 +1673,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"bankName\": \"Maybank\",\n    \"accountName\": \"Postman\",\n    \"accountNo\": \"1111222233334444\",\n    \"bankStatement\": \"bankstatement.pdf\",\n    \"status\": \"pending\",\n    \"isPrimary\": true,\n    \"userId\": {{userId}}\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1669,7 +1681,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/rejectReason/Transaction",
+							"raw": "http://127.0.0.1:8000/api/rejectReason/User",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -1681,7 +1693,7 @@
 							"path": [
 								"api",
 								"rejectReason",
-								"Transaction"
+								"User"
 							]
 						}
 					},
@@ -1712,7 +1724,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/rejectReason/4",
+							"raw": "http://127.0.0.1:8000/api/rejectReason/1",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -1724,7 +1736,7 @@
 							"path": [
 								"api",
 								"rejectReason",
-								"4"
+								"1"
 							]
 						}
 					},
@@ -1807,7 +1819,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"status\": \"ongoing\"\n}",
+							"raw": "{\n    \"status\": \"active\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1909,7 +1921,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"bankName\": \"Maybank\",\n    \"accountName\": \"Postman\",\n    \"accountNo\": \"1111222233334444\",\n    \"bankStatement\": \"bankstatement.pdf\",\n    \"status\": \"pending\",\n    \"isPrimary\": true,\n    \"userId\": {{userId}}\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2010,7 +2022,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"bankName\": \"Maybank\",\n    \"accountName\": \"Postman\",\n    \"accountNo\": \"1111222233334444\",\n    \"bankStatement\": \"bankstatement.pdf\",\n    \"status\": \"pending\",\n    \"isPrimary\": true,\n    \"userId\": {{userId}}\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2112,7 +2124,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"bankName\": \"Maybank\",\n    \"accountName\": \"Postman\",\n    \"accountNo\": \"1111222233334444\",\n    \"bankStatement\": \"bankstatement.pdf\",\n    \"status\": \"pending\",\n    \"isPrimary\": true,\n    \"userId\": {{userId}}\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2164,7 +2176,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/tradingAccount/account/3",
+							"raw": "http://127.0.0.1:8000/api/tradingAccount/account/2",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -2177,7 +2189,7 @@
 								"api",
 								"tradingAccount",
 								"account",
-								"3"
+								"2"
 							]
 						}
 					},
@@ -2255,7 +2267,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"amount\": 200,\n    \"transactionPurpose\": \"Term 1 Dividen\"\n}",
+							"raw": "{\n    \"amount\": 300,\n    \"transactionPurpose\": \"Term 1 Dividen\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2353,7 +2365,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"userId\": 3\n}",
+							"raw": "{\n    \"userId\": 1\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2428,7 +2440,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"tradingAccountId\": 4,\n    \"bankAccountId\": 3,\n    \"amount\": 520,\n    \"status\": \"pending\",\n    \"type\": \"withdrawal\",\n    \"transactionPurpose\": \"Investment\"\n}",
+							"raw": "{\n    \"tradingAccountId\": 2,\n    \"bankAccountId\": 1,\n    \"amount\": 220,\n    \"status\": \"pending\",\n    \"type\": \"withdrawal\",\n     \"transactionPurpose\": \"Investment\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2526,7 +2538,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"tradingAccount_id\": 4,\n    \"transaction_id\": 6,\n    \"approve\": true,\n    \"type\": \"dividen\"\n}",
+							"raw": "{\n    \"tradingAccount_id\": 2,\n    \"transaction_id\": 1,\n    \"approve\": true,\n    \"type\": \"deposit\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2625,7 +2637,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"tradingAccount_id\": 4,\n    \"transaction_id\": 7,\n    \"approve\": true,\n    \"rejectId\": 1,\n    \"type\": \"withdrawal\"\n}",
+							"raw": "{\n    \"tradingAccount_id\": 2,\n    \"transaction_id\": 2,\n    \"approve\": true,\n    \"type\": \"withdrawal\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2727,7 +2739,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"bankName\": \"Maybank\",\n    \"accountName\": \"Postman\",\n    \"accountNo\": \"1111222233334444\",\n    \"bankStatement\": \"bankstatement.pdf\",\n    \"status\": \"pending\",\n    \"isPrimary\": true,\n    \"userId\": {{userId}}\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2754,7 +2766,7 @@
 					"response": []
 				},
 				{
-					"name": "Get All Trading Account Transaction with ID",
+					"name": "Get All Trading Account Transaction with Trading Account ID",
 					"event": [
 						{
 							"listen": "test",
@@ -2828,7 +2840,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"bankName\": \"Maybank\",\n    \"accountName\": \"Postman\",\n    \"accountNo\": \"1111222233334444\",\n    \"bankStatement\": \"bankstatement.pdf\",\n    \"status\": \"pending\",\n    \"isPrimary\": true,\n    \"userId\": {{userId}}\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2836,7 +2848,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://127.0.0.1:8000/api/tradingAccount/transaction/1",
+							"raw": "http://127.0.0.1:8000/api/tradingAccount/transaction/2",
 							"protocol": "http",
 							"host": [
 								"127",
@@ -2849,7 +2861,7 @@
 								"api",
 								"tradingAccount",
 								"transaction",
-								"1"
+								"2"
 							]
 						}
 					},
