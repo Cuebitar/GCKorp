@@ -36,7 +36,8 @@
 
                 <div class="input-group">
                 <label for="depositAmount">Amount (MYR)</label>
-                <input type="text" id="amountdep" v-model="transaction.amount">
+                <input type="text" id="amountdep" v-model="transaction.amount" @input="validateAmount" >
+                <span v-if="amountError" class="error">{{ amountError }}</span>
                 </div>
 
                 <div class="input-group">
@@ -66,8 +67,10 @@ export default {
       transaction: {
         bankAccountId: '',
         tradingAccountId: '',
-        amount: '',
+        amount: 0,
         transactionPurpose: '',
+        currentBalance: 1000,
+        amountError: "",
       },
       showModal: false
     };
@@ -83,6 +86,29 @@ export default {
     closeModal() {
       this.showModal = false;
       this.$router.push({ path: '/' }); 
+    },
+    validateAmount() {
+      if (this.amount > this.currentBalance) {
+        this.amountError = "Invalid amount. Amount cannot exceed the current balance.";
+      } else {
+        this.amountError = "";
+      }
+    },
+    deposit() {
+      if (this.transaction.amountError) {
+        alert("Invalid amount. Amount cannot exceed the current balance.");
+        return;
+      }
+
+      // Perform deposit logic here
+      // You can call an API or update the balance in your data store
+      // Example: this.currentBalance += this.amount;
+
+      // Reset the amount input field
+      this.amount = 0;
+
+      // Show success message or perform any other actions
+      alert("Deposit successful!");
     }
   }
 }
@@ -209,6 +235,10 @@ button:hover {
   color: black;
   text-decoration: none;
   cursor: pointer;
+}
+
+.error {
+  color: red;
 }
 
 </style>

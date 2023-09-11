@@ -25,12 +25,14 @@
               </div>
               <form @submit.prevent="login" class="login-form">
                 <div>
-                  <label>Username:</label>
-                  <input type="text" v-model="username" required>
+                  <label>Email:</label>
+                  <input type="text" v-model="email" required>
+                  <div v-if="!isValidEmail"> Non existing email. </div>
                 </div>
                 <div>
                   <label>Password:</label>
-                  <input type="password" v-model="password" required>
+                  <input type="password" v-model="password" @keyup.enter="login" required>
+                  <div v-if="!isValidPassword"> Incorrect password. </div>
                 </div>
                 <Button label="SignIn" @click="goToLogin">Sign In</button>
                 <Divider type="solid" layout="horizontal" > OR  </Divider>
@@ -52,8 +54,23 @@ export default {
       profilePicture: "https://cdn-icons-png.flaticon.com/512/309/309543.png?w=740&t=st=1690356470~exp=1690357070~hmac=24a3543da4def732caecea92b8f231cb110c3d684b17d36e9f2a6d1f60af7fa9"
     };
   },
+  computed: {
+    isValidEmail() {
+      return this.email.includes("@");
+    },
+    isValidPassword() {
+      const passwordRegex = /^(?=.*\d)(?=.*[!@#$%^&*])\w{6,}$/;
+      return passwordRegex.test(this.password);
+    },
+  },
   methods: {
-    login() {
+    async login(e) {
+
+      if (!this.isValidEmail || !this.isValidPassword) {
+        return; // Do not proceed with login if email or password is invalid
+      }
+
+      e.preventDefault();
       // Here you would typically send a request to your server to log the user in
       // For this example, we're just logging the username and password to the console
       console.log(`Logging in with username ${this.username} and password ${this.password}`);

@@ -35,8 +35,9 @@
                 </div>
 
                 <div class="input-group">
-                <label for="depositAmount">Amount (MYR)</label>
-                <input type="text" id="amountdep" v-model="transaction.amount">
+                <label for="withdrawalAmount">Amount (MYR)</label>
+                <input type="text" id="amountwith" v-model="transaction.amount" @input="validateWithdrawalAmount">
+                 <span v-if="withdrawalAmountError" class="error">{{ withdrawalAmountError }}</span>
                 </div>
 
                 <div class="input-group">
@@ -66,8 +67,10 @@ export default {
       transaction: {
         bankAccountId: '',
         tradingAccountId: '',
-        amount: '',
+        amount: 0,
         transactionPurpose: '',
+        withdrawalAmountError: "",
+        currentBalance: 1000, // Replace with your actual current balance amount
       },
       showModal: false
     };
@@ -83,9 +86,24 @@ export default {
     closeModal() {
       this.showModal = false;
       this.$router.push({ path: '/' }); 
+    },
+     validateWithdrawalAmount() {
+      if (this.transaction.amount > this.transaction.currentBalance) {
+        this.withdrawalAmountError = "Invalid amount. Cannot exceed current balance.";
+      } else {
+        this.withdrawalAmountError = "";
+      }
+    },
+    withdraw() {
+      if (this.withdrawalAmountError) {
+        // Display pop-up message or show error notification
+        alert("Invalid amount. Cannot exceed current balance.");
+        return;
+      }
     }
   }
 }
+
 </script>
 
 <style scoped>
@@ -209,6 +227,10 @@ button:hover {
   color: black;
   text-decoration: none;
   cursor: pointer;
+}
+
+.error {
+  color: red;
 }
 
 </style>

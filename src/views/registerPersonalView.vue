@@ -13,7 +13,8 @@
 
                 <div class="input-group">
                 <label for="username">Username:</label>
-                <input type="text" id="username" v-model="user.username">
+                <input type="text" id="username" v-model="user.username" @input="validateUsername">
+                <span v-if="usernameError" class="error">{{ usernameError }}</span>
                 </div>
 
                 <div class="input-group">
@@ -23,14 +24,16 @@
 
                 <div class="input-group">
                 <label for="phoneNumber">Phone Number:</label>
-                <input type="text" id="phoneNumber" v-model="user.phoneNumber">
+                <input type="text" id="phoneNumber" v-model="user.phoneNumber" @input="validatePhone">
+                <span v-if="phoneError" class="error">{{ phoneError }}</span>
                 </div>
 
                 <div class="input-group">
                 <label for="IC">IC:</label>
                 <div class="ic-wrapper">
-                    <input type="text" id="IC" v-model="user.ic">
+                    <input type="text" id="IC" v-model="user.ic" input="validateIC" >
                     <span class="asterisk">*File Name must be IC number</span>  <!-- The added asterisk -->
+                    <span v-if="icError" class="error">{{ icError }}</span>
                     <input type="file" id="icUpload" ref="icUpload" @change="handleFile" style="display: none;">
                     <button @click.prevent="uploadIC">Upload</button>
                 </div>
@@ -39,13 +42,15 @@
 
                 <div class="input-group">
                 <label for="email">Email:</label>
-                <input type="email" id="email" v-model="user.email">
+                <input type="email" id="email" v-model="user.email" @input="validateEmail">
+                <span v-if="emailError" class="error">{{ emailError }}</span>
                 </div>
 
                 <div class="input-group">
                     <label for="password">Password:</label>
                     <div class="password-wrapper">
-                        <input :type="showPassword ? 'text' : 'password'" id="password" v-model="user.password">
+                        <input :type="showPassword ? 'text' : 'password'" id="password" v-model="user.password" @input="validatePassword">
+                        <span v-if="passwordError" class="error">{{ passwordError }}</span>
                         <i class="fas fa-eye password-toggle-icon" @click="togglePassword" v-if="!showPassword"></i>
                         <i class="fas fa-eye-slash password-toggle-icon" @click="togglePassword" v-else></i>
                     </div>
@@ -127,6 +132,41 @@ export default {
     },
     uploadStatement() {
       this.$refs.statementUpload.click();
+    },
+    validateUsername() {
+      if (!/\d/.test(this.user.username)) {
+        this.usernameError = "Username must include a number.";
+      } else {
+        this.usernameError = "";
+      }
+    },
+    validateEmail() {
+      if (!this.user.email.includes("@")) {
+        this.emailError = "Email must include @.";
+      } else {
+        this.emailError = "";
+      }
+    },
+    validatePassword() {
+      if (!/\d/.test(this.user.password) || !/[!@#$%^&*]/.test(this.user.password)) {
+        this.passwordError = "Password must include at least one number and symbol.";
+      } else {
+        this.passwordError = "";
+      }
+    },
+    validatePhone() {
+      if (!this.user.phoneNumber.includes("-")) {
+        this.phoneError = "Phone number must include a dash.";
+      } else {
+        this.phoneError = "";
+      }
+    },
+     validateIC() {
+      if (!this.user.ic.includes("-")) {
+        this.icError = "IC must include a dash.";
+      } else {
+        this.icError = "";
+      }
     }
   }
 }
@@ -243,6 +283,10 @@ input[type="text"], input[type="email"], input[type="password"], select {
   margin-top: 6.5vh;  /* Adjust this value if necessary to position the asterisk */
   left: 5;
   font-size: 8px;  /* Adjust this value for the desired size of the asterisk */
+}
+
+.error {
+  color: red;
 }
 
 </style>
