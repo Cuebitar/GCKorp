@@ -332,7 +332,43 @@ const router = createRouter({
       path: '/:catchAll(.*)',
       name: 'error',
       component: () => import('../views/errorView.vue'),
+    },
+    {
+      path: '/denyReason',
+      name: 'Deny-Reason',
+      component: () => import('../views/denyReasonView.vue'),
+    },
+
+    {
+      path: '/admin/DepositIncome',
+      name: 'admin-deposit-income',
+      component: () => import('../views/adminDepositIncome.vue'),
+    },
+
+    {
+      path: '/admin/DepositDividen',
+      name: 'admin-deposit-dividen',
+      component: () => import('../views/adminDepositDividen.vue'),
+    },
+
+    {
+      path: '/admin/DepositLimit',
+      name: 'admin-deposit-limit',
+      component: () => import('../views/adminDepositLimit.vue'),
     }
+
+
+
+    
+
+
+
+
+    //*{
+    //  path: '/about',
+    //  name: 'about',
+    //  component: () => import("")
+    //}
   ]
 })
 
