@@ -47,3 +47,4 @@ coverage
 *.njsproj
 *.sln
 *.sw?
+tests/UniCoop.postman_collection_for_me.json

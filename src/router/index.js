@@ -323,37 +323,35 @@ const router = createRouter({
       component: () => import('../views/profileView.vue'),
     },
     {
-      path: '/example',
-      name: 'example',
-      component: () => import('../views/exampleView.vue'),
-    },
-
-    {
       path: '/:catchAll(.*)',
       name: 'error',
       component: () => import('../views/errorView.vue'),
     },
     {
-      path: '/denyReason',
-      name: 'Deny-Reason',
-      component: () => import('../views/denyReasonView.vue'),
-    },
-
-    {
       path: '/admin/DepositIncome',
       name: 'admin-deposit-income',
+      meta: {
+        isAdmin: true,
+        requiresAuth: true // Add meta field to indicate protected route
+      },
       component: () => import('../views/adminDepositIncome.vue'),
     },
-
     {
       path: '/admin/DepositDividen',
       name: 'admin-deposit-dividen',
+      meta: {
+        isAdmin: true,
+        requiresAuth: true // Add meta field to indicate protected route
+      },
       component: () => import('../views/adminDepositDividen.vue'),
     },
-
     {
       path: '/admin/DepositLimit',
       name: 'admin-deposit-limit',
+      meta: {
+        isAdmin: true,
+        requiresAuth: true // Add meta field to indicate protected route
+      },
       component: () => import('../views/adminDepositLimit.vue'),
     }
 
