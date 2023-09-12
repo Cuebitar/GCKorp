@@ -12,8 +12,8 @@
                 <div class="data-box">
 
                 <div class="input-group">
-                <label for="name">Username:</label>
-                <input type="text" id="name" v-model="user.name">
+                <label for="username">Username:</label>
+                <input type="text" id="username" v-model="user.username">
                 </div>
 
                 <div class="input-group">
@@ -23,14 +23,15 @@
 
                 <div class="input-group">
                 <label for="phoneNumber">Phone Number:</label>
-                <input type="text" id="phoneNumber" v-model="user.phoneNumber">
+                <input type="text" id="phoneNumber" v-model="user.phoneNumber" @input="validatePhone">
+                <span v-if="phoneError" class="error">{{ phoneError }}</span>
                 </div>
 
                 <div class="input-group">
                 <label for="IC">IC:</label>
-                <div class="IC-wrapper">
-                    <input type="text" id="IC" v-model="user.IC">
-                    <!--<span class="asterisk">*File Name must be IC number</span>  The added asterisk 
+                <div class="ic-wrapper">
+                    <input type="text" id="IC" v-model="user.ic">
+                    <span class="asterisk">*File Name must be IC number</span>  <!-- The added asterisk -->
                     <input type="file" id="icUpload" ref="icUpload" @change="handleFile" style="display: none;">
                     <FileUpload mode="basic" name="demo[]" accept="image/*" :maxFileSize="1000000" @upload="uploadStatement" />-->
                 </div>
@@ -39,13 +40,15 @@
 
                 <div class="input-group">
                 <label for="email">Email:</label>
-                <input type="email" id="email" v-model="user.email">
+                <input type="email" id="email" v-model="user.email" @input="validateEmail">
+                <span v-if="emailError" class="error">{{ emailError }}</span>
                 </div>
 
                 <div class="input-group">
                     <label for="password">Password:</label>
                     <div class="password-wrapper">
-                        <input :type="showPassword ? 'text' : 'password'" id="password" v-model="user.password">
+                        <input :type="showPassword ? 'text' : 'password'" id="password" v-model="user.password" @input="validatePassword">
+                        <span v-if="passwordError" class="error">{{ passwordError }}</span>
                         <i class="fas fa-eye password-toggle-icon" @click="togglePassword" v-if="!showPassword"></i>
                         <i class="fas fa-eye-slash password-toggle-icon" @click="togglePassword" v-else></i>
                     </div>
@@ -431,152 +434,6 @@ input[type="text"], input[type="email"], input[type="password"], select {
   color: red;
   margin-top: 6.5vh;  /* Adjust this value if necessary to position the asterisk */
   left: 5;
-  font-size: 8px;  /* Adjust this value for the desired size of the asterisk */
-}
-
-/* The Modal (background) */
-.modal {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: fixed; 
-  z-index: 1; 
-  left: 0;
-  top: 0;
-  width: 100%; 
-  height: 100%; 
-  background-color: rgba(0,0,0,0.7); 
-}
-
-/* Modal Content */
-.modal-content {
-  background-color: #fefefe;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 30%;
-  text-align: center;
-  position: relative;
-}
-
-/* The Close Button */
-.close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-  position: absolute;
-  top: 0;
-  right: 15px;
-  cursor: pointer;
-}
-
-.close:hover,
-.close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.registration-page {
-  width: 400px;
-  margin: 50px auto;
-  font-family: 'Arial', sans-serif;
-}
-
-h1 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.input-group {
-  display: flex;
-  align-items: center; /* Vertically align the label with the textbox */
-  margin-bottom: 15px;
-  justify-content: space-between; /* Separates the label and the input fields */
-}
-
-label {
-  width: 30%; /* Adjust this percentage based on your design preference */
-  margin-right: 10px; /* Add some spacing between the label and the input */
-}
-
-input[type="text"], input[type="email"], input[type="password"], select {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-button {
-  display: block;
-  width: 100%;
-  padding: 10px 15px;
-  background-color: #007BFF;
-  color: #FFFFFF;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-button:hover {
-  background-color: #0056b3;
-}
-
-.button-group {
-  display: flex;
-  justify-content: space-between;  /* Adjust based on the spacing you want */
-  align-items: center;
-  margin-top: 25px;
-}
-
-.button-group button {
-  margin: 0 5px; /* This provides spacing on both sides of each button */
-}
-
-.data-box {
-  background-color: #fff;
-  border: 1px solid #e0e0e0;
-  border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  padding: 20px;
-  margin-top: 20px;
-}
-
-.statement-wrapper {
-  display: flex;
-  width: 100%;
-  align-items: center;
-}
-
-.statement-wrapper input[type="text"] {
-  flex-grow: 1;  /* It takes the maximum width available, pushing the button to the end. */
-  margin-right: 10px; /* Some spacing between the input and the button */
-}
-
-.statement-wrapper button {
-  width: 70px;       /* Set explicit width */
-  text-align: center; 
-  font-size: 14px;   /* Optional: Adjust font size if needed */
-}
-
-.asterisk1 {
-  position: absolute;
-  color: red;
-  margin-top:6.5vh;  /* Adjust this value if necessary to position the asterisk */
-  font-size: 8px;  /* Adjust this value for the desired size of the asterisk */
-}
-
-.asterisk2 {
-  position: absolute;
-  color: red;
-  margin-top:6.5vh;  /* Adjust this value if necessary to position the asterisk */
-  font-size: 8px;  /* Adjust this value for the desired size of the asterisk */
-}
-.asterisk3 {
-  position: absolute;
-  color: red;
-  margin-top:6.5vh;  /* Adjust this value if necessary to position the asterisk */
   font-size: 8px;  /* Adjust this value for the desired size of the asterisk */
 }
 

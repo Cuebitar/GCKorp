@@ -12,27 +12,7 @@ class UpdateController extends Controller
      */
     public function notification(string $id)
     {
-        $updates = Update::where('userId', $id)
-        /*
-        ->where(function ($query) {
-            $query->whereNull('tradingAccountId')
-                  ->whereNull('transactionId')
-                  ->whereNull('bankAccountId')
-                  ->with('user');
-        })
-        ->where(function ($query) {
-            $query->whereNull('tradingAccountId')
-                  ->whereNull('transactionId')
-                  ->with('bankAccount');
-        })
-        ->where(function ($query) {
-            $query->whereNull('transactionId')
-                  ->whereNull('bankAccountId')
-                  ->with('tradingAccount');
-        })
-        ->where(function ($query) {
-            $query->with('transactions');
-        })*/->get();
+        $updates = Update::where('userId', $id)->get();
 
         for ($i=0; $i < count($updates); $i++) { 
             $current = $updates[$i];

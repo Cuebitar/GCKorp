@@ -2,49 +2,21 @@
     <!--Remember to do comment for every section so we can easily differentiate section-->
     <div>
         <!--Header-->
-        <UniHeader :isAdmin="isAdmin"></UniHeader>
+        <UniHeader></UniHeader>
     </div>
     
         <!--Content-->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-        <div class="withdrawal-page">
-            <h1>Withdrawal Page</h1>
+        <div class="deposit-income-page">
+            <h1>Deposit Page (Limit)</h1>
                 <div class="data-box">
 
                 <div class="input-group">
-                <label for="payform">Pay To</label>
-                <select id="favbank" v-model="transaction.bankAccountId">
-                    <option value="favbank">Fav1</option>
-                    <option value="favbank">Fav2</option>
-                    <option value="favbank">Fav3</option>
-                    <option value="favbank">Fav4</option>
-                    <option value="favbank">Fav5</option>
-                    
-                </select>
+                <label for="depositAmount">Limited Deposit (MYR)</label>
+                <input type="text" id="amountdep" v-model="limit.amount">
                 </div>
 
-                <div class="input-group">
-                <label for="payto">Pay From</label>
-                <select id="tradacc" v-model="transaction.tradingAccountId">
-                    <option value="trad">Trad1</option>
-                    <option value="trad">Trad2</option>
-                    <option value="trad">Trad3</option>
-                    <option value="trad">Trad4</option>
-                    <option value="trad">Trad5</option>
-                </select>
-                </div>
-
-                <div class="input-group">
-                <label for="withdrawalAmount">Amount (MYR)</label>
-                <input type="text" id="amountwith" v-model="transaction.amount" @input="validateWithdrawalAmount">
-                 <span v-if="withdrawalAmountError" class="error">{{ withdrawalAmountError }}</span>
-                </div>
-
-                <div class="input-group">
-                <label for="transactionPurpose">Purpose:</label>
-                <input type="text" id="transactionPurpose" v-model="transaction.transactionPurpose">
-                </div>
-
+                
                 <div class="button-group">
                     <button @click="submit">Submit</button>
                 </div>
@@ -54,7 +26,7 @@
             <div v-if="showModal" class="modal">
               <div class="modal-content">
                 <span @click="closeModal" class="close">&times;</span>
-                Transaction Successful
+                Deposit Limit Updated!
               </div>
             </div>
   </div>
@@ -62,18 +34,10 @@
 
 <script>
 export default {
-  props: {
-    isAdmin: Boolean,
-  },
   data() {
     return {
-      transaction: {
-        bankAccountId: '',
-        tradingAccountId: '',
-        amount: 0,
-        transactionPurpose: '',
-        withdrawalAmountError: "",
-        currentBalance: 1000, // Replace with your actual current balance amount
+        limit: {
+        amount: '',
       },
       showModal: false
     };
@@ -89,24 +53,9 @@ export default {
     closeModal() {
       this.showModal = false;
       this.$router.push({ path: '/' }); 
-    },
-     validateWithdrawalAmount() {
-      if (this.transaction.amount > this.transaction.currentBalance) {
-        this.withdrawalAmountError = "Invalid amount. Cannot exceed current balance.";
-      } else {
-        this.withdrawalAmountError = "";
-      }
-    },
-    withdraw() {
-      if (this.withdrawalAmountError) {
-        // Display pop-up message or show error notification
-        alert("Invalid amount. Cannot exceed current balance.");
-        return;
-      }
     }
   }
 }
-
 </script>
 
 <style scoped>
@@ -230,10 +179,6 @@ button:hover {
   color: black;
   text-decoration: none;
   cursor: pointer;
-}
-
-.error {
-  color: red;
 }
 
 </style>

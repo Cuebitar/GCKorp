@@ -25,12 +25,12 @@
               </div>
               <form @submit.prevent="login" class="login-form">
                 <div>
-                  <label>Email:</label>
-                  <input type="text" v-model="email" required>
+                  <label>Username:</label>
+                  <input type="text" v-model="username" required>
                 </div>
                 <div>
                   <label>Password:</label>
-                  <input type="password" v-model="password" @keyup.enter="login" required>
+                  <input type="password" v-model="password" required>
                 </div>
                 <span v-if='error' class='red'>*Incorrect Email or Password</span>
                 <Button label="SignIn" @click="login">Sign In</button>
@@ -68,9 +68,17 @@ export default {
       profilePicture: "https://cdn-icons-png.flaticon.com/512/309/309543.png?w=740&t=st=1690356470~exp=1690357070~hmac=24a3543da4def732caecea92b8f231cb110c3d684b17d36e9f2a6d1f60af7fa9"
     };
   },
+  computed: {
+    isValidEmail() {
+      return this.email.includes("@");
+    },
+    isValidPassword() {
+      const passwordRegex = /^(?=.*\d)(?=.*[!@#$%^&*])\w{6,}$/;
+      return passwordRegex.test(this.password);
+    },
+  },
   methods: {
-    async login(e) {
-      e.preventDefault();
+    async login() {
       // Here you would typically send a request to your server to log the user in
       // For this example, we're just logging the username and password to the console
       let result = null;
