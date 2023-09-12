@@ -78,7 +78,7 @@ export default {
     },
   },
   methods: {
-    login() {
+    async login() {
       // Here you would typically send a request to your server to log the user in
       // For this example, we're just logging the username and password to the console
       let result = null;

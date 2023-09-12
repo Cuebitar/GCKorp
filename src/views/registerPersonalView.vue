@@ -319,7 +319,7 @@ export default {
     },
     uploadStatement() {
       this.$refs.statementUpload.click();
-    }
+    }*/
   }
 }
 </script>
