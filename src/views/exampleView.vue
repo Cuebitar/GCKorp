@@ -3,7 +3,7 @@
     <div>
         <!--Header-->
         <UniHeader></UniHeader>
-
+        <h1>Hi, {{ data }}</h1>
         <!--Content-->
         <div class="mt-5 surface-800 w-0rem">
             <h1 class="text-blue-100">Example of using PrimeVue and PrimeFlex</h1>
@@ -16,6 +16,8 @@
                     </template>
                 </Column>
             </DataTable>
+
+            <Button @click="usingtoDo">Hi</Button>
         </div>
     </div>
 </template>
@@ -23,6 +25,7 @@
 export default {
     data() {
         return {
+            data: '',
             example: [
                 {
                     name: "Vue",
@@ -40,9 +43,27 @@ export default {
         }
     },
     methods: {
-        usingtoDo(){
-            //TODO Fix this
+        async usingtoDo(){
+            await this.$axios.get('/api/user/1', {
+                headers: {
+                    Authorization: "Bearer " + this.$cookies.get('token')
+                }
+            })
+            .then(response => {
+                this.data = response.data;
+                
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        },
+        async loadData(){
+            const response = await this.$axios.get('/api/checkUser');
+            this.data = response.data;
         }
+    },
+    async mounted(){
+        await this.loadData();
     }
 }
 </script>

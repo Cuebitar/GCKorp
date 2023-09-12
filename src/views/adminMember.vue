@@ -2,7 +2,7 @@
     <!--Remember to do comment for every section so we can easily differentiate section-->
     <div>
         <!--Header-->
-        <AdminHeader></AdminHeader>
+        <UniHeader :isAdmin="isAdmin"></UniHeader>
     </div>
     
         <!--Content-->
@@ -29,6 +29,9 @@
 
 <script>
 export default {
+  props: {
+    isAdmin: Boolean,
+  },
   data() {
     return {
       members: [

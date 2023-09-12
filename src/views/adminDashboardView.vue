@@ -1,5 +1,5 @@
 <template>
-  <UniHeader :isGuest="admin" :isAuthorised="authorized" />
+  <UniHeader :isAdmin="isAdmin"></UniHeader>
   <div class="content">
     <div>
       <Panel header="Company Invest Account">
@@ -63,6 +63,9 @@ import { ref } from 'vue';
 import { defineComponent} from 'vue';
 
 export default defineComponent({
+  props: {
+    isAdmin: Boolean,
+  },
   data() {
     return {
       value: 0,

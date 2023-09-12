@@ -21,7 +21,7 @@ return new class extends Migration
             $table->enum('gender', ['male', 'female']);
             $table->string('religion');
             $table->string('race');
-            $table->enum('userType', ['guest', 'member','super_admin', 'admin_staff', 'operation_staff', 'super_operation_staff', 'account_staff']);
+            $table->enum('userType', ['guest', 'member','super_admin', 'admin_staff', 'operation_staff', 'super_operation_staff', 'account_staff', 'admin']);
             $table->string('status');
             $table->longText('address');
             $table->boolean('isVerified');

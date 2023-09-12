@@ -52,7 +52,7 @@ class UpdateController extends Controller
             $updates[$i] = $current;
         }
 
-        if(isset($updates)){
+        if(!empty($updates)){
             return $this->sendResponse($updates,'Successfully retruieve all updates');
         }
         else{
@@ -67,7 +67,7 @@ class UpdateController extends Controller
     {
         $updates = Update::where('userId', $id)->whereNotNull('transactionId')->with('transactions')->get();
 
-        if(isset($updates)){
+        if(!empty($updates)){
             return $this->sendResponse($updates,'Successfully retruieve all updates');
         }
         else{

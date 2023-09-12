@@ -2,14 +2,14 @@
     <!--Remember to do comment for every section so we can easily differentiate section-->
     <div>
         <!--Header-->
-        <UniHeader></UniHeader>
+        <UniHeader :isAdmin="isAdmin"></UniHeader>
     </div>
     
         <!--Content-->
         <div class="logout-page">
             <h1>You've been logged out</h1>
             <p>Thank you for using our service. We hope to see you again soon!</p>
-            <button @click="goToLogin">Home</button>
+            <button @click="goToLogin()">Home</button>
         </div>
 
 </template>
@@ -17,9 +17,11 @@
 
 <script>
 export default {
+  props: {
+    isAdmin: Boolean,
+  },
   methods: {
     goToLogin() {
-      // Redirect to login page, adjust based on your routing setup
       this.$router.push('/');
     }
   }

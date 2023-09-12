@@ -17,6 +17,7 @@ declare module 'vue' {
     DataViewLayoutOptions: typeof import('primevue/dataviewlayoutoptions')['default']
     Divider: typeof import('primevue/divider')['default']
     Dropdown: typeof import('primevue/dropdown')['default']
+    FileUpload: typeof import('primevue/fileupload')['default']
     Header: typeof import('./src/components/header.vue')['default']
     InputText: typeof import('primevue/inputtext')['default']
     Knob: typeof import('primevue/knob')['default']

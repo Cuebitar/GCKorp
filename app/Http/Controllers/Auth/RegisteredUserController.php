@@ -24,7 +24,7 @@ class RegisteredUserController extends Controller
     {
         $validator = Validator::make($request->all(),[
             'name' => ['required'],
-            'IC' => ['required'],
+            'IC' => ['required', 'unique:users,IC'],
             'ICDocument' => ['required'],
             'phoneNumber' => ['required'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:'.Account::class],
@@ -33,7 +33,7 @@ class RegisteredUserController extends Controller
             'gender' => ['in:male,female', 'required'],
             'religion' => ['required'],
             'race' => ['required'],
-            'userType' => ['in:guest,member,super_admin,admin_staff,operation_staff,super_operation_staff,account_staff', 'required'],
+            'userType' => ['in:guest,member,super_admin,admin_staff,operation_staff,super_operation_staff,account_staff,admin', 'required'],
             'status' => ['required'],
             'address' => ['required'],
             'isVerified' => ['required', 'boolean'],
@@ -46,12 +46,12 @@ class RegisteredUserController extends Controller
         $input = $request->all();
         unset($input["password"]);
         unset($input["password_confirmation"]);
-        $user = User::create($input);
+        $userDetails = User::create($input);
 
-        if($user){
+        if($userDetails){
             $successUser['password'] = Hash::make($request['password']);
             $successUser['email'] = $request['email'];
-            $successUser['userId'] = $user->user_id;
+            $successUser['userId'] = $userDetails->user_id;
             $success = Account::create($successUser);
             if(!$success){
                 return $this->sendError('Invalid Registeration');
@@ -64,7 +64,8 @@ class RegisteredUserController extends Controller
                 $token = $user->createToken('Laravel Personal Access Client')->accessToken;
                 return $this->sendResponse([
                     'token' => $token,
-                    'user' => $user,
+                    'account' => $user,
+                    'user' => $userDetails,
                 ]);
             } else {
                 return $this->sendError('Invalid Login');

@@ -2,7 +2,7 @@
   <!--Remember to do comment for every section so we can easily differentiate section-->
   <div>
       <!--Header-->
-      <UniHeader></UniHeader>
+      <UniHeader :isAdmin="isAdmin"></UniHeader>
   </div>
   
       <!--Content-->
@@ -56,6 +56,9 @@ import axios from 'axios'
 import { useRouter } from 'vue-router';
 
 export default {
+  props: {
+    isAdmin: Boolean,
+  },
 mounted () {
   //getting user data
   //this.loadlist();

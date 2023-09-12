@@ -18,7 +18,7 @@ class TradingAccountController extends Controller
     public function index()
     {
         $user = User::findorFail(auth()->id());
-        if($user->userType != 'member'){
+        if($user->userType != 'member' && $user->userType != 'guest'){
             $accounts = TradingAccount::where('tradingAccount_id', '>', 1)->get();
             return $this->sendResponse($accounts,'Successfully retruieve all trading accounts');
         }
@@ -104,8 +104,7 @@ class TradingAccountController extends Controller
         $update = Update::create($updateInfo);
         if($update && $tradingAccount){
             return $this->sendResponse([
-                'tradingAccount' => $tradingAccount,
-                'update' => $update
+                'tradingAccount' => $tradingAccount
             ], 'Trading status is successfully updated');
         }
         else{
@@ -138,7 +137,7 @@ class TradingAccountController extends Controller
     {
         //
         $tradingAccount = TradingAccount::where('tradingAccount_id', $id)->with('transactions')->get();
-        if(!empty($tradingAccount)){
+        if($tradingAccount->isEmpty()){
             return $this->sendError('Unable to retrieve trading account', 'No trading account were retrieved');
         }
 

@@ -2,12 +2,12 @@
     <!--Remember to do comment for every section so we can easily differentiate section-->
     <div>
         <!--Header-->
-        <UniHeader></UniHeader>
+        <UniHeader :isAdmin="isAdmin"></UniHeader>
     </div>
     
         <!--Content-->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-        <div class="registration-page">
+          <div class="registration-page">
             <h1>Bank Information</h1>
                 <div class="data-box">
 
@@ -62,11 +62,14 @@
                 Successfully Submitted!
               </div>
             </div>
-  </div>
+          </div>
 </template>
 
 <script>
 export default {
+  props: {
+    isAdmin: Boolean,
+  },
   data() {
     return {
       user: {

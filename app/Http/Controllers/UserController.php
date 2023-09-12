@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Account;
 use App\Models\Update;
 use App\Models\User;
+use Auth;
+use Hash;
 use Illuminate\Http\Request;
 use Validator;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
@@ -17,14 +19,15 @@ class UserController extends Controller
     {
         //
         //
-        if(auth()->user()->userType == 'member'){
+        $user = User::find(auth()->id());
+        if($user->userType == 'member'){
             return $this->sendError('You are not allowed to reach this resources.');
         }
         else{
             $accounts = Account::with('user')->get();
         }
 
-        if($accounts){
+        if($accounts->isNotEmpty()){
             return $this->sendResponse($accounts,'Successfully retruieve all user details');
         }
         else{
@@ -40,7 +43,7 @@ class UserController extends Controller
         //
         $account = Account::with('user')->where('accounts.userId', $id)->get();
 
-        if($account){
+        if($account->isNotEmpty()){
             return $this->sendResponse($account,'Successfully retruieve user details');
         }
         else{
@@ -55,13 +58,13 @@ class UserController extends Controller
     {
         //
         $availableKeys = ['address', 'phoneNumber', 'email', 'password', 'password_confirmation'];
-        if(!array_diff_key(array_flip($availableKeys), $request->all())){
+        if(array_diff_key(array_flip($availableKeys), $request->all())){
             return $this->sendError('Unable to update these fields');
         }
 
         $validator = Validator::make($request->all(),[
-            'phoneNumber' => ['required'],
-            'email' => ['string', 'email', 'max:255', 'unique:'.Account::class],
+            'phoneNumber' => ['string'],
+            'email' => ['string', 'email', 'max:255', 'unique:accounts,email'],
             'password' => 'min:8',
             'password_confirmation' => 'min:8|same:password',
         ]);
@@ -71,18 +74,26 @@ class UserController extends Controller
         }
         
         $updateUser = User::findorFail($id);
+        $updateAccount = Account::findorFail($id);
+        $request['password'] = Hash::make($request['password']);
+        $updateAccount['password'] = $request['password'];
+        $updateAccount['email'] = $request['email'];
         foreach($availableKeys as $key){
-            if(isset($request[$key]) && $key != 'password_confirmation'){
+            if(isset($request[$key]) && $key != 'password_confirmation' && $key != 'password'){
                 $updateUser[$key] = $request[$key];
             }
         }
+        $updateAccount->save();
         $updateUser->save();
 
-        if($updateUser){
-            return $this->sendResponse($updateUser, 'The bank account has been updated successfully');
+        if($updateUser && $updateAccount){
+            return $this->sendResponse([
+                'updatedUser' => $updateUser,
+                'updatedAccount' => $updateAccount
+            ], 'The user account has been updated successfully');
         }
         else{
-            return $this->sendError('Bank Account is not updated', 'The bank statement is not updated successfully');
+            return $this->sendError('User Account is not updated', 'The user account is not updated successfully');
         }
     }
 
@@ -103,10 +114,29 @@ class UserController extends Controller
         }
     }
 
+     /**
+     * Remove the specified resource from storage.
+     * Soft deletes account
+     */
+    public function destroyPermently(string $id)
+    {
+        //
+        $deleteUser = User::find($id)->delete();
+        $deleteAccount = Account::findorFail($id);
+        $deleteAccount->forceDelete();
+        
+        if($deleteAccount){
+            return $this->sendResponse($deleteUser,'Successfully delete the user');
+        }
+        else{
+            return $this->sendError('Unable to delete the user', 'No user were deleted');
+        }
+    }
+
     public function restore(string $id){
         $restoreUser = Account::where('account_id', $id)->withTrashed()->restore();
 
-        if($restoreUser){
+        if($restoreUser->isNotEmpty()){
             return $this->sendResponse($restoreUser,'Successfully restore the user');
             }
             else{
@@ -125,13 +155,17 @@ class UserController extends Controller
         }
 
         $user = User::findorFail($id);
+        if($user['isVerified'] == true){
+            return $this->sendError('this user has already verified');
+        }
 
         if($user){
             $oldStatus = $user->status;
-            $user['isVerified'] = true;
-
+            $user['isVerified'] = $request['isVerified'];
+            
             if($request->isVerified){
-                $user['status'] = 'verified';
+                $user['userType'] = 'member';
+                $user['status'] = 'active';
             }
             else{
                 $validator = Validator::make($request->all(),[
@@ -149,14 +183,14 @@ class UserController extends Controller
             $updateInfo = [
                 'userId' => $id,
                 'statusBefore' => $oldStatus,
-                'updatedBy' => auth()->user()->userId
+                'updatedBy' => auth()->id()
             ];
             if($oldStatus == 'deny'){
                 $updateInfo['rejectId'] = $user['reject_id'];
             }
             $update = Update::create($updateInfo);
 
-            if(!$update){
+            if(empty($update)){
                 return $this->sendError('Unable to Create Update', 'Please contact admin for futhur assistance');
             }
 

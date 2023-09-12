@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
@@ -24,11 +25,13 @@ class AuthenticatedSessionController extends Controller
         
         if (auth('web')->attempt($credentials)) {
             $user = auth('web')->user();
+            $userDetails = User::where('user_id', $user->userId)->select('isVerified', 'userType')->get();
             $credentials['username'] = $credentials['email'];
             $token = $user->createToken('Laravel Personal Access Client')->accessToken;
             return $this->sendResponse([
                 'token' => $token,
                 'user' => $user,
+                'userDetails' => $userDetails
             ]);
         } else {
             return $this->sendError('Invalid Login');

@@ -1,5 +1,8 @@
 <script>
 export default {
+    props: {
+    isAdmin: Boolean,
+  },
     setup() {
         
     },
@@ -48,8 +51,7 @@ export default {
 </script>
 
 <template>
-    <UniHeader :isAuthorised="isAuthorized" :isAdmin="isAdmin"/>
-
+    <UniHeader :isAdmin="isAdmin"></UniHeader>
     <!--Content-->
     <div class="content flex flex-column gap-3 w-screen" style="margin-top: 10%!important;">
         <div class="inputArea">

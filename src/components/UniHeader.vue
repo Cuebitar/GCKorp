@@ -2,9 +2,8 @@
     <div class="container">
         <Menubar :model="isAdmin?adminNavigators:userNavigators" class="menubar">
             <template #start>
-                <img src="../assets/UniCoopLogo.png" class="mainImg" style="height: 64px;" alt="logo" @click="this.$router.push('/dashboard')">
+                <img src="../assets/UniCoopLogo.png" class="mainImg" style="height: 64px;" alt="logo" @click="this.$router.push({path: '/'})">
             </template>
-            
         </Menubar>
     </div>
     
@@ -14,25 +13,39 @@ import { PrimeIcons } from 'primevue/api'
 export default {
     data() {
         return {
-            userNavigators:[
+            userId: 0,
+            adminNavigators:[],
+            userNavigators:[]
+        }
+    },
+    props: {
+        isAdmin: Boolean, //check if the user is an admin or not
+    },
+    created() {
+        // Initialize data properties based on computed properties
+        this.isGuest = this.$cookies.isKey('isGuest') ? this.$cookies.get('isGuest') : true;
+        this.isAuthorised = this.$cookies.isKey('isAuthorised') ? this.$cookies.get('isAuthorised') : false;
+        this.userId = this.$cookies.isKey('user_id') ? this.$cookies.get('user_id') : 0;
+        
+        this.adminNavigators = [
                 {
                     label: 'Account',
                     items: [
                         {
                             label: 'Deposit',
-                            command: () => {this.$router.push('deposit');}
+                            command: () => {this.$router.push('');}
                         },
                         {
                             label: 'Withdrawal',
-                            command: () => {this.$router.push('admin/withdrawalList');}
+                            command: () => {this.$router.push({path: '/admin/withdrawalList'});}
                         },
                         {
                             label: 'Dividen',
-                            command: () => {this.$router.push('withdrawal');}
+                            command: () => {this.$router.push('');}
                         },
                         {
                             label: 'Limit',
-                            command: () => {this.$router.push('withdrawal');}
+                            command: () => {this.$router.push('');}
                         },
                     ],
                 },
@@ -41,56 +54,63 @@ export default {
                     command: () => {this.$router.push('/admin/member');}
                 },
                 {
+                    label: 'Register Admin',
+                    command: () => {this.$router.push('admin/registerPersonal');}
+                },
+                {
                     label: 'Favourite',
-                    command: () => {this.$router.push('favourite');}
+                    command: () => {this.$router.push('/admin/favourite/' + this.userId);}
                 },
                 {
                     label: 'Reject Reason',
-                    command: () => {this.$router.push('favourite');}
+                    command: () => {this.$router.push('/admin/rejectReason');}
                 },
                 {
                     label: 'Profile',
-                    command: () => {this.$router.push('profile');}
+                    command: () => {this.$router.push('/admin/profile/' + this.userId);}
                 },
                 {
                     icon: PrimeIcons.BELL,
-                    command: () => {this.$router.push('notification');}
+                    command: () => {this.$router.push('/admin/Notification');}
                 },
                 {
                     label: 'Logout',
                     icon: PrimeIcons.LOCK_OPEN,
-                    command: () => {this.$router.push('logout');}
+                    command: () => {this.logout()}
                 }
-            ],
-            adminNavigators:[
+        ];
+
+        this.userNavigators = [
+        
             {
                     label: 'Account',
                     items: [
                         {
                             label: 'Deposit',
-                            command: () => {this.$router.push('deposit');}
+                            command: () => {this.$router.push('/deposit' + this.userId);}
                         },
                         {
                             label: 'Withdrawal',
-                            command: () => {this.$router.push('withdrawal');}
+                            command: () => {this.$router.push('/withdrawal' + this.userId);}
                         }
                     ],
                     visible: !this.isGuest && this.isAuthorised
+                    
                 },
                 {
                     label: 'Favourite',
                     visible: !this.isGuest && this.isAuthorised,
-                    command: () => {this.$router.push('favourite');}
+                    command: () => {this.$router.push('/favourite');}
                 },
                 {
                     label: 'Statement',
                     visible: !this.isGuest && this.isAuthorised,
-                    command: () => {this.$router.push('statement');}
+                    command: () => {this.$router.push('/statement');}
                 },
                 {
                     label: 'Profile',
                     visible: this.isAuthorised,
-                    command: () => {this.$router.push('profile');}
+                    command: () => {this.$router.push('/profile/' + this.userId);}
                 },
                 {
                     icon: PrimeIcons.BELL,
@@ -101,15 +121,26 @@ export default {
                     label: 'Logout',
                     icon: PrimeIcons.LOCK_OPEN,
                     visible: this.isAuthorised,
-                    command: () => {this.$router.push('logout');}
+                    command: () => {this.logout()}
                 }
-            ]
-        }
+            
+        ];
     },
-    props: {
-        isAuthorised: Boolean,  //check if the user got account
-        isGuest: Boolean,   //check if the user is a guest or not
-        isAdmin: Boolean, //check if the user is an admin or not
+    methods:{
+        async logout(){
+            await this.$axios.get('/api/logout',{
+                headers: {
+                    Authorization: "Bearer " + this.$cookies.get('token')
+                }
+            })
+
+            const keys = this.$cookies.keys();
+            keys.forEach(element => {
+                this.$cookies.remove(element);
+            });
+
+            this.$router.push('/logout');
+        }
     }
 }
 </script>

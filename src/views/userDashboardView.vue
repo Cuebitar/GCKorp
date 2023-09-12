@@ -1,5 +1,5 @@
 <template>
-  <UniHeader :isGuest="guest" :isAuthorised="authorized" />
+<UniHeader :isAdmin="isAdmin"></UniHeader>
   <div class="content">
     <div>
       <Panel header="Individual Invest Account">
@@ -35,7 +35,7 @@
                 <span class="col-3 text-right">{{ slotProps.data.transaction.type }}</span>
                 <span class="col-2 text-right">ref {{ slotProps.data.transaction.refId }}</span>
                 <span class="col-3">* {{ slotProps.data.transaction.status }}</span>
-                <span class="col-3 text-right">RM {{ slotProps.data.transaction.amount.toFixed(2) }}</span>
+                <span class="col-3 text-right" :class="slotProps.data.transaction.type.toLowerCase() == 'deposit' || slotProps.data.type.toLowerCase() == 'dividen'? 'green':'red'">RM {{ slotProps.data.transaction.amount.toFixed(2) }}</span>
               </div>
             </template>
           </DataView>
@@ -51,6 +51,9 @@ import { ref } from 'vue';
 import { defineComponent} from 'vue';
 
 export default defineComponent({
+  props: {
+    isAdmin: Boolean,
+  },
   data() {
     return {
       value: 0,
@@ -117,5 +120,13 @@ export default defineComponent({
 .customDropdownMenu{
   position: absolute;
   right: 55px;
+}
+
+.red{
+  color: red;
+}
+
+.green{
+  color: green;
 }
 </style>

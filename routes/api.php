@@ -24,7 +24,11 @@ use App\Http\Controllers\UserController;
 
 //check if the user has login and access to the routers
 Route::get('/checkUser', function (Request $request) {
-    return response()->json(Auth::check());
+    $result = [
+        'result' => Auth::check(),
+        'message' => 'Hi there'
+    ];
+    return response()->json($result);
 });
 
 Route::middleware('auth:api')->group(function (){
@@ -43,7 +47,8 @@ Route::middleware('auth:api')->group(function (){
 
     //User API
     Route::apiResource('/user', UserController::class);
-    Route::post('/user/restore/{id}', [UserController::class,'restore']);
+    Route::delete('/user/permentDelete/{id}', [UserController::class, 'destroyPermently']);
+    Route::get('/user/restore/{id}', [UserController::class,'restore']);
     Route::post('/user/verify/{id}', [UserController::class,'verify']);
 
     //Reject Code API
