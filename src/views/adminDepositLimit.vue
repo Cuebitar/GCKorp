@@ -8,7 +8,7 @@
         <!--Content-->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
         <div class="deposit-income-page">
-            <h1>Deposit Page (Income)</h1>
+            <h1>Deposit Page (Limit)</h1>
                 <div class="data-box">
 
                 <div class="input-group">
