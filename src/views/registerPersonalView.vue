@@ -303,6 +303,12 @@ export default {
                   console.log(this.errorMessage);
                   this.showError = true;
               });
+        await this.sleep(3000);
+        this.$router.push({ path: '/dashboard' }); 
+        
+    },
+    sleep(ms) {
+    return new Promise(val => setTimeout(val, ms));
     },
     closeModal() {
       this.showModal = false;
@@ -432,6 +438,35 @@ input[type="text"], input[type="email"], input[type="password"], select {
   margin-top: 6.5vh;  /* Adjust this value if necessary to position the asterisk */
   left: 5;
   font-size: 8px;  /* Adjust this value for the desired size of the asterisk */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 30%;
+  text-align: center;
+  position: relative;
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  position: absolute;
+  top: 0;
+  right: 15px;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 </style>
