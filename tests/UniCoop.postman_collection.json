@@ -17,7 +17,8 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									""
+									"var jsonData = pm.response.json();",
+									"pm.globals.set(\"BearerToken\", jsonData.data.token);"
 								],
 								"type": "text/javascript"
 							}
@@ -190,7 +191,8 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									""
+									"var jsonData = pm.response.json();",
+									"pm.globals.set(\"BearerToken\", jsonData.data.token);"
 								],
 								"type": "text/javascript"
 							}
@@ -211,7 +213,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"name\": \"Postmen Test\",\n    \"IC\": \"201222204423\",\n    \"ICDocument\": \"postmentICDocc.pdf\",\n    \"email\": \"postmenTest01@unicoop.my\",\n    \"phoneNumber\": \"0112345567\",\n    \"password\": \"1234567890\",\n    \"password_confirmation\": \"1234567890\",\n    \"religion\": \"Christian\",\n    \"race\": \"Chinese\",\n    \"userType\": \"admin\",\n    \"gender\": \"male\",\n    \"status\": \"active\",\n    \"isVerified\": true,\n    \"address\": \"UTAR Sungai Long\"\n}",
+							"raw": "{\n    \"name\": \"Postmen Test\",\n    \"IC\": \"201222204323\",\n    \"ICDocument\": \"postmentICDocc.pdf\",\n    \"email\": \"postmenTest01@unicoop.my\",\n    \"phoneNumber\": \"0112345567\",\n    \"password\": \"1234567890\",\n    \"password_confirmation\": \"1234567890\",\n    \"religion\": \"Christian\",\n    \"race\": \"Chinese\",\n    \"userType\": \"admin\",\n    \"gender\": \"male\",\n    \"status\": \"active\",\n    \"isVerified\": true,\n    \"address\": \"UTAR Sungai Long\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
