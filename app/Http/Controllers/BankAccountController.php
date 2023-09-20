@@ -131,6 +131,22 @@ class BankAccountController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     */
+    public function showByUserId(string $id)
+    {
+        //
+        $accounts = BankAccount::where('userId', $id)->get();
+
+        if(!empty($accounts)){
+            return $this->sendResponse($accounts,'Successfully retruieve all bank accounts');
+        }
+        else{
+            return $this->sendError('Unable to retrieve bank accounts', 'No bank accounts were retrieved');
+        }
+    }
+
+    /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)

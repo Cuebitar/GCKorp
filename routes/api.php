@@ -34,6 +34,7 @@ Route::get('/checkUser', function (Request $request) {
 Route::middleware('auth:api')->group(function (){
     //Bank API
     Route::apiResource('/bankAccount/account', BankAccountController::class);
+    Route::get('/bankAccount/accountByUser/{id}', [BankAccountController::class, 'showByUserId']);
 
     //Trading Account API
     Route::apiResource('/tradingAccount/account', TradingAccountController::class);
