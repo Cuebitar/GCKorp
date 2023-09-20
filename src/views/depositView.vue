@@ -25,13 +25,7 @@
 
                 <div class="input-group">
                 <label for="payto">Pay To</label>
-                <select id="tradacc" v-model="transaction.tradingAccountId">
-                    <option value="trad">Trad1</option>
-                    <option value="trad">Trad2</option>
-                    <option value="trad">Trad3</option>
-                    <option value="trad">Trad4</option>
-                    <option value="trad">Trad5</option>
-                </select>
+                <input id="payto" v-model="transaction.accountNo" disabled>
                 </div>
 
                 <div class="input-group">
@@ -83,7 +77,25 @@ export default {
       // Navigate directly to the homepage
       this.$router.push({ path: '/' }); 
     },
-    submit() {
+    async submit() {
+      const depositDetails = this.transaction;
+      delete depositDetails['currentBalance'];
+      delete depositDetails['amountError'];
+      depositDetails['status'] = 'pending';
+      depositDetails['type'] = 'deposit';
+
+        await this.$axios.post('/api/tradingAccount/transaction', depositDetails, {
+                headers: {
+                    Authorization: "Bearer " + this.$cookies.get('token')
+                }
+        })
+        .then(function(response){
+          result = response.data;
+        })
+        .catch(function(response){
+          console.error(response);
+        })
+
       this.showModal = true;
     },
     closeModal() {

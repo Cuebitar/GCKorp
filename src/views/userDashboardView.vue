@@ -77,7 +77,7 @@ export default defineComponent({
       tradingAccount: {
         accountNo: '0000 1111 2222 3333',
         balance: 2000,
-        initialBalance: 1000
+        initialBalance: 500
       }, //from database
       updates: [
         {

@@ -13,7 +13,7 @@
 
                 <div class="input-group">
                 <label for="username">Username:</label>
-                <input type="text" id="username" v-model="user.username">
+                <input type="text" id="username" v-model="user.name">
                 </div>
 
                 <div class="input-group">
@@ -23,14 +23,13 @@
 
                 <div class="input-group">
                 <label for="phoneNumber">Phone Number:</label>
-                <input type="text" id="phoneNumber" v-model="user.phoneNumber" @input="validatePhone">
-                <span v-if="phoneError" class="error">{{ phoneError }}</span>
+                <input type="text" id="phoneNumber" v-model="user.phoneNumber">
                 </div>
 
                 <div class="input-group">
                 <label for="IC">IC:</label>
                 <div class="ic-wrapper">
-                    <input type="text" id="IC" v-model="user.ic">
+                    <input type="text" id="IC" v-model="user.IC">
                     <span class="asterisk">*File Name must be IC number</span>  <!-- The added asterisk -->
                     <input type="file" id="icUpload" ref="icUpload" @change="handleFile" style="display: none;">
                     <FileUpload mode="basic" name="demo[]" accept="image/*" :maxFileSize="1000000" @upload="uploadStatement" />-->
@@ -40,15 +39,13 @@
 
                 <div class="input-group">
                 <label for="email">Email:</label>
-                <input type="email" id="email" v-model="user.email" @input="validateEmail">
-                <span v-if="emailError" class="error">{{ emailError }}</span>
+                <input type="email" id="email" v-model="user.email">
                 </div>
 
                 <div class="input-group">
                     <label for="password">Password:</label>
                     <div class="password-wrapper">
-                        <input :type="showPassword ? 'text' : 'password'" id="password" v-model="user.password" @input="validatePassword">
-                        <span v-if="passwordError" class="error">{{ passwordError }}</span>
+                        <input :type="showPassword ? 'text' : 'password'" id="password" v-model="user.password">
                         <i class="fas fa-eye password-toggle-icon" @click="togglePassword" v-if="!showPassword"></i>
                         <i class="fas fa-eye-slash password-toggle-icon" @click="togglePassword" v-else></i>
                     </div>
@@ -306,6 +303,12 @@ export default {
                   console.log(this.errorMessage);
                   this.showError = true;
               });
+        await this.sleep(3000);
+        this.$router.push({ path: '/dashboard' }); 
+        
+    },
+    sleep(ms) {
+    return new Promise(val => setTimeout(val, ms));
     },
     closeModal() {
       this.showModal = false;
@@ -316,10 +319,10 @@ export default {
         // Update the IC with the selected file's name
         this.user.IC = event.target.files[0].name;
       }
-    },
+    }*/,
     uploadStatement() {
       this.$refs.statementUpload.click();
-    }*/
+    }
   }
 }
 </script>
@@ -435,6 +438,35 @@ input[type="text"], input[type="email"], input[type="password"], select {
   margin-top: 6.5vh;  /* Adjust this value if necessary to position the asterisk */
   left: 5;
   font-size: 8px;  /* Adjust this value for the desired size of the asterisk */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 30%;
+  text-align: center;
+  position: relative;
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  position: absolute;
+  top: 0;
+  right: 15px;
+  cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 </style>

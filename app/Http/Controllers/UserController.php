@@ -136,7 +136,7 @@ class UserController extends Controller
     public function restore(string $id){
         $restoreUser = Account::where('account_id', $id)->withTrashed()->restore();
 
-        if($restoreUser->isNotEmpty()){
+        if($restoreUser){
             return $this->sendResponse($restoreUser,'Successfully restore the user');
             }
             else{
