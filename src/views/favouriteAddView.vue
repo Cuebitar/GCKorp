@@ -12,16 +12,16 @@
                 <div class="data-box">
 
                 <div class="input-group">
-                <label for="fullname">Full Name:</label>
-                <div class="statement-wrapper">
-                    <input type="text" id="fullname" v-model="user.fullname">
+                <label for="accountName">Full Name:</label>
+                <div class="bankStatement-wrapper">
+                    <input type="text" id="accountName" v-model="bankDetails.accountName">
                     <span class="asterisk1">*Refer to IC name</span>  <!-- The added asterisk -->
                 </div>
                 </div>
                 
                 <div class="input-group">
-                <label for="bank">Bank:</label>
-                <select id="bank" v-model="user.bank">
+                <label for="bankName">Bank:</label>
+                <select id="bankName" v-model="bankDetails.bankName">
                     <option value="male">Maybank</option>
                     <option value="female">Public Bank</option>
                     <option value="male">Maybank</option>
@@ -32,17 +32,17 @@
                 </div>
 
                 <div class="input-group">
-                <label for="accctNo">Account No:</label>
-                <div class="statement-wrapper">
-                    <input type="text" id="accctNo" v-model="user.accctNo">
+                <label for="accountNo">Account No:</label>
+                <div class="bankStatement-wrapper">
+                    <input type="text" id="accountNo" v-model="bankDetails.accountNo">
                     <span class="asterisk2">*For verification purpose</span>  <!-- The added asterisk -->
                 </div>
                 </div>
 
                 <div class="input-group">
-                <label for="statement">Statement:</label>
-                <div class="statement-wrapper">
-                    <input type="text" id="statement" v-model="user.statement">
+                <label for="bankStatement">Statement:</label>
+                <div class="bankStatement-wrapper">
+                    <input type="text" id="bankStatement" v-model="bankDetails.bankStatement">
                     <input type="file" id="statementUpload" ref="statementUpload" @change="handleFile" style="display: none;">
                     <button @click.prevent="uploadstatement">Upload</button>
                 </div>
@@ -71,11 +71,13 @@ export default {
   },
   data() {
     return {
-      user: {
-        fullname: '',
-        bank: '',
-        accctNo: '',
-        statement: '',
+      bankDetails: {
+        accountName: '',
+        bankName: '',
+        accountNo: '',
+        bankStatement: '',
+        status: 'pending',
+        userId: this.$cookies.get('user_id')
       },
       showModal: false
     };
@@ -87,19 +89,36 @@ export default {
     },
     handleFile(event) {
       if (event.target.files && event.target.files[0]) {
-        // Update the statement with the selected file's name
-        this.user.statement = event.target.files[0].name;
+        // Update the bankStatement with the selected file's name
+        this.bankDetails.bankStatement = event.target.files[0].name;
       }
     },
     uploadstatement() {
       this.$refs.statementUpload.click();
     },
-    submit() {
+    async submit(e) {
+      e.preventDefault();
+      const newAccount = this.bankDetails;
+      await this.$axios.post('/api/bankAccount/account', newAccount, {
+                headers: {
+                    Authorization: "Bearer " + this.$cookies.get('token')
+                }
+      })
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        this.errorMessage = error.response.data.data.errors;
+        console.log(this.errorMessage);
+      });
+
       this.showModal = true;
+      await this.$sleep(5000);
+      this.$router.push({ path: '/favourite/' + this.$cookies.get('user_id') }); 
     },
     closeModal() {
       this.showModal = false;
-      this.$router.push({ path: '/favourite' }); 
+      this.$router.push({ path: '/favourite/' + this.$cookies.get('user_id') }); 
     }
   }
 }
@@ -172,18 +191,18 @@ button:hover {
   margin-top: 20px;
 }
 
-.statement-wrapper {
+.bankStatement-wrapper {
   display: flex;
   width: 100%;
   align-items: center;
 }
 
-.statement-wrapper input[type="text"] {
+.bankStatement-wrapper input[type="text"] {
   flex-grow: 1;  /* It takes the maximum width available, pushing the button to the end. */
   margin-right: 10px; /* Some spacing between the input and the button */
 }
 
-.statement-wrapper button {
+.bankStatement-wrapper button {
   width: 70px;       /* Set explicit width */
   text-align: center; 
   font-size: 14px;   /* Optional: Adjust font size if needed */

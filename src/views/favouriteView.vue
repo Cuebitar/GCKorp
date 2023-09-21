@@ -35,8 +35,8 @@
 
 
                         <div class="flex align-items-center justify-content-between">
-                          <Button @click="delete_bankAccount(slotProps.data)" >Edit </Button>
-                            <Button @click="delete_bankAccount(slotProps.data)" >Delete </Button>                        
+                          <Button  @click="delete_bankAccount(slotProps.data)" >Edit </Button>
+                            <Button v-if="!slotProps.data.isPrimary" @click="delete_bankAccount(slotProps.data)" >Delete </Button>                        
                           </div>
                     </div>
                 </div>
@@ -81,13 +81,14 @@ methods:{
 			this.bankAccount.splice(this.bankAccount.indexOf(index), 1);
 	},
   async loadlist(){
-    await this.$axios.get('/api/bankAccount/accountByUser/' + $route.params.id, {
+    await this.$axios.get('/api/bankAccount/accountByUser/' + this.$route.params.id, {
       headers: {
         Authorization: "Bearer " + this.$cookies.get('token')
       }
     })
     .then(response => {
-      this.bankAccount = response.data.data;            
+      this.bankAccount = response.data.data;
+      console.log(this.bankAccount);
     })
     .catch(error => {
       console.error('Error:', error);

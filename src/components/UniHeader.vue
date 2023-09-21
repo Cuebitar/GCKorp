@@ -87,11 +87,11 @@ export default {
                     items: [
                         {
                             label: 'Deposit',
-                            command: () => {this.$router.push('/deposit' + this.userId);}
+                            command: () => {this.$router.push('/deposit/' + this.userId);}
                         },
                         {
                             label: 'Withdrawal',
-                            command: () => {this.$router.push('/withdrawal' + this.userId);}
+                            command: () => {this.$router.push('/withdrawal/' + this.userId);}
                         }
                     ],
                     visible: !this.isGuest && this.isAuthorised
@@ -100,7 +100,7 @@ export default {
                 {
                     label: 'Favourite',
                     visible: !this.isGuest && this.isAuthorised,
-                    command: () => {this.$router.push('/favourite');}
+                    command: () => {this.$router.push('/favourite/' + this.userId);}
                 },
                 {
                     label: 'Statement',
