@@ -303,12 +303,9 @@ export default {
                   console.log(this.errorMessage);
                   this.showError = true;
               });
-        await this.sleep(3000);
+        await this.$sleep(3000);
         this.$router.push({ path: '/dashboard' }); 
         
-    },
-    sleep(ms) {
-    return new Promise(val => setTimeout(val, ms));
     },
     closeModal() {
       this.showModal = false;

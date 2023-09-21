@@ -371,23 +371,14 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  
+  const token = $cookies.get('token');
+
   if (to.meta.requiresAuth) {
-    const token = $cookies.get('token');
     if (token) {
-      // User is authenticated, proceed to the route
-      
-      if(from.meta.isAdmin == to.meta.isAdmin){
-        next();
-      }
-      else if(from.meta.isAdmin){
-        next('/admin/dashboard');
-      }
-      else{
-        next('/dashboard');
-      }
+      // User is authenticated, allow access to the route
+      next();
     } else {
-      // User is not authenticated, redirect to login
+      // User is not authenticated, redirect to the login page
       next('/registerPersonal');
     }
   } else {
@@ -395,6 +386,7 @@ router.beforeEach((to, from, next) => {
     next();
   }
 });
+
 
 export default router
 

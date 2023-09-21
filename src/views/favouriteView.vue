@@ -61,30 +61,12 @@ export default {
   },
 mounted () {
   //getting user data
-  //this.loadlist();
+  this.loadlist();
 },
 data(){
   return {
     router: useRouter(),
-    bankAccount: [
-      {
-          id:'1',
-          accountNo: '827061654174',
-          bankName: 'Maybank',
-      },
-
-      {
-          id:'2',
-          accountNo: '7298404608',
-          bankName: 'Public Bank',
-      },
-
-      {
-          id:'3',
-          accountNo: '8790461046',
-          bankName: 'OCBC Bank',
-      },
-  ],
+    bankAccount: [],
     showModal: false,
   
   };
@@ -97,7 +79,20 @@ methods:{
   },
   delete_bankAccount(index){
 			this.bankAccount.splice(this.bankAccount.indexOf(index), 1);
-	}
+	},
+  async loadlist(){
+    await this.$axios.get('/api/bankAccount/accountByUser/' + $route.params.id, {
+      headers: {
+        Authorization: "Bearer " + this.$cookies.get('token')
+      }
+    })
+    .then(response => {
+      this.bankAccount = response.data.data;            
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  }
   
   
   

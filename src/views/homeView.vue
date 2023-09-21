@@ -110,13 +110,18 @@ export default {
           return;
         }
       }
-      
-      if(result.data.userDetails[0].userType == 'member' || result.data.userDetails[0].userType == 'guest'){
-        return this.$router.push('/dashboard');
+      console.log(result.data.userDetails[0].userType);
+      await this.$sleep(100);
+      const userType = result.data.userDetails[0].userType;
+      if (['member', 'guest'].includes(userType)) {
+        this.$router.push('/dashboard');
+      } else if (['super_admin', 'admin_staff', 'operation_staff', 'super_operation_staff', 'account_staff', 'admin'].includes(userType)) {
+        this.$router.push('/admin/dashboard');
+      } else {
+        // Handle other cases or show an error message
+        console.error(`Unsupported user type: ${userType}`);
       }
-      else{
-        return this.$router.push('/admin/dashboard');
-      }
+
       
     },
     goToRegister() {

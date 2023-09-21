@@ -20,5 +20,10 @@ setupAxios(app, {
 });
 
 app.use(VueCookies, { expires: '1d'});
+app.config.globalProperties.$sleep = (ms) => {
+    return new Promise(val => setTimeout(val, ms));
+}
+
 console.log(app.config);
 app.mount('#app');
+

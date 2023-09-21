@@ -23,8 +23,8 @@ export default {
     },
     created() {
         // Initialize data properties based on computed properties
-        this.isGuest = this.$cookies.isKey('isGuest') ? this.$cookies.get('isGuest') : true;
-        this.isAuthorised = this.$cookies.isKey('isAuthorised') ? this.$cookies.get('isAuthorised') : false;
+        this.isGuest = this.$cookies.isKey('isGuest') ? this.$cookies.get('isGuest') === 'true' : true;
+        this.isAuthorised = this.$cookies.isKey('isAuthorised') ? this.$cookies.get('isAuthorised') === 'true' : false;
         this.userId = this.$cookies.isKey('user_id') ? this.$cookies.get('user_id') : 0;
         
         this.adminNavigators = [
@@ -33,7 +33,7 @@ export default {
                     items: [
                         {
                             label: 'Deposit',
-                            command: () => {this.$router.push('');}
+                            command: () => {this.$router.push({path: '/admin/DepositIncome'});}
                         },
                         {
                             label: 'Withdrawal',
@@ -41,11 +41,11 @@ export default {
                         },
                         {
                             label: 'Dividen',
-                            command: () => {this.$router.push('');}
+                            command: () => {this.$router.push({path: '/admin/DepositDividen'});}
                         },
                         {
                             label: 'Limit',
-                            command: () => {this.$router.push('');}
+                            command: () => {this.$router.push({path: '/admin/DepositLimit'});}
                         },
                     ],
                 },
@@ -55,7 +55,7 @@ export default {
                 },
                 {
                     label: 'Register Admin',
-                    command: () => {this.$router.push('admin/registerPersonal');}
+                    command: () => {this.$router.push('/admin/registerPersonal');}
                 },
                 {
                     label: 'Favourite',
