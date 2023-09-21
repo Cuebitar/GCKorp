@@ -12,26 +12,22 @@
                 <div class="data-box">
 
                 <div class="input-group">
-                <label for="payform">Pay from</label>
-                <select id="favbank" v-model="transaction.bankAccountId">
-                    <option value="favbank">Fav1</option>
-                    <option value="favbank">Fav2</option>
-                    <option value="favbank">Fav3</option>
-                    <option value="favbank">Fav4</option>
-                    <option value="favbank">Fav5</option>
-                    
-                </select>
+                  <label for="payform">Pay from</label>
+                  <select id="favbank" v-model="transaction.bankAccountId">
+                      <option v-for="bank in banks" :key="bank.bankAccount_id" :value="bank.bankAccount_id">
+                          {{ bank.bankName }} - {{ bank.accountNo }}
+                      </option>
+                  </select>
                 </div>
 
                 <div class="input-group">
                 <label for="payto">Pay To</label>
-                <input id="payto" v-model="transaction.accountNo" disabled>
+                <input type="text" id="accountNo" v-model="trading.accountNo" disabled>
                 </div>
 
                 <div class="input-group">
                 <label for="depositAmount">Amount (MYR)</label>
-                <input type="text" id="amountdep" v-model="transaction.amount" @input="validateAmount" >
-                <span v-if="amountError" class="error">{{ amountError }}</span>
+                <input type="text" id="amountdep" v-model="transaction.amount">
                 </div>
 
                 <div class="input-group">
@@ -62,15 +58,25 @@ export default {
   data() {
     return {
       transaction: {
+        accountNo: '',
         bankAccountId: '',
         tradingAccountId: '',
         amount: 0,
         transactionPurpose: '',
         currentBalance: 1000,
-        amountError: "",
+        status: 'pending',
+        type: 'deposit'
       },
+      trading: {
+        tradingAccount_id: 1
+      },
+      banks: [],
       showModal: false
     };
+  },
+  mounted() {
+    this.fetchAccountNo();
+    this.fetchBankAccounts();
   },
   methods: {
     goBack() {
@@ -78,19 +84,14 @@ export default {
       this.$router.push({ path: '/' }); 
     },
     async submit() {
-      const depositDetails = this.transaction;
-      delete depositDetails['currentBalance'];
-      delete depositDetails['amountError'];
-      depositDetails['status'] = 'pending';
-      depositDetails['type'] = 'deposit';
-
+      let depositDetails = this.transaction;
         await this.$axios.post('/api/tradingAccount/transaction', depositDetails, {
                 headers: {
                     Authorization: "Bearer " + this.$cookies.get('token')
                 }
         })
         .then(function(response){
-          result = response.data;
+          console.log(response);
         })
         .catch(function(response){
           console.error(response);
@@ -98,23 +99,41 @@ export default {
 
       this.showModal = true;
     },
+    async fetchAccountNo() {
+      await this.$axios.get('/api/tradingAccount/account/' + this.$cookies.get('user_id'), {
+          headers: {
+              Authorization: "Bearer " + this.$cookies.get('token')
+          }
+      })
+      .then((response) => {
+          this.transaction.accountNo = response.data.data.accountNo;
+          this.transaction.tradingAccountId = response.data.data.tradingAccount_id;
+          this.trading = response.data.data;
+          console.log(this.trading);
+      })
+      .catch(function(response){
+          console.error(response);
+      });
+    },
+    async fetchBankAccounts() {
+      await this.$axios.get('/api/bankAccount/accountByUser/' + this.$cookies.get('user_id'), {
+          headers: {
+              Authorization: "Bearer " + this.$cookies.get('token')
+          }
+      })
+      .then((response) => {
+          this.banks = response.data.data;
+          console.log(this.banks);
+      })
+      .catch(function(error){
+          console.error(error);
+      });
+    },
     closeModal() {
       this.showModal = false;
       this.$router.push({ path: '/' }); 
     },
-    validateAmount() {
-      if (this.amount > this.currentBalance) {
-        this.amountError = "Invalid amount. Amount cannot exceed the current balance.";
-      } else {
-        this.amountError = "";
-      }
-    },
     deposit() {
-      if (this.transaction.amountError) {
-        alert("Invalid amount. Amount cannot exceed the current balance.");
-        return;
-      }
-
       // Perform deposit logic here
       // You can call an API or update the balance in your data store
       // Example: this.currentBalance += this.amount;

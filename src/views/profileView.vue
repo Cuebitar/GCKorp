@@ -64,7 +64,7 @@
               <input v-model="user.icNumber" placeholder="IC" disabled>
               <input type="email" v-model="user.email" placeholder="Email">
               <input type="password" v-model="user.password" placeholder="Password">
-              <input type="password" v-model="user.passwordConfirmation" placeholder="Password Confirmation">
+              <input type="password" v-model="user.password" placeholder="Password Confirmation">
               <select v-model="user.gender">
                 <option value="" disabled selected>Gender</option>
                 <option value="male">Male</option>
@@ -112,10 +112,10 @@ export default {
   data() {
     return {
       user: {
-        username: "JohnDoe123",
+        username: "",
         address: "",
         phoneNumber: "",
-        ic: "1234567890",
+        ic: "",
         email: "",
         password: "",
         passwordConfirmation: "",
@@ -128,6 +128,12 @@ export default {
       showPassword: false,
       showModal: false
     };
+  },
+  mounted() {
+    console.log("user_id from cookie:", this.$cookies.get('user_id'));
+    console.log("token from cookie:", this.$cookies.get('token'));
+    console.log("Component has been mounted");
+    this.fetchUserProfile();
   },
   methods: {
     togglePassword() {
@@ -142,7 +148,29 @@ export default {
     },
     closeModal() {
       this.showModal = false;
-    }
+    },
+    async fetchUserProfile() {
+    await this.$axios.get('/api/user/' + this.$cookies.get('user_id'), {
+        headers: {
+            Authorization: "Bearer " + this.$cookies.get('token')
+        }
+    })
+    .then((response) => {
+        console.log('API Response:', response);  // Log the entire response
+        this.user.username = response.data.name;
+        this.user.address = response.data.address;
+        this.user.phoneNumber = response.data.phoneNumber;
+        this.user.ic = response.data.IC;
+        this.user.email = response.data.email;
+        this.user.gender = response.data.gender;
+        this.user.religion = response.data.religion;
+        this.user.race = response.data.race;
+    })
+    .catch(function(error){
+        console.error('API Error:', error); // Enhanced error logging
+    });
+}
+
   }
 };
 
