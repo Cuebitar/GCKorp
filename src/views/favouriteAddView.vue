@@ -22,12 +22,11 @@
                 <div class="input-group">
                 <label for="bankName">Bank:</label>
                 <select id="bankName" v-model="bankDetails.bankName">
-                    <option value="male">Maybank</option>
-                    <option value="female">Public Bank</option>
-                    <option value="male">Maybank</option>
-                    <option value="female">OCBC Bank</option>
-                    <option value="male">Hong Loeng</option>
-                    <option value="female">UOB Bank</option>
+                    <option value="Maybank">Maybank</option>
+                    <option value="Public Bank">Public Bank</option>
+                    <option value="OCBC Bank">OCBC Bank</option>
+                    <option value="Hong Leong">Hong Loeng</option>
+                    <option value="UOB Bank">UOB Bank</option>
                 </select>
                 </div>
 

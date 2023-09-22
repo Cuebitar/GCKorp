@@ -14,35 +14,42 @@
       @click="addNew">Add New Favourite Bank
       </Button>
 
-            <DataView :value="bankAccount">
-              <template #list="slotProps">
-                <div class="col-3 sm:col-6 lg:col-12 xl:col-4 p-2">
-                    <div class="p-4 border-1 surface-border surface-card border-round">
-                        <div class="flex flex-wrap align-items-center justify-content-between gap-2">
-                            <div class="flex align-items-center gap-2">
-                                <span class="font-semibold">Favourite Account {{ slotProps.data.id }}</span>
-                            </div>
-                        </div>
+      <DataView :value="bankAccount">
+        <template #list="slotProps">
+        <div class="col-3 sm:col-6 lg:col-12 xl:col-4 p-2">
+              <div class="p-4 border-1 surface-border surface-card border-round">
+                  <div class="flex flex-wrap align-items-center justify-content-between gap-2">
+                      <div class="flex align-items-center gap-2">
+                          <span class="font-semibold">Favourite Account {{ slotProps.data.id }}</span>
+                      </div>
+                  </div>
+         
+                  <div class="flex flex-column align-items-center gap-3 py-3">
+                      <div class="text-2xl font-bold">{{ slotProps.data.bankName }}</div>
+                  </div>
 
-                        
-                        <div class="flex flex-column align-items-center gap-3 py-3">
-                            <div class="text-2xl font-bold">{{ slotProps.data.bankName }}</div>
-                        </div>
+                  <div class="flex flex-column align-items-center gap-3 py-5">
+                      <div class="text-2xl font-bold">Account No: {{ slotProps.data.accountNo }}</div>
+                  </div>
 
-                        <div class="flex flex-column align-items-center gap-3 py-5">
-                            <div class="text-2xl font-bold">Account No: {{ slotProps.data.accountNo }}</div>
-                        </div>
-
-
-                        <div class="flex align-items-center justify-content-between">
-                          <Button  @click="delete_bankAccount(slotProps.data)" >Edit </Button>
-                            <Button v-if="!slotProps.data.isPrimary" @click="delete_bankAccount(slotProps.data)" >Delete </Button>                        
-                          </div>
+                  <div class="flex align-items-center justify-content-between">
+                    <Button  @click="" >Edit </Button>
+                      <Button v-if="!slotProps.data.isPrimary" @click="openModel(slotProps.data)" >Delete </Button>                        
                     </div>
-                </div>
-              </template>
-            </DataView>
-    
+                    
+              </div>
+          </div>
+        </template>
+      </DataView>
+      <!-- Popup Modal -->
+      <div v-if="showModal" class="modal opacity-70">
+        <div class="modal-content opacity-100">
+          <span @click="openModel()" class="close">&times;</span>
+            Are you sure to Delete {{deleteAccount.accountNo}}?
+            <Button  @click="delete_bankAccount(deleteAccount.bankAccount_id)" >Yes </Button>
+        </div>
+      </div>
+      
 </div>
 
 
@@ -68,7 +75,7 @@ data(){
     router: useRouter(),
     bankAccount: [],
     showModal: false,
-  
+    deleteAccount: {}
   };
 },
 
@@ -77,8 +84,22 @@ methods:{
     // Navigate directly to the add bank account page
     this.$router.push('/favouriteadd'); 
   },
-  delete_bankAccount(index){
-			this.bankAccount.splice(this.bankAccount.indexOf(index), 1);
+  async delete_bankAccount(index){
+    await this.$axios.delete('/api/bankAccount/account/' + index, {
+      headers: {
+        Authorization: "Bearer " + this.$cookies.get('token')
+      }
+    })
+    .then(response => {
+      this.bankAccount = response.data.data;
+      console.log(this.bankAccount);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+
+    this.loadlist();
+    this.showModal = !this.showModal;
 	},
   async loadlist(){
     await this.$axios.get('/api/bankAccount/accountByUser/' + this.$route.params.id, {
@@ -93,6 +114,10 @@ methods:{
     .catch(error => {
       console.error('Error:', error);
     });
+  },
+  openModel(account){
+    this.showModal = !this.showModal;
+    this.deleteAccount = account;
   }
   
   
