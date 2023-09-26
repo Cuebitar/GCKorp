@@ -12,26 +12,17 @@
                 <div class="data-box">
 
                 <div class="input-group">
-                <label for="payform">Pay To</label>
-                <select id="favbank" v-model="transaction.bankAccountId">
-                    <option value="favbank">Fav1</option>
-                    <option value="favbank">Fav2</option>
-                    <option value="favbank">Fav3</option>
-                    <option value="favbank">Fav4</option>
-                    <option value="favbank">Fav5</option>
-                    
-                </select>
+                  <label for="payform">Pay To</label>
+                  <select id="favbank" v-model="transaction.bankAccountId">
+                      <option v-for="bank in banks" :key="bank.bankAccount_id" :value="bank.bankAccount_id">
+                          {{ bank.bankName }} - {{ bank.accountNo }}
+                      </option>
+                  </select>
                 </div>
 
                 <div class="input-group">
                 <label for="payto">Pay From</label>
-                <select id="tradacc" v-model="transaction.tradingAccountId">
-                    <option value="trad">Trad1</option>
-                    <option value="trad">Trad2</option>
-                    <option value="trad">Trad3</option>
-                    <option value="trad">Trad4</option>
-                    <option value="trad">Trad5</option>
-                </select>
+                <input type="text" id="accountNo" v-model="trading.accountNo" disabled>
                 </div>
 
                 <div class="input-group">
@@ -68,23 +59,76 @@ export default {
   data() {
     return {
       transaction: {
+        accountNo: '',
         bankAccountId: '',
         tradingAccountId: '',
         amount: 0,
         transactionPurpose: '',
-        withdrawalAmountError: "",
-        currentBalance: 1000, // Replace with your actual current balance amount
+        currentBalance: 1000,
+        status: 'pending',
+        type: 'withdrawal'
       },
+      trading: {
+        tradingAccount_id: 1
+      },
+      banks: [],
       showModal: false
     };
+  },
+  mounted() {
+    this.fetchAccountNo();
+    this.fetchBankAccounts();
   },
   methods: {
     goBack() {
       // Navigate directly to the homepage
       this.$router.push({ path: '/' }); 
     },
-    submit() {
+    async submit() {
+      let withdrawalDetails = this.transaction;
+        await this.$axios.post('/api/tradingAccount/transaction', withdrawalDetails, {
+                headers: {
+                    Authorization: "Bearer " + this.$cookies.get('token')
+                }
+        })
+        .then(function(response){
+          console.log(response);
+        })
+        .catch(function(response){
+          console.error(response);
+        })
+
       this.showModal = true;
+    },
+    async fetchAccountNo() {
+      await this.$axios.get('/api/tradingAccount/account/' + this.$cookies.get('user_id'), {
+          headers: {
+              Authorization: "Bearer " + this.$cookies.get('token')
+          }
+      })
+      .then((response) => {
+          this.transaction.accountNo = response.data.data.accountNo;
+          this.transaction.tradingAccountId = response.data.data.tradingAccount_id;
+          this.trading = response.data.data;
+          console.log(this.trading);
+      })
+      .catch(function(response){
+          console.error(response);
+      });
+    },
+    async fetchBankAccounts() {
+      await this.$axios.get('/api/bankAccount/accountByUser/' + this.$cookies.get('user_id'), {
+          headers: {
+              Authorization: "Bearer " + this.$cookies.get('token')
+          }
+      })
+      .then((response) => {
+          this.banks = response.data.data;
+          console.log(this.banks);
+      })
+      .catch(function(error){
+          console.error(error);
+      });
     },
     closeModal() {
       this.showModal = false;
